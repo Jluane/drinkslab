@@ -39,6 +39,7 @@
     background-color: #006948;
     font-family: Lato;
     border-radius: 6px;
+    font-weight: bold;
 }
 .boton-generico:hover{
     -fx-background-color: #005137;

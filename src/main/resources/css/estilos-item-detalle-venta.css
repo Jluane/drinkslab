@@ -1,0 +1,17 @@
+.boton-modificar-producto{
+    -fx-background-color: transparent;
+    background-color: transparent;
+}
+.boton-modificar-producto:hover{
+    -fx-background-radius: 6px;
+    -fx-background-color: rgba(0, 0, 0, 0.25);
+    background-color: rgba(0, 0, 0, 0.25);
+}
+
+.boton-eliminar{
+    -fx-background-color: transparent;
+    -fx-background-radius: 100px;
+}
+.boton-eliminar:hover{
+    -fx-background-color: rgba(0, 0, 0, 0.15);
+}

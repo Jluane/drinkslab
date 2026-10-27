@@ -1,15 +1,26 @@
 package io.github.jluane.drinkslab;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import io.github.jluane.drinkslab.presentacion.ControlMain;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 
 @SpringBootApplication
 public class DrinkslabApplication {
+    
+    // Control que inicializa
+    private final ControlMain controlMain;
+
+    @Autowired
+    public DrinkslabApplication(ControlMain controlMain){
+        this.controlMain = controlMain;
+    }
+
 
     public static void main(String[] args) {
         // Le damos el control inicial a JavaFX
@@ -50,7 +61,7 @@ public class DrinkslabApplication {
      */
     public void inicia() {
         Platform.runLater(() -> {
-            // TODO: Iniciar el controlador principal (ej. controlVentanaPrincipal.inicia())
+            controlMain.inicia();
             System.out.println("¡Spring Boot y JavaFX están conectados!");
         });
     }

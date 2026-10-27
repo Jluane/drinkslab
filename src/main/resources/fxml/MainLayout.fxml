@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: #E8E8E8;" stylesheets="@../css/estilos-globales.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #E8E8E8;" stylesheets="@../css/estilos-globales.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <left>
@@ -23,7 +23,7 @@
                <children>
                   <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" spacing="10.0">
                      <children>
-                        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: #167328; -fx-border-radius: 3px; -fx-background-radius: 3px;">
+                        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: #006948; -fx-border-radius: 3px; -fx-background-radius: 3px;">
                            <children>
                               <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
                                  <image>
@@ -55,7 +55,7 @@
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </Separator>
-                  <ToggleButton fx:id="btnVenta" alignment="CENTER_LEFT" graphicTextGap="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" selected="true" style="-fx-font-family: Lato; -fx-font-size: 16px;" styleClass="boton-menu-lateral" text="Venta" wrapText="true">
+                  <ToggleButton alignment="CENTER_LEFT" graphicTextGap="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onActionBtnVenta" selected="true" style="-fx-font-family: Lato; -fx-font-size: 16px;" styleClass="boton-menu-lateral" text="Venta" wrapText="true">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -68,7 +68,7 @@
                      <graphic>
                         <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../img/icons/point_of_sale_24dp.png" />
+                              <Image url="@../img/icons/point_of_sale_24dp_BLACK.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -83,7 +83,7 @@
             </VBox>
          </left>
          <center>
-            <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+            <StackPane fx:id="panelDinamico" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #E8E8E8;" BorderPane.alignment="CENTER" />
          </center>
       </BorderPane>
    </children>

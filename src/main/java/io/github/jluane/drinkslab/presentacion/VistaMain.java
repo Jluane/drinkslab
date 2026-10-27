@@ -5,23 +5,26 @@ import java.io.IOException;
 import org.springframework.stereotype.Component;
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 @Component
 public class VistaMain {
     
     private Stage stage;
-    private ControlMain control;
+    private ControlMain control; // Control por el que es controlado
 
     private boolean initialized = false;
 
     // Componentes del FXML
     @FXML
-    private ToggleButton btnVenta;
+    private StackPane panelDinamico;
 
     // Constructor necesario para la clase
     public VistaMain(){}
@@ -80,6 +83,26 @@ public class VistaMain {
 		initializeUI();
         // Espacio para posibles métodos
 		stage.show();
+    }
+
+    /**
+     * Cambia el contenido del panel central
+     */
+    public void cambiarVista(Parent nuevaVista) {
+        panelDinamico.getChildren().clear(); // Borra lo que había antes
+        if (nuevaVista != null) {
+            panelDinamico.getChildren().add(nuevaVista); // Pone la nueva pantalla
+        }
+    }
+
+    // On Action's
+    @FXML
+    public void onActionBtnVenta(ActionEvent event){
+        ToggleButton botonPresionado = (ToggleButton) event.getSource();
+        botonPresionado.setSelected(true);
+
+        System.out.println("Botón Venta seleccionado");
+        control.irVenta();
     }
 
 }

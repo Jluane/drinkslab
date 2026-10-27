@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="20.0" style="-fx-background-color: transparent;" stylesheets="@../css/estilos-globales.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10;" HBox.hgrow="ALWAYS">
+         <children>
+            <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" spacing="15.0" style="-fx-background-color: #F2F4F8; -fx-background-radius: 10 10 0 0; -fx-border-radius: 10 10 0 0;">
+               <children>
+                  <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" style="-fx-background-color: white; -fx-background-radius: 6px; -fx-border-radius: 6px;" HBox.hgrow="ALWAYS">
+                     <children>
+                        <ImageView fitHeight="25.0" fitWidth="25.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/icons/barcode_scanner_25dp_BLACK.png" />
+                           </image>
+                        </ImageView>
+                        <TextField maxWidth="1.7976931348623157E308" promptText="Escanear código de barras o escribir nombre" style="-fx-background-color: transparent;" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="19.0" />
+                           </font>
+                        </TextField>
+                     </children>
+                     <padding>
+                        <Insets bottom="8.0" left="15.0" right="15.0" top="8.0" />
+                     </padding>
+                  </HBox>
+                  <Button maxHeight="50.0" maxWidth="170.0" minHeight="50.0" minWidth="162.0" mnemonicParsing="false" styleClass="boton-generico">
+                     <graphic>
+                        <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0">
+                           <children>
+                              <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../img/icons/search_25dp_WHITE.png" />
+                                 </image>
+                              </ImageView>
+                              <Label styleClass="texto-boton-generico" text="Buscar">
+                                 <font>
+                                    <Font size="19.0" />
+                                 </font>
+                              </Label>
+                              <Label styleClass="texto-indicacion-tecla" text="Enter">
+                                 <font>
+                                    <Font name="Noto Serif Bold" size="11.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </graphic>
+                     <padding>
+                        <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
+                     </padding>
+                  </Button>
+               </children>
+               <padding>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </padding>
+            </HBox>
+            <GridPane alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" style="-fx-background-color: #E0E5FF;">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="38.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="15.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="17.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label maxWidth="1.7976931348623157E308" text="PRODUCTO" textFill="#3c3c3c" wrapText="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="CANTIDAD" textFill="#3c3c3c" wrapText="true" GridPane.columnIndex="1">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="P.UNITARIO" textFill="#3c3c3c" wrapText="true" GridPane.columnIndex="2">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="IMPORTE" textFill="#3c3c3c" wrapText="true" GridPane.columnIndex="3">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="ACCIÓN" textFill="#3c3c3c" wrapText="true" GridPane.columnIndex="4">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets bottom="7.0" left="15.0" right="15.0" top="7.0" />
+               </padding>
+            </GridPane>
+            <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white; -fx-background-radius: 0 0 10 10; -fx-border-radius: 0 0 10 10;" VBox.vgrow="ALWAYS">
+               <content>
+                  <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" />
+               </content>
+            </ScrollPane>
+         </children>
+      </VBox>
+      <VBox maxHeight="1.7976931348623157E308" maxWidth="300.0" minWidth="300.0" prefWidth="300.0" spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 10;" HBox.hgrow="ALWAYS">
+         <children>
+            <VBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308">
+               <children>
+                  <Label text="Resumen de Venta">
+                     <font>
+                        <Font name="Lato Black" size="19.0" />
+                     </font>
+                  </Label>
+                  <Label text="ID VENTA: ####">
+                     <font>
+                        <Font name="Lato Regular" size="13.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" style="-fx-background-color: #E9ECFF; -fx-background-radius: 6px; -fx-border-radius: 6px;">
+               <children>
+                  <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308">
+                     <children>
+                        <Label text="Artículos totales">
+                           <font>
+                              <Font name="Lato Regular" size="13.0" />
+                           </font>
+                        </Label>
+                        <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                        <Label contentDisplay="RIGHT" text="# artículos (# unid.)" textAlignment="RIGHT">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="20.0" maxWidth="1.7976931348623157E308">
+                     <children>
+                        <Label text="Suma de productos">
+                           <font>
+                              <Font name="Lato Regular" size="13.0" />
+                           </font>
+                        </Label>
+                        <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                        <Label contentDisplay="RIGHT" text="\$##.##" textAlignment="RIGHT">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </VBox>
+            <VBox alignment="CENTER" layoutX="25.0" layoutY="82.0" maxWidth="1.7976931348623157E308" spacing="5.0" style="-fx-background-color: #E9ECFF; -fx-background-radius: 6px; -fx-border-radius: 6px;">
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+               <children>
+                  <Label text="TOTAL A COBRAR">
+                     <font>
+                        <Font name="Lato Regular" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="20.0" layoutY="20.0" text="\$###.##">
+                     <font>
+                        <Font name="DejaVu Serif Bold" size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <Button maxHeight="50.0" maxWidth="1.7976931348623157E308" minHeight="50.0" mnemonicParsing="false" styleClass="boton-generico">
+               <padding>
+                  <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
+               </padding>
+               <graphic>
+                  <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0">
+                     <children>
+                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/icons/credit_card_40dp_WHITE.png" />
+                           </image>
+                        </ImageView>
+                        <Label styleClass="texto-boton-generico" text="Pagar con tarjeta">
+                           <font>
+                              <Font name="Lato Bold" size="19.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+               </graphic>
+            </Button>
+            <Region maxHeight="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
+            <Button layoutX="25.0" layoutY="241.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="boton-generico">
+               <graphic>
+                  <HBox alignment="CENTER" maxHeight="60.0" maxWidth="1.7976931348623157E308" prefHeight="60.0" spacing="5.0">
+                     <children>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/icons/point_of_sale_40dp_WHITE.png" />
+                           </image>
+                        </ImageView>
+                        <Label styleClass="texto-boton-generico" text="Pagar">
+                           <font>
+                              <Font name="Lato Bold" size="19.0" />
+                           </font>
+                        </Label>
+                        <Region maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                        <Label layoutX="73.0" layoutY="21.0" styleClass="texto-boton-generico" text="\$###.##">
+                           <font>
+                              <Font name="Lato Bold" size="19.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="147.0" layoutY="21.0" styleClass="texto-indicacion-tecla" text="F12">
+                           <font>
+                              <Font name="Noto Serif Bold" size="11.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+               </graphic>
+               <padding>
+                  <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
+               </padding>
+            </Button>
+         </children>
+         <padding>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+         </padding>
+      </VBox>
+   </children>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+</HBox>

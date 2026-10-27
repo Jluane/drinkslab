@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -12,27 +15,34 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: #E8E8E8;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: #E8E8E8;" stylesheets="@../css/estilos-globales.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <left>
-            <VBox prefHeight="768.0" prefWidth="237.0" style="-fx-background-color: white; -fx-border-color: gray; -fx-border-width: 1px;" BorderPane.alignment="CENTER">
+            <VBox maxHeight="1.7976931348623157E308" prefWidth="220.0" style="-fx-background-color: white; -fx-border-color: gray; -fx-border-width: 1px;" BorderPane.alignment="CENTER">
                <children>
                   <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" spacing="10.0">
                      <children>
-                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../img/logo.png" />
-                           </image>
-                        </ImageView>
-                        <VBox maxWidth="1.7976931348623157E308" spacing="5.0" HBox.hgrow="ALWAYS">
+                        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: #167328; -fx-border-radius: 3px; -fx-background-radius: 3px;">
+                           <children>
+                              <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                                 <image>
+                                    <Image url="@../img/logo.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </AnchorPane>
+                        <VBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
                            <children>
                               <Label maxWidth="1.7976931348623157E308" text="Drinks Lab">
                                  <font>
-                                    <Font name="System Bold" size="19.0" />
+                                    <Font name="Lato Black" size="19.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" text="PUNTO DE VENTA" />
+                              <Label layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" style="-fx-font-family: Lato;" text="PUNTO DE VENTA">
+                                 <font>
+                                    <Font size="12.0" />
+                                 </font></Label>
                            </children>
                         </VBox>
                      </children>
@@ -40,7 +50,35 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </VBox.margin>
                   </HBox>
-                  <Separator prefWidth="200.0" />
+                  <Separator prefWidth="200.0">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </Separator>
+                  <ToggleButton fx:id="btnVenta" alignment="CENTER_LEFT" graphicTextGap="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" selected="true" style="-fx-font-family: Lato; -fx-font-size: 16px;" styleClass="boton-menu-lateral" text="Venta" wrapText="true">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/icons/point_of_sale_24dp.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <padding>
+                        <Insets bottom="7.0" left="10.0" right="5.0" top="7.0" />
+                     </padding>
+                     <toggleGroup>
+                        <ToggleGroup fx:id="botonesLateral" />
+                     </toggleGroup>
+                  </ToggleButton>
                </children>
             </VBox>
          </left>

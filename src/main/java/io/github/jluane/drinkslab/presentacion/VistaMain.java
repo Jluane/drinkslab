@@ -5,8 +5,10 @@ import java.io.IOException;
 import org.springframework.stereotype.Component;
 
 import javafx.application.Platform;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.ToggleButton;
 import javafx.stage.Stage;
 
 @Component
@@ -16,6 +18,10 @@ public class VistaMain {
     private ControlMain control;
 
     private boolean initialized = false;
+
+    // Componentes del FXML
+    @FXML
+    private ToggleButton btnVenta;
 
     // Constructor necesario para la clase
     public VistaMain(){}

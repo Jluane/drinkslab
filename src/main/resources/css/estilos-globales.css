@@ -1,0 +1,30 @@
+.boton-menu-lateral {
+    -fx-background-color: white;
+    -fx-text-fill: #3F4D45;
+    -fx-background-radius: 0;
+    -fx-border-color: transparent;
+    -fx-border-width: 0 0 0 2.5;
+    -fx-font-family: Lato;
+    -fx-font-size: 16px;
+    background-color: white;
+    border-color: transparent;
+    border-width: 0 0 0 2.5;
+    font-family: Lato;
+    font-size: 16px;
+}
+.boton-menu-lateral:hover {
+    -fx-background-color: #F2F4F8;
+    background-color: #F2F4F8;
+}
+.boton-menu-lateral:selected {
+    -fx-background-color: #E9ECFF;
+    -fx-border-color: transparent transparent transparent #16A36A;
+    -fx-border-radius: 3px;
+    background-color: #E9ECFF;
+    border-color: transparent transparent transparent #16A36A;
+    border-radius: 3px;
+}
+.boton-menu-lateral:selected:hover {
+    -fx-background-color: #E0E5FF;
+    background-color: #E0E5FF
+}

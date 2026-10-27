@@ -20,23 +20,28 @@ public class Producto {
     private String nombre;
     private BigDecimal precio;
     private int cantInv;
+    private String GTIN;
+
+    // Relaciones
     @ManyToOne
     @JoinColumn(name = "idProveedor")
     private Proveedor proveedor;
 
     // Constructor
     public Producto(){}
-    public Producto(String nombre,  BigDecimal precio, int cantInv, Proveedor proveedor){
+    public Producto(String nombre,  BigDecimal precio, int cantInv, Proveedor proveedor, String GTIN){
         this.nombre = nombre;
         this.precio = precio;
         this.cantInv = cantInv;
         this.proveedor = proveedor;
+        this.GTIN = GTIN;
     }
-    public Producto(String nombre, BigDecimal precio, Proveedor proveedor){
+    public Producto(String nombre, BigDecimal precio, Proveedor proveedor, String GTIN){
         this.nombre = nombre;
         this.precio = precio;
         this.cantInv = 0;
         this.proveedor = proveedor;
+        this.GTIN = GTIN;
     }
 
     // Setters
@@ -55,6 +60,9 @@ public class Producto {
     public void setProveedor(Proveedor proveedor){
         this.proveedor = proveedor;
     }
+    public void setGTIN(String GTIN){
+        this.GTIN = GTIN;
+    }
 
     // Getters
     public Long getIdProducto(){
@@ -71,6 +79,9 @@ public class Producto {
     }
     public Proveedor getProveedor(){
         return proveedor;
+    }
+    public String getGTIN(){
+        return GTIN;
     }
 
     // toString

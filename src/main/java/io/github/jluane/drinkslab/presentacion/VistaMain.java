@@ -11,6 +11,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -25,6 +27,8 @@ public class VistaMain {
     // Componentes del FXML
     @FXML
     private StackPane panelDinamico;
+	@FXML
+	private ToggleButton btnVenta;
 
     // Constructor necesario para la clase
     public VistaMain(){}
@@ -53,6 +57,14 @@ public class VistaMain {
 			loader.setController(this);
 			Scene scene = new Scene(loader.load(), 1024, 768);
 			
+			// Eventos de teclas que se deben tener siempre
+			scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+				if (event.getCode() == KeyCode.F1) {
+					btnVenta.fire();
+					event.consume(); // Mata el evento aquí para que no haga doble acción
+				}
+			});
+
 			stage.setScene(scene);
 			stage.setMaximized(true); // Se dibuja en pantalla maximizada
             stage.toFront(); // Manda a la pantalla al frente
@@ -81,7 +93,8 @@ public class VistaMain {
 			return;
 		}
 		initializeUI();
-        // Espacio para posibles métodos
+		// Inicia siempre en la vista de Venta
+		control.irVenta();
 		stage.show();
     }
 
@@ -104,5 +117,4 @@ public class VistaMain {
         System.out.println("Botón Venta seleccionado");
         control.irVenta();
     }
-
 }

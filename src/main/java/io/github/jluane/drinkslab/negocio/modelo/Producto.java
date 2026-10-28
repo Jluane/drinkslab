@@ -90,4 +90,15 @@ public class Producto {
         String cadena = "Producto: "+nombre+" de "+proveedor+" $"+precio+". "+cantInv+" unidades";
         return cadena;
     }
+
+    // equals
+    @Override
+    public boolean equals(Object objeto){
+        if(this == objeto)
+            return true;
+        if(!(objeto instanceof Producto producto))
+            return false;
+        else
+            return producto.getGTIN().equals(this.GTIN);
+    }
 }

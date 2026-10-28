@@ -55,7 +55,7 @@
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </Separator>
-                  <ToggleButton alignment="CENTER_LEFT" graphicTextGap="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onActionBtnVenta" selected="true" style="-fx-font-family: Lato; -fx-font-size: 16px;" styleClass="boton-menu-lateral" text="Venta" wrapText="true">
+                  <ToggleButton fx:id="btnVenta" alignment="CENTER_LEFT" graphicTextGap="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onActionBtnVenta" selected="true" style="-fx-font-family: Lato; -fx-font-size: 16px;" styleClass="boton-menu-lateral" text="Venta" wrapText="true">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>

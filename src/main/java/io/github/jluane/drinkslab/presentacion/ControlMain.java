@@ -45,6 +45,7 @@ public class ControlMain {
         javafx.scene.Parent panelVenta = controlVenta.obtienePanel();
         // Le dice a la ventana principal que lo ponga en el centro
         vista.cambiarVista(panelVenta);
+        controlVenta.inicia();
     }
 
 }

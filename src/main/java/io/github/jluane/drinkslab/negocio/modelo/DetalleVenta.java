@@ -38,6 +38,11 @@ public class DetalleVenta {
         this.venta = venta;
         this.producto = producto;
     }
+    public DetalleVenta(Producto producto){
+        this.cantidad = 1;
+        this.costo = producto.getPrecio();
+        this.producto = producto;
+    }
 
     // Setters
     public void setCantidad(int cantidad){
@@ -63,7 +68,29 @@ public class DetalleVenta {
     public Venta getVenta(){
         return venta;
     }
-    public Producto geProducto(){
+    public Producto getProducto(){
         return producto;
+    }
+
+    // toString
+    @Override
+    public String toString(){
+        String cadena = producto.getNombre() + " x "+cantidad+" = "+costo+"\n";
+        return cadena;
+    }
+
+    // equals
+    @Override
+    public boolean equals(Object object){
+        if(object==null) return false;
+        if(!(object instanceof DetalleVenta detalle))
+            return false;
+        else{
+            if(!(this.producto.equals(detalle.getProducto())))
+                return false;
+            if(!(this.cantidad == detalle.getCantidad()))
+                return false;
+        }
+        return true;
     }
 }

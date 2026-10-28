@@ -11,7 +11,9 @@
 .boton-eliminar{
     -fx-background-color: transparent;
     -fx-background-radius: 100px;
+    background-color: transparent;
 }
 .boton-eliminar:hover{
     -fx-background-color: rgba(0, 0, 0, 0.15);
+    background-color: rgba(0, 0, 0, 0.15);
 }

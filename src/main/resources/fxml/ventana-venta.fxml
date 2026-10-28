@@ -15,8 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="20.0" style="-fx-background-color: transparent;" stylesheets="@../css/estilos-globales.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+<HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyPressed="#onAtajoTeclado" spacing="20.0" style="-fx-background-color: transparent;" stylesheets="@../css/estilos-globales.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10;" HBox.hgrow="ALWAYS">
          <children>
@@ -29,7 +28,7 @@
                               <Image url="@../img/icons/barcode_scanner_25dp_BLACK.png" />
                            </image>
                         </ImageView>
-                        <TextField maxWidth="1.7976931348623157E308" promptText="Escanear código de barras o escribir nombre" style="-fx-background-color: transparent;" HBox.hgrow="ALWAYS">
+                        <TextField fx:id="txtBusqueda" maxWidth="1.7976931348623157E308" onAction="#onActionBuscar" promptText="Escanear código de barras o escribir nombre" style="-fx-background-color: transparent;" HBox.hgrow="ALWAYS">
                            <font>
                               <Font size="19.0" />
                            </font>
@@ -39,7 +38,7 @@
                         <Insets bottom="8.0" left="15.0" right="15.0" top="8.0" />
                      </padding>
                   </HBox>
-                  <Button maxHeight="50.0" maxWidth="170.0" minHeight="50.0" minWidth="162.0" mnemonicParsing="false" styleClass="boton-generico">
+                  <Button fx:id="btnBuscarEnter" defaultButton="true" maxHeight="50.0" maxWidth="170.0" minHeight="50.0" minWidth="162.0" mnemonicParsing="false" onAction="#onActionBuscar" styleClass="boton-generico">
                      <graphic>
                         <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0">
                            <children>
@@ -114,7 +113,7 @@
             </GridPane>
             <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white; -fx-background-radius: 0 0 10 10; -fx-border-radius: 0 0 10 10;" VBox.vgrow="ALWAYS">
                <content>
-                  <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" />
+                  <VBox fx:id="cajaVentas" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" />
                </content>
             </ScrollPane>
          </children>
@@ -128,7 +127,7 @@
                         <Font name="Lato Black" size="19.0" />
                      </font>
                   </Label>
-                  <Label text="ID VENTA: ####">
+                  <Label fx:id="numVenta" text="ID VENTA: ####">
                      <font>
                         <Font name="Lato Regular" size="13.0" />
                      </font>
@@ -145,7 +144,7 @@
                            </font>
                         </Label>
                         <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
-                        <Label contentDisplay="RIGHT" text="# artículos (# unid.)" textAlignment="RIGHT">
+                        <Label fx:id="cantVenta" contentDisplay="RIGHT" text="# artículos (# unid.)" textAlignment="RIGHT">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -160,7 +159,7 @@
                            </font>
                         </Label>
                         <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
-                        <Label contentDisplay="RIGHT" text="\$##.##" textAlignment="RIGHT">
+                        <Label fx:id="sumaVenta" contentDisplay="RIGHT" text="\$##.##" textAlignment="RIGHT">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -182,14 +181,14 @@
                         <Font name="Lato Regular" size="13.0" />
                      </font>
                   </Label>
-                  <Label layoutX="20.0" layoutY="20.0" text="\$###.##">
+                  <Label fx:id="totalVenta" layoutX="20.0" layoutY="20.0" text="\$###.##">
                      <font>
                         <Font name="DejaVu Serif Bold" size="24.0" />
                      </font>
                   </Label>
                </children>
             </VBox>
-            <Button maxHeight="50.0" maxWidth="1.7976931348623157E308" minHeight="50.0" mnemonicParsing="false" styleClass="boton-generico">
+            <Button fx:id="btnTarjetaF10" maxHeight="50.0" maxWidth="1.7976931348623157E308" minHeight="50.0" mnemonicParsing="false" onAction="#onActionTarjeta" styleClass="boton-generico">
                <padding>
                   <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
                </padding>
@@ -206,12 +205,17 @@
                               <Font name="Lato Bold" size="19.0" />
                            </font>
                         </Label>
+                        <Label styleClass="texto-indicacion-tecla" text="F10">
+                           <font>
+                              <Font name="Noto Serif Bold" size="11.0" />
+                           </font>
+                        </Label>
                      </children>
                   </HBox>
                </graphic>
             </Button>
             <Region maxHeight="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
-            <Button layoutX="25.0" layoutY="241.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="boton-generico">
+            <Button fx:id="btnPagarF12" layoutX="25.0" layoutY="241.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onActionPagar" styleClass="boton-generico">
                <graphic>
                   <HBox alignment="CENTER" maxHeight="60.0" maxWidth="1.7976931348623157E308" prefHeight="60.0" spacing="5.0">
                      <children>
@@ -226,7 +230,7 @@
                            </font>
                         </Label>
                         <Region maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
-                        <Label layoutX="73.0" layoutY="21.0" styleClass="texto-boton-generico" text="\$###.##">
+                        <Label fx:id="totalPagar" layoutX="73.0" layoutY="21.0" styleClass="texto-boton-generico" text="\$###.##">
                            <font>
                               <Font name="Lato Bold" size="19.0" />
                            </font>

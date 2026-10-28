@@ -1,10 +1,16 @@
 package io.github.jluane.drinkslab;
 
+import java.math.BigDecimal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import io.github.jluane.drinkslab.datos.RepositorioProducto;
+import io.github.jluane.drinkslab.datos.RepositorioVenta;
+import io.github.jluane.drinkslab.negocio.modelo.Producto;
+import io.github.jluane.drinkslab.negocio.modelo.Venta;
 import io.github.jluane.drinkslab.presentacion.ControlMain;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -16,9 +22,15 @@ public class DrinkslabApplication {
     // Control que inicializa
     private final ControlMain controlMain;
 
+    // Repositorios para la base de datos de prueba
+    private final RepositorioProducto repositorioProducto;
+    private final RepositorioVenta repositorioVenta;
+
     @Autowired
-    public DrinkslabApplication(ControlMain controlMain){
+    public DrinkslabApplication(ControlMain controlMain, RepositorioProducto repositorioProducto, RepositorioVenta  repositorioVenta){
         this.controlMain = controlMain;
+        this.repositorioProducto = repositorioProducto;
+        this.repositorioVenta = repositorioVenta;
     }
 
 
@@ -60,9 +72,34 @@ public class DrinkslabApplication {
      * Aquí llamaremos al controlador de la primera ventana gráfica.
      */
     public void inicia() {
+
+        // Inicializo Base de datos de prueba
+        inicializaBD();
+
         Platform.runLater(() -> {
             controlMain.inicia();
             System.out.println("¡Spring Boot y JavaFX están conectados!");
         });
+    }
+    
+
+    /**
+     * Inicializa BD para pruebas
+     */
+    public void inicializaBD(){
+        Producto p1 = new Producto();
+        p1.setNombre("Producto1");
+        p1.setPrecio(new BigDecimal("100"));
+        p1.setGTIN("123");
+        repositorioProducto.save(p1);
+
+        Producto p2 = new Producto();
+        p2.setNombre("Producto2");
+        p2.setPrecio(new BigDecimal("50"));
+        p2.setGTIN("321");
+        repositorioProducto.save(p2);
+
+        Venta v1 = new Venta();
+        repositorioVenta.save(v1);
     }
 }

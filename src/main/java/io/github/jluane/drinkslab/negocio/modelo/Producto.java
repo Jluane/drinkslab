@@ -2,6 +2,7 @@ package io.github.jluane.drinkslab.negocio.modelo;
 
 import java.math.BigDecimal;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,6 +21,7 @@ public class Producto {
     private String nombre;
     private BigDecimal precio;
     private int cantInv;
+    @Column(unique = true, nullable = false)
     private String GTIN;
 
     // Relaciones

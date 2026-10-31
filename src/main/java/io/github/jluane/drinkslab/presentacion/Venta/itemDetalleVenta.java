@@ -14,7 +14,7 @@ import javafx.scene.layout.GridPane;
  * VistaDetalleVenta
  */
 @Component
-public class VistaDetalleVenta {
+public class itemDetalleVenta {
     // Controlador
     ControlVenta control;
 
@@ -30,10 +30,10 @@ public class VistaDetalleVenta {
     @FXML
     private Label pTotal;
     @FXML
-    private GridPane contenedorDetalle;
+    private GridPane contenedorDetalle; // Contenedor completo del detalle
 
     // Constructor necesario para la clase
-    public VistaDetalleVenta(){}
+    public itemDetalleVenta(){}
 
     /**
      * Inicialización de la tarjeta
@@ -50,6 +50,10 @@ public class VistaDetalleVenta {
         this.control = control;
     }
 
+    /**
+     * Método encargado de configurar los datos con los que nace el item de acuerdo al detalleVenta que represente
+     * @param detalle Es el detalle venta del que se saca la información
+     */
     public void configurarDatos(DetalleVenta detalle){
         nombre.setText(detalle.getProducto().getNombre());
         codigo.setText("Código: "+detalle.getProducto().getGTIN());
@@ -60,18 +64,20 @@ public class VistaDetalleVenta {
         contenedorDetalle.setUserData(detalle);
     }
 
+    /**
+     * Actualiza los datos que dependen de la cantidad, según la nueva cantidad y el nuevo costo
+     * @param cant
+     * @param costo
+     */
     public void actualizarCantidad(int cant, BigDecimal costo){
         cantidad.setText(Integer.toString(cant));
         pTotal.setText("$"+costo);
     }
 
-    public void terminar(){
-        contenedorDetalle.setManaged(false);
-        contenedorDetalle.setVisible(false);
-        contenedorDetalle.setDisable(true);
-    }
-
     // On Action's
+    /**
+     * En caso de presionar el botón disminuir de un detalle
+     */
     @FXML
     public void onActionDisminuir(){
         System.out.println("Se presionó el botón para disminuir");
@@ -80,6 +86,9 @@ public class VistaDetalleVenta {
         else
             System.err.println("No es posible modificar al detalle");
     }
+    /**
+     * En caso de ingresar una cantidad específica para el detalle
+     */
     @FXML
     public void onActionCantidad(){
         System.out.println("Se presionó el botón para cambiar cantidad");
@@ -102,6 +111,9 @@ public class VistaDetalleVenta {
         else
             System.err.println("No es posible modificar al detalle");
     }
+    /**
+     * En caso de presioanr el botón aumentar de un detalle
+     */
     @FXML
     public void onActionAumentar(){
         System.out.println("Se presionó el botón para aumentar");
@@ -110,6 +122,9 @@ public class VistaDetalleVenta {
         else
             System.err.println("No es posible modificar al detalle");
     }
+    /**
+     * En caso de presionar el botón eliminar de un detalle
+     */
     @FXML
     public void onActionEliminar(){
         System.out.println("Se presionó el botón para eliminar");
@@ -117,5 +132,13 @@ public class VistaDetalleVenta {
             control.eliminarDetalle(detalle);
         else
             System.err.println("No es posible eliminar al detalle");
+    }
+
+    /**
+     * Regresa al contenedor en sí, necesario para elimina al detalle por completo una vez es eliminado (Se elimina desde la VistaVenta puesto que ella lo creó)
+     * @return Regresa al contenedor principal de esta tarjeta
+     */
+    public GridPane getContenedorDetalle(){
+        return this.contenedorDetalle;
     }
 }

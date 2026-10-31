@@ -20,7 +20,7 @@ public class ServicioDetalleVenta {
     /**
      * Crea un DetalleVenta con un Producto para agregarlo a una lista y regresa al detalle ya creado
      * @param detalles Es la lista a la que se agregará el nuevo detalle
-     * @param producto Es el producto con el que se creará el detalle
+     * @param producto Es el producto con el que se creará el DetalleVenta
      * @return Regresa al detalle nuevo o null si no se logró crear
      */
     public DetalleVenta agregarProductoNuevo(List<DetalleVenta> detalles, Producto producto){
@@ -40,7 +40,7 @@ public class ServicioDetalleVenta {
      * @param detalle Es el detalle a actualizar
      * @return Regresa el nuevo valor de cantidad del DetalleVenta
      */
-    public int incrementarProducto(DetalleVenta detalle){
+    public int aumentarCantidadProducto(DetalleVenta detalle){
         if(detalle == null) return 0;
         if(!cambiarCantidad(detalle, 1)) return 0;
         return detalle.getCantidad();
@@ -51,14 +51,14 @@ public class ServicioDetalleVenta {
      * @param detalle Es el detalle a actualizar
      * @return Regresa el nuevo valor de cantidad del DetalleVenta
      */
-    public int disminuirProducto(DetalleVenta detalle){
+    public int disminuirCantidadProducto(DetalleVenta detalle){
         if(detalle == null) return 0;
         if(!cambiarCantidad(detalle, -1)) return 0;
         return detalle.getCantidad();
     }
 
     /**
-     * Aumenta al atributo cantidad de un DetalleVenta en la N
+     * Aumenta al atributo cantidad de un DetalleVenta en N
      * @param detalle Es el detalle al que se actualizará
      * @param N Es la cantidad a la que se sumará la cantidad actual de detalle
      * @return Regresa true si se logró modificar a detalle, false si no se logró
@@ -78,6 +78,13 @@ public class ServicioDetalleVenta {
         detalle.setCosto(costoTotal);
         return true;
     }
+
+    /**
+     * Coloca al atributo cantidad en un número específico
+     * @param detalle Es el detalle Venta que se modifica
+     * @param N Es el que será el nuevo valor de cantidad
+     * @return Regresa a N (la nueva cantidad), o a 0 si N < 0 
+     */
     public int editarCantidad(DetalleVenta detalle, int N){
         if(N <= 0) return 0;
         BigDecimal costoIndividual = detalle.getProducto().getPrecio();

@@ -37,17 +37,17 @@
       </VBox>
       <HBox alignment="CENTER" fillHeight="false" maxHeight="-Infinity" maxWidth="-Infinity" style="-fx-background-color: #E0E5FF; -fx-background-radius: 6px;" GridPane.columnIndex="1">
          <children>
-            <Button mnemonicParsing="false" onAction="#onActionDisminuir" styleClass="boton-modificar-producto" text="-">
+            <Button focusTraversable="false" mnemonicParsing="false" onAction="#onActionDisminuir" styleClass="boton-modificar-producto" text="-">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <TextField fx:id="cantidad" alignment="CENTER" minWidth="40.0" onAction="#onActionCantidad" prefWidth="40.0" style="-fx-background-color: transparent;" text="1">
+            <TextField fx:id="cantidad" alignment="CENTER" focusTraversable="false" minWidth="40.0" onAction="#onActionCantidad" prefWidth="40.0" style="-fx-background-color: transparent;" text="1">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </TextField>
-            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#onActionAumentar" styleClass="boton-modificar-producto" text="+">
+            <Button focusTraversable="false" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#onActionAumentar" styleClass="boton-modificar-producto" text="+">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -64,7 +64,7 @@
             <Font name="DejaVu Serif Bold" size="14.0" />
          </font>
       </Label>
-      <Button mnemonicParsing="false" onAction="#onActionEliminar" styleClass="boton-eliminar" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+      <Button focusTraversable="false" mnemonicParsing="false" onAction="#onActionEliminar" styleClass="boton-eliminar" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
          <graphic>
             <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                <image>

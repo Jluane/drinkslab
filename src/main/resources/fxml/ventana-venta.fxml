@@ -69,6 +69,7 @@
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                </padding>
             </HBox>
+            <Label fx:id="txtAviso" disable="true" maxWidth="1.7976931348623157E308" styleClass="texto-alerta" text="Ocurrió un error: " visible="false" />
             <GridPane alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" style="-fx-background-color: #E0E5FF;">
               <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="38.0" prefWidth="100.0" />

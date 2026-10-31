@@ -71,6 +71,9 @@ public class DetalleVenta {
     public Producto getProducto(){
         return producto;
     }
+    public Long getIdDetalleVenta(){
+        return idDetalleVenta;
+    }
 
     // toString
     @Override
@@ -86,6 +89,9 @@ public class DetalleVenta {
         if(!(object instanceof DetalleVenta detalle))
             return false;
         else{
+            if(this.idDetalleVenta != null && detalle.getIdDetalleVenta() != null)
+                if(this.idDetalleVenta == detalle.getIdDetalleVenta())
+                    return true;
             if(!(this.producto.equals(detalle.getProducto())))
                 return false;
             if(!(this.cantidad == detalle.getCantidad()))

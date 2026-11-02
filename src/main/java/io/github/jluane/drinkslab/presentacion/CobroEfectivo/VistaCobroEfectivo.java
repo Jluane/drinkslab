@@ -93,6 +93,10 @@ public class VistaCobroEfectivo {
 		}
 	}
 
+	/**
+	 * Método en el que se muestra toda la pantalla, así mismo se colocan los datos necesarios
+	 * @param venta
+	 */
     public void muestra(Venta venta){
 		if (!Platform.isFxApplicationThread()) {
 			Platform.runLater(() -> this.muestra(venta));
@@ -106,6 +110,10 @@ public class VistaCobroEfectivo {
 		stage.showAndWait();
     }
 
+	/**
+	 * Método encargadoo de colocar los datos de la venta que se cobrará
+	 * @param venta
+	 */
 	private void colocarDatos(Venta venta){
 		this.totalVenta = venta.getTotal();
 		totalAPagar.setText("$"+totalVenta);
@@ -113,6 +121,10 @@ public class VistaCobroEfectivo {
 		cambioAEntregar.setText("$0");
 	}
 
+	/**
+	 * Método activado cada que sucede un cambio en la cantidad ingresada. Se calcula el cambio y/o se alerta en caso de que se hayan ingresado caracteres inválidos
+	 * @param textoIngresado Es el texto que le es ingresado al textinput
+	 */
 	private void calcularCambio(String textoIngresado){
 		BigDecimal entregado = BigDecimal.ZERO;
 
@@ -138,6 +150,10 @@ public class VistaCobroEfectivo {
         }
 	}
 
+	/**
+	 * Método encargado de mostrar un mensaje de error u ocultarlo
+	 * @param valor Especifica si se quiere mostrar u ocultar
+	 */
 	public void mostrarError(boolean valor){
         txtAviso.setVisible(valor); 
         txtAviso.setDisable(!valor);
@@ -146,6 +162,9 @@ public class VistaCobroEfectivo {
 			System.out.println("Mostrando error");
 	}
 
+	/**
+	 * Cierra la ventana
+	 */
 	public void cierra(){
 		stage.close();
 	}
@@ -158,8 +177,12 @@ public class VistaCobroEfectivo {
 		stage.close();
 	}
 	@FXML
-	public void onActionPagar(){
+	public void onActionPagarEfectivo(){
 		System.out.println("Se presionó el botón Paga");
-		control.procesarPago();
+		control.procesarPagoEfectivo();
+	}
+	@FXML
+	public void onActionPagarTarjeta(){
+		System.out.println("Se presionó el botón Pagar con Tarjeta");
 	}
 }

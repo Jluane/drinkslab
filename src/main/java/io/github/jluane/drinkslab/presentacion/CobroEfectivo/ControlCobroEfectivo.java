@@ -1,12 +1,9 @@
 package io.github.jluane.drinkslab.presentacion.CobroEfectivo;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import io.github.jluane.drinkslab.negocio.ServicioVenta;
-import io.github.jluane.drinkslab.negocio.modelo.DetalleVenta;
 import io.github.jluane.drinkslab.negocio.modelo.Venta;
 import io.github.jluane.drinkslab.negocio.modelo.Venta.TipoPago;
 import io.github.jluane.drinkslab.presentacion.Venta.ControlVenta;
@@ -23,7 +20,6 @@ public class ControlCobroEfectivo {
 
     // Datos
     private Venta venta;
-    private List<DetalleVenta> detalles;
 
     @Autowired
     public ControlCobroEfectivo(VistaCobroEfectivo vista, ControlVenta controlVenta, ServicioVenta servicioVenta){
@@ -41,14 +37,22 @@ public class ControlCobroEfectivo {
         vista.setControlCobroEfectivo(this);
     }
 
-    public void inicia(Venta venta, List<DetalleVenta> detalles){
+    /**
+     * Método con el que se manda a iniciar al cobro
+     * @param venta Es la venta de la que se hace el cobro
+     * @param detalles Es la lista de detalles pertenecientes a la venta
+     */
+    public void inicia(Venta venta){
         this.venta = venta;
-        this.detalles = detalles;
         vista.muestra(venta);
     }
 
-    public void procesarPago(){
-        boolean procesado = servicioVenta.guardarVenta(venta, detalles, TipoPago.EFECTIVO);
+    /**
+     * Método encargado de procesar un pago en efectivo y decidir qué hacer si se loogró o no
+     * En caso de que se haya logrado, se cierra la ventana iniciando una venta nueva. En caso de que no, se cierra la ventana dejando a la misma venta
+     */
+    public void procesarPagoEfectivo(){
+        boolean procesado = servicioVenta.guardarNuevaVenta(venta, TipoPago.EFECTIVO);
         if(procesado){
             vista.cierra();
             System.out.println("Se cierra la vista");
@@ -56,6 +60,8 @@ public class ControlCobroEfectivo {
             System.out.println("Se manda el regreso a control Venta");
         }else{
             System.out.println("Ocurrió un error al procesar el pago");
+            vista.cierra();
+            controlVenta.mostrarAlerta("No se pudieron guardar los datos de la venta. Se recomiendo reiniciar la venta (presionar F1)");
         }
         System.out.println(venta);
     }

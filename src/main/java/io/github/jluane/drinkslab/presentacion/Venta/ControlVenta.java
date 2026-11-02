@@ -103,7 +103,7 @@ public class ControlVenta {
     public void cobroEfectivo(){
         System.out.println("Se difumina la pantalla principal");
         vista.aplicarDifuminado();
-        controlCobroEfectivo.inicia(venta, detallesVenta);
+        controlCobroEfectivo.inicia(venta);
         System.out.println("Se quita  el difuminado de la pantalla principal");
         vista.quitarDifuminado();
     }
@@ -122,7 +122,7 @@ public class ControlVenta {
      * Manda a la vista a mostrar un aviso de error o de lo que sea
      * @param motivo
      */
-    private void mostrarAlerta(String motivo){
+    public void mostrarAlerta(String motivo){
         String cad = "Ocurrió un error: "+motivo;
         vista.mostrarErrorTemporal(cad);
     }

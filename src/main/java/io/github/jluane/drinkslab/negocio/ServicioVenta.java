@@ -47,15 +47,21 @@ public class ServicioVenta {
         venta.setTotal(total);
     }
 
+    /**
+     * Función encargada de guardar una venta en la base de datos. La venta ya debe tener a sus detalles
+     * @param venta Es la venta que se guardará en la base de datos
+     * @param tipo Es el tipo de pago que se aplica en la venta
+     * @return Regresa true si se logró realizar el guardado, false si ocurrió algún error
+     */
     @Transactional
-    public boolean guardarVenta(Venta venta, List<DetalleVenta> detalles, TipoPago tipo){
+    public boolean guardarNuevaVenta(Venta venta, TipoPago tipo){
         venta.setTipoPago(tipo);
         venta.setDeuda(null);
         venta.setFecha(LocalDateTime.now());
 
         try{
-            repositorioVenta.save(venta); // Gracias a la configuación, se guadan los detalles y la venta automáticamente
-            System.out.println("Se guadó la venta satisfactoiamente");
+            repositorioVenta.save(venta); // Gracias a la configuación en las entidades, se guardan los detalles y la venta automáticamente
+            System.out.println("Se guadó la venta satisfactoriamente");
             return true;
         }catch(Exception e){
             System.err.println("Ocurrió un error al guardar la venta");

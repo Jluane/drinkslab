@@ -134,7 +134,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
             </HBox>
-            <Button fx:id="btnConfirmarCobro" defaultButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onActionPagar" styleClass="boton-generico">
+            <Button fx:id="btnConfirmarCobro" defaultButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onActionPagarEfectivo" styleClass="boton-generico">
                <graphic>
                   <HBox alignment="CENTER_LEFT" spacing="5.0">
                      <children>

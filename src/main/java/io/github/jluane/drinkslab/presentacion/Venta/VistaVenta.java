@@ -77,7 +77,7 @@ public class VistaVenta {
         txtAviso.managedProperty().bind(txtAviso.visibleProperty());
 
         // Configuración del temporizador
-        temporizadorAviso = new PauseTransition(Duration.seconds(3));
+        temporizadorAviso = new PauseTransition(Duration.seconds(5));
         temporizadorAviso.setOnFinished(evento -> {
             txtAviso.setVisible(false); // Al ocultarse, el bind automáticamente quita el espacio
             txtAviso.setDisable(true);

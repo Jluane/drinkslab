@@ -265,6 +265,7 @@ public class VistaVenta {
     @FXML
     public void onActionTarjeta(){
         System.out.println("Se presionó botón pagar con tarjeta");
+        control.cobroTarjeta();
     }
 
 }

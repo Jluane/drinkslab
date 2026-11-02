@@ -51,7 +51,7 @@ public class ControlCobroEfectivo {
      * Método encargado de procesar un pago en efectivo y decidir qué hacer si se loogró o no
      * En caso de que se haya logrado, se cierra la ventana iniciando una venta nueva. En caso de que no, se cierra la ventana dejando a la misma venta
      */
-    public void procesarPagoEfectivo(){
+    public void procesarPago(){
         boolean procesado = servicioVenta.guardarNuevaVenta(venta, TipoPago.EFECTIVO);
         if(procesado){
             vista.cierra();

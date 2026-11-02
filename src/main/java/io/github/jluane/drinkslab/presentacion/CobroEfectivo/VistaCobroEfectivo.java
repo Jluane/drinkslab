@@ -45,7 +45,7 @@ public class VistaCobroEfectivo {
     }
 
 	/**
-     * Inicialización, puesta principalmente para el temporizador de la notificación de alerta
+     * Inicialización, puesta principalmente para el listener del input
      */
     @FXML
     public void initialize() {
@@ -177,12 +177,8 @@ public class VistaCobroEfectivo {
 		stage.close();
 	}
 	@FXML
-	public void onActionPagarEfectivo(){
+	public void onActionPagar(){
 		System.out.println("Se presionó el botón Paga");
-		control.procesarPagoEfectivo();
-	}
-	@FXML
-	public void onActionPagarTarjeta(){
-		System.out.println("Se presionó el botón Pagar con Tarjeta");
+		control.procesarPago();
 	}
 }

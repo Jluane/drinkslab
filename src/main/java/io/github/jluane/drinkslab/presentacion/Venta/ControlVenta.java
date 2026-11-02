@@ -14,6 +14,7 @@ import io.github.jluane.drinkslab.negocio.modelo.DetalleVenta;
 import io.github.jluane.drinkslab.negocio.modelo.Producto;
 import io.github.jluane.drinkslab.negocio.modelo.Venta;
 import io.github.jluane.drinkslab.presentacion.CobroEfectivo.ControlCobroEfectivo;
+import io.github.jluane.drinkslab.presentacion.CobroTarjeta.ControlCobroTarjeta;
 import jakarta.annotation.PostConstruct;
 import javafx.scene.layout.GridPane;
 
@@ -23,6 +24,7 @@ public class ControlVenta {
     private final VistaVenta vista;
     // Controles con los que se comunica
     private final ControlCobroEfectivo controlCobroEfectivo; // Se hace @Lazy para evitar problemas al regresar a esta pantalla desde ese control
+    private final ControlCobroTarjeta controlCobroTarjeta;
     // Servicios a los que se conecta
     private final ServicioProducto servicioProducto;
     private final ServicioDetalleVenta servicioDetalleVenta;
@@ -34,12 +36,13 @@ public class ControlVenta {
     private List<itemDetalleVenta> vistasDetalles;
 
     @Autowired
-    public ControlVenta(VistaVenta vista, ServicioProducto servicioProducto, ServicioDetalleVenta servicioDetalleVenta, ServicioVenta servicioVenta, @Lazy ControlCobroEfectivo controlCobroEfectivo){
+    public ControlVenta(VistaVenta vista, ServicioProducto servicioProducto, ServicioDetalleVenta servicioDetalleVenta, ServicioVenta servicioVenta, @Lazy ControlCobroEfectivo controlCobroEfectivo, @Lazy ControlCobroTarjeta controlCobroTarjeta){
         this.vista = vista;
         this.servicioProducto = servicioProducto;
         this.servicioDetalleVenta = servicioDetalleVenta;
         this.servicioVenta = servicioVenta;
         this.controlCobroEfectivo = controlCobroEfectivo;
+        this.controlCobroTarjeta = controlCobroTarjeta;
     }
 
     /**
@@ -98,13 +101,23 @@ public class ControlVenta {
         actualizarVenta();
     }
     /**
-     * El proceso que lleva a cobrar la venta que se tiene
+     * El proceso que lleva a cobrar la venta que se tiene mediante efectivo
      */
     public void cobroEfectivo(){
         System.out.println("Se difumina la pantalla principal");
         vista.aplicarDifuminado();
         controlCobroEfectivo.inicia(venta);
-        System.out.println("Se quita  el difuminado de la pantalla principal");
+        System.out.println("Se quita el difuminado de la pantalla principal");
+        vista.quitarDifuminado();
+    }
+    /**
+     * El proceso que lleva a cobrar la venta que se tiene mediante tarjeta
+     */
+    public void cobroTarjeta(){
+        System.out.println("Se difumina la pantalla principal");
+        vista.aplicarDifuminado();
+        controlCobroTarjeta.inicia(venta);
+        System.out.println("Se quita el difuminado de la pantalla principal");
         vista.quitarDifuminado();
     }
 

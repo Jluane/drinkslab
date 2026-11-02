@@ -39,7 +39,7 @@
                      </font>
                   </Label>
                   <Region HBox.hgrow="ALWAYS" />
-                  <Button cancelButton="true" maxHeight="40.0" maxWidth="40.0" minHeight="29.0" minWidth="29.0" mnemonicParsing="false" onAction="#onActionCancelar" prefHeight="36.0" prefWidth="36.0" styleClass="boton-claro" text="X">
+                  <Button cancelButton="true" focusTraversable="false" maxHeight="40.0" maxWidth="40.0" minHeight="29.0" minWidth="29.0" mnemonicParsing="false" onAction="#onActionCancelar" prefHeight="36.0" prefWidth="36.0" styleClass="boton-claro" text="X">
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
@@ -134,7 +134,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
             </HBox>
-            <Button fx:id="btnConfirmarCobro" defaultButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onActionPagarEfectivo" styleClass="boton-generico">
+            <Button fx:id="btnConfirmarCobro" defaultButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onActionPagar" styleClass="boton-generico">
                <graphic>
                   <HBox alignment="CENTER_LEFT" spacing="5.0">
                      <children>

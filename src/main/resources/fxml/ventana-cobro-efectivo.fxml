@@ -12,7 +12,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@../css/estilos-globales.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -40,7 +39,7 @@
                      </font>
                   </Label>
                   <Region HBox.hgrow="ALWAYS" />
-                  <Button cancelButton="true" maxHeight="40.0" maxWidth="40.0" minHeight="29.0" minWidth="29.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" styleClass="boton-claro" text="X">
+                  <Button cancelButton="true" maxHeight="40.0" maxWidth="40.0" minHeight="29.0" minWidth="29.0" mnemonicParsing="false" onAction="#onActionCancelar" prefHeight="36.0" prefWidth="36.0" styleClass="boton-claro" text="X">
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
@@ -58,7 +57,7 @@
                      </font>
                   </Label>
                   <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
-                  <Label text="\$000.00">
+                  <Label fx:id="totalAPagar" text="\$000.00">
                      <font>
                         <Font name="DejaVu Serif Bold" size="24.0" />
                      </font>
@@ -87,8 +86,7 @@
                               <Font name="DejaVu Serif Bold" size="19.0" />
                            </font>
                         </Label>
-                        <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
-                        <TextField alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" promptText="000.00" style="-fx-background-color: transparent;" HBox.hgrow="ALWAYS">
+                        <TextField fx:id="dineroEntregado" alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" promptText="000.00" style="-fx-background-color: transparent;" text="0" HBox.hgrow="ALWAYS">
                            <font>
                               <Font name="DejaVu Serif Bold" size="24.0" />
                            </font>
@@ -97,6 +95,7 @@
                   </HBox>
                </children>
             </VBox>
+            <Label fx:id="txtAviso" text="Cantidad ingresada inválida" textFill="RED" visible="false" />
             <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" style="-fx-background-color: #ddecd6; -fx-background-radius: 6px;">
                <children>
                   <AnchorPane style="-fx-background-color: #006948; -fx-background-radius: 5px;">
@@ -120,7 +119,7 @@
                      </HBox.margin>
                   </Label>
                   <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
-                  <Label text="\$00.00" textFill="#006948">
+                  <Label fx:id="cambioAEntregar" text="\$00.00" textFill="#006948">
                      <font>
                         <Font name="DejaVu Serif Bold" size="24.0" />
                      </font>
@@ -135,7 +134,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
             </HBox>
-            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="boton-generico">
+            <Button fx:id="btnConfirmarCobro" defaultButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onActionPagar" styleClass="boton-generico">
                <graphic>
                   <HBox alignment="CENTER_LEFT" spacing="5.0">
                      <children>

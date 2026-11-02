@@ -94,7 +94,10 @@ public class Venta {
     // toString
     @Override
     public String toString(){
-        String cadena = "Venta #"+idVenta+" - "+fecha+" - $"+total+" pagada en "+tipoPago;
+        String cadena = "Venta #"+idVenta+" - "+fecha+" - $"+total+" pagada en "+tipoPago+"\n";
+        for(DetalleVenta detalle : this.detalles){
+            cadena = cadena + detalle + "\n";
+        }
         return cadena;
     }
 

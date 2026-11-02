@@ -14,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
@@ -26,7 +27,7 @@ public class VistaVenta {
     // Controlador de esta pantalla
     private ControlVenta control;
 
-    private PauseTransition temporizadorAviso;
+    private PauseTransition temporizadorAviso; // Variable para temporizador del aviso
 
     // Componentes del FXML
     // Botones
@@ -72,7 +73,7 @@ public class VistaVenta {
      */
     @FXML
     public void initialize() {
-        // EL TRUCO PROFESIONAL: Ata la propiedad "managed" a la propiedad "visible"
+        // Ata la propiedad "managed" a la propiedad "visible"
         txtAviso.managedProperty().bind(txtAviso.visibleProperty());
 
         // Configuración del temporizador
@@ -196,6 +197,13 @@ public class VistaVenta {
         temporizadorAviso.playFromStart();
     }
 
+    public void aplicarDifuminado(){
+        txtBusqueda.getScene().getRoot().setEffect(new GaussianBlur(15));
+    }
+    public void quitarDifuminado(){
+        txtBusqueda.getScene().getRoot().setEffect(null);
+    }
+
     // Atajos
     /**
      * Es el método que detecta las presiones de teclas 
@@ -249,6 +257,7 @@ public class VistaVenta {
     @FXML
     public void onActionPagar(){
         System.out.println("Se presionó botón pagar");
+        control.cobroEfectivo();
     }
     /**
      * Método dado al presiona el botón pagar con tarjeta

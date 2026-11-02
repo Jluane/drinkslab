@@ -8,9 +8,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import io.github.jluane.drinkslab.datos.RepositorioProducto;
-import io.github.jluane.drinkslab.datos.RepositorioVenta;
 import io.github.jluane.drinkslab.negocio.modelo.Producto;
-import io.github.jluane.drinkslab.negocio.modelo.Venta;
 import io.github.jluane.drinkslab.presentacion.ControlMain;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -24,13 +22,11 @@ public class DrinkslabApplication {
 
     // Repositorios para la base de datos de prueba
     private final RepositorioProducto repositorioProducto;
-    private final RepositorioVenta repositorioVenta;
 
     @Autowired
-    public DrinkslabApplication(ControlMain controlMain, RepositorioProducto repositorioProducto, RepositorioVenta  repositorioVenta){
+    public DrinkslabApplication(ControlMain controlMain, RepositorioProducto repositorioProducto){
         this.controlMain = controlMain;
         this.repositorioProducto = repositorioProducto;
-        this.repositorioVenta = repositorioVenta;
     }
 
 
@@ -98,8 +94,5 @@ public class DrinkslabApplication {
         p2.setPrecio(new BigDecimal("50"));
         p2.setGTIN("321");
         repositorioProducto.save(p2);
-
-        Venta v1 = new Venta();
-        repositorioVenta.save(v1);
     }
 }

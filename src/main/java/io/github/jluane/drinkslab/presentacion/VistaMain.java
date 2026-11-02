@@ -8,12 +8,14 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 @Component
@@ -52,10 +54,13 @@ public class VistaMain {
 			stage.setTitle("Drinks Lab"); // El título que toma la pantalla
 			stage.getIcons().add(new javafx.scene.image.Image(getClass().getResourceAsStream("/img/logo.png"))); // El logo de la aplicación
 			
+			// Necesario para que la pantalla tome el tamaño máximo de la computadora
+			Rectangle2D limites = Screen.getPrimary().getVisualBounds();
+
 			// Load FXML
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MainLayout.fxml"));
 			loader.setController(this);
-			Scene scene = new Scene(loader.load(), 1024, 768);
+			Scene scene = new Scene(loader.load(), limites.getWidth(), limites.getHeight());
 			
 			// Eventos de teclas que se deben tener siempre
 			scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {

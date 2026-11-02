@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import io.github.jluane.drinkslab.negocio.ServicioDetalleVenta;
@@ -12,6 +13,7 @@ import io.github.jluane.drinkslab.negocio.ServicioVenta;
 import io.github.jluane.drinkslab.negocio.modelo.DetalleVenta;
 import io.github.jluane.drinkslab.negocio.modelo.Producto;
 import io.github.jluane.drinkslab.negocio.modelo.Venta;
+import io.github.jluane.drinkslab.presentacion.CobroEfectivo.ControlCobroEfectivo;
 import jakarta.annotation.PostConstruct;
 import javafx.scene.layout.GridPane;
 
@@ -20,7 +22,7 @@ public class ControlVenta {
     // Vista que controla
     private final VistaVenta vista;
     // Controles con los que se comunica
-    // ...
+    private final ControlCobroEfectivo controlCobroEfectivo; // Se hace @Lazy para evitar problemas al regresar a esta pantalla desde ese control
     // Servicios a los que se conecta
     private final ServicioProducto servicioProducto;
     private final ServicioDetalleVenta servicioDetalleVenta;
@@ -32,11 +34,12 @@ public class ControlVenta {
     private List<itemDetalleVenta> vistasDetalles;
 
     @Autowired
-    public ControlVenta(VistaVenta vista, ServicioProducto servicioProducto, ServicioDetalleVenta servicioDetalleVenta, ServicioVenta servicioVenta){
+    public ControlVenta(VistaVenta vista, ServicioProducto servicioProducto, ServicioDetalleVenta servicioDetalleVenta, ServicioVenta servicioVenta, @Lazy ControlCobroEfectivo controlCobroEfectivo){
         this.vista = vista;
         this.servicioProducto = servicioProducto;
         this.servicioDetalleVenta = servicioDetalleVenta;
         this.servicioVenta = servicioVenta;
+        this.controlCobroEfectivo = controlCobroEfectivo;
     }
 
     /**
@@ -60,10 +63,12 @@ public class ControlVenta {
      * Inicia o reinicia la HU reestableciendo los valores de todo como para una nueva venta
      */
     public void inicia(){
+        System.out.println("Inicia Control Venta");
         recargarObjetos();
         vista.inicia(servicioVenta.obtenerSigId());
     }
 
+    /*  ----------------- FLUJO NORMAL ----------------- */
     /**
      * Método encargado de los pasos a seguir al momento en el que es ingresado un nuevo producto mediante el código GTIN
      * @param gtin Es el valor del GTIN del producto que se buscará
@@ -91,6 +96,16 @@ public class ControlVenta {
         }
         System.out.println("La lista: \n"+detallesVenta);
         actualizarVenta();
+    }
+    /**
+     * El proceso que lleva a cobrar la venta que se tiene
+     */
+    public void cobroEfectivo(){
+        System.out.println("Se difumina la pantalla principal");
+        vista.aplicarDifuminado();
+        controlCobroEfectivo.inicia(venta, detallesVenta);
+        System.out.println("Se quita  el difuminado de la pantalla principal");
+        vista.quitarDifuminado();
     }
 
     /* ----------------- UTILERÍA ----------------- */

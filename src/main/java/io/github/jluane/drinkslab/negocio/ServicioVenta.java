@@ -1,6 +1,7 @@
 package io.github.jluane.drinkslab.negocio;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import io.github.jluane.drinkslab.datos.RepositorioVenta;
 import io.github.jluane.drinkslab.negocio.modelo.DetalleVenta;
 import io.github.jluane.drinkslab.negocio.modelo.Venta;
+import io.github.jluane.drinkslab.negocio.modelo.Venta.TipoPago;
 
 @Service
 public class ServicioVenta {
@@ -27,7 +29,7 @@ public class ServicioVenta {
      */
     @Transactional(readOnly = true)
     public int obtenerSigId(){
-        return repositorioVenta.findAll().size();
+        return repositorioVenta.findAll().size()+1;
     }
 
     /**
@@ -43,5 +45,22 @@ public class ServicioVenta {
         }
         venta.setDetalles(detalles);
         venta.setTotal(total);
+    }
+
+    @Transactional
+    public boolean guardarVenta(Venta venta, List<DetalleVenta> detalles, TipoPago tipo){
+        venta.setTipoPago(tipo);
+        venta.setDeuda(null);
+        venta.setFecha(LocalDateTime.now());
+
+        try{
+            repositorioVenta.save(venta); // Gracias a la configuación, se guadan los detalles y la venta automáticamente
+            System.out.println("Se guadó la venta satisfactoiamente");
+            return true;
+        }catch(Exception e){
+            System.err.println("Ocurrió un error al guardar la venta");
+            e.printStackTrace();
+            return false;
+        }
     }
 }

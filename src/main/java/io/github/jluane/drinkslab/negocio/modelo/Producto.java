@@ -36,14 +36,16 @@ public class Producto {
     private List<Proveedor> proveedores;
 
     // Constructor
-    public Producto(){}
+    public Producto(){
+        this.cantInv = BigDecimal.ONE.negate();
+    }
     /**
      * Constructor para productos comunes
      */
     public Producto(String nombre, BigDecimal precioUnitario, String GTIN, boolean granel){
         this.nombre = nombre;
         this.precioUnitario = precioUnitario;
-        this.cantInv = BigDecimal.ZERO;
+        this.cantInv = BigDecimal.ONE.negate();
         this.GTIN = GTIN;
         this.aGranel = granel;
         cantPromocion = null;

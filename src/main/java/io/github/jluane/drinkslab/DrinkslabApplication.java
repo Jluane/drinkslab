@@ -91,6 +91,7 @@ public class DrinkslabApplication {
         p1.setCantPaquete(BigDecimal.valueOf(5));
         p1.setPrecioPromocion(BigDecimal.valueOf(100));
         p1.setCantPromocion(BigDecimal.valueOf(2));
+        p1.setCantInv(BigDecimal.valueOf(10));
         repositorioProducto.save(p1);
 
         Producto p2 = new Producto();

@@ -38,6 +38,8 @@ public class VistaVenta {
     @FXML
     private Button btnTarjetaF10;
     @FXML
+    private Button btnTransferenciaF8;
+    @FXML
     private TextField txtBusqueda;
     // Contenedores
     @FXML
@@ -141,8 +143,7 @@ public class VistaVenta {
         sumaVenta.setText("$0");
         totalVenta.setText("$0");
         totalPagar.setText("$0");
-        btnPagarF12.setDisable(true);
-        btnTarjetaF10.setDisable(true);
+        habilitarBotones(false);
         pedirFocoBuscador();
     }
 
@@ -173,11 +174,9 @@ public class VistaVenta {
 
         // Dependiendo de si es una venta válida o no, se habilita o deshabilitan los botones
         if(productos <= 0){
-            btnPagarF12.setDisable(true);
-            btnTarjetaF10.setDisable(true);
+            habilitarBotones(false);
         }else{
-            btnPagarF12.setDisable(false);
-            btnTarjetaF10.setDisable(false);
+            habilitarBotones(true);
         }
         pedirFocoBuscador(); // Solicita de vuelta el foco para el buscador para evitar que se quede el foco en el ítem modificado
     }
@@ -187,6 +186,16 @@ public class VistaVenta {
      */
     private void pedirFocoBuscador(){
         txtBusqueda.requestFocus();
+    }
+    
+    /**
+     * Mëtodo para decidir cómo se configuran los botones en la aplicación
+     * @param hab Variable que determina si se muestran o no
+     */
+    private void habilitarBotones(boolean hab){
+        btnPagarF12.setDisable(!hab);
+        btnTarjetaF10.setDisable(!hab);
+        btnTransferenciaF8.setDisable(!hab);
     }
 
     /**
@@ -231,6 +240,10 @@ public class VistaVenta {
             System.out.println("Se presionó tecla F10");
             btnTarjetaF10.fire();
         }
+        else if(event.getCode() == KeyCode.F8){
+            System.out.println("Se presionó tecla F8");
+            btnTransferenciaF8.fire();
+        }
         else if (event.getCode().isLetterKey() || event.getCode().isDigitKey()) {
             // Si presionaron una letra o número, pero el buscador NO tenía el foco
             if (!txtBusqueda.isFocused()) {
@@ -273,6 +286,14 @@ public class VistaVenta {
     public void onActionTarjeta(){
         System.out.println("Se presionó botón pagar con tarjeta");
         control.cobroTarjeta();
+    }
+    /**
+     * Método dado al presionar el botón para transferencias
+     */
+    @FXML
+    public void onActionTransferencia(){
+        System.out.println("Se presionó el botón transferencia");
+        control.cobroTransferencia();
     }
 
 }

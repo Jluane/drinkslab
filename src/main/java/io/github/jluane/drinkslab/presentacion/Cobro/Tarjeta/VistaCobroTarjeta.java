@@ -1,4 +1,4 @@
-package io.github.jluane.drinkslab.presentacion.Cobro.VistasCobro;
+package io.github.jluane.drinkslab.presentacion.Cobro.Tarjeta;
 
 import org.springframework.stereotype.Component;
 

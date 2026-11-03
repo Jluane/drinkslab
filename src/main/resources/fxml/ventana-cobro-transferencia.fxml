@@ -76,7 +76,7 @@
                         <Font name="Lato Bold" size="16.0" />
                      </font>
                   </Label>
-                  <Label text="XXXX XXXX XXXX XXXX XX" wrapText="true">
+                  <Label fx:id="clabe" text="XXXX XXXX XXXX XXXX XX" wrapText="true">
                      <font>
                         <Font name="Lato Regular" size="18.0" />
                      </font>

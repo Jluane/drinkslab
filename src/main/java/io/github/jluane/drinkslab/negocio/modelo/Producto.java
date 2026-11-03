@@ -1,14 +1,14 @@
 package io.github.jluane.drinkslab.negocio.modelo;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.ManyToMany;
 
 @Entity 
 public class Producto {
@@ -32,20 +32,18 @@ public class Producto {
     private BigDecimal precioPaquete;
 
     // Relaciones
-    @ManyToOne
-    @JoinColumn(name = "idProveedor")
-    private Proveedor proveedor;
+    @ManyToMany(mappedBy = "productos")
+    private List<Proveedor> proveedores;
 
     // Constructor
     public Producto(){}
     /**
      * Constructor para productos comunes
      */
-    public Producto(String nombre, BigDecimal precioUnitario, Proveedor proveedor, String GTIN, boolean granel){
+    public Producto(String nombre, BigDecimal precioUnitario, String GTIN, boolean granel){
         this.nombre = nombre;
         this.precioUnitario = precioUnitario;
         this.cantInv = BigDecimal.ZERO;
-        this.proveedor = proveedor;
         this.GTIN = GTIN;
         this.aGranel = granel;
         cantPromocion = null;
@@ -67,9 +65,6 @@ public class Producto {
     public void setCantInv(BigDecimal cantInv){
         this.cantInv = cantInv;
     }
-    public void setProveedor(Proveedor proveedor){
-        this.proveedor = proveedor;
-    }
     public void setGTIN(String GTIN){
         this.GTIN = GTIN;
     }
@@ -88,6 +83,9 @@ public class Producto {
     public void setPrecioPaquete(BigDecimal precio){
         this.precioPaquete = precio;
     }
+    public void setProveedores(List<Proveedor> proveedores){
+        this.proveedores = proveedores;
+    }
 
     // Getters
     public Long getIdProducto(){
@@ -101,9 +99,6 @@ public class Producto {
     }
     public BigDecimal getCantInv(){
         return cantInv;
-    }
-    public Proveedor getProveedor(){
-        return proveedor;
     }
     public String getGTIN(){
         return GTIN;
@@ -123,11 +118,14 @@ public class Producto {
     public BigDecimal getPrecioPaquete(){
         return precioPaquete;
     }
+    public List<Proveedor> getProveedores(){
+        return proveedores;
+    }
 
     // toString
     @Override
     public String toString(){
-        String cadena = "Producto: "+nombre+" de "+proveedor+" $"+precioUnitario+". "+cantInv+" unidades";
+        String cadena = "Producto: "+nombre+", $"+precioUnitario+". "+cantInv+" unidades";
         return cadena;
     }
 

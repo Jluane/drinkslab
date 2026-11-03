@@ -1,8 +1,6 @@
-package io.github.jluane.drinkslab.presentacion.CobroTarjeta;
+package io.github.jluane.drinkslab.presentacion.Cobro;
 
 import java.io.IOException;
-
-import org.springframework.stereotype.Component;
 
 import io.github.jluane.drinkslab.negocio.modelo.Venta;
 import javafx.application.Platform;
@@ -13,58 +11,47 @@ import javafx.scene.control.Label;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-@Component
-public class VistaCobroTarjeta {
-    private Stage stage;
-    private boolean initialized = false;
+public abstract class VistaCobro {
+    protected Stage stage;
+    protected boolean initialized = false;
 
-    // Controlador de esta vista
-    private ControlCobroTarjeta control;
+    // Controlador al que todas se conectan
+    protected ControlCobro control;
 
-    // Componentes del FXML
-    @FXML private Label totalAPagar;
-
-    // Constructor
-    public VistaCobroTarjeta(){}
+    // Elementos FXML que comparten
+    @FXML protected Label totalAPagar;
 
     /**
-     * Se da el control que controlará a este panel
+     * Se da el control que controlará a las ventanas
      * @param control Es específicamente el control que tendrá
      */
-    public void setControlCobroTarjeta(ControlCobroTarjeta control){
+    public void setControlCobro(ControlCobro control){
         this.control = control;
-    }
-
-    /**
-     * Inicializa con la vista
-     */
-    @FXML
-    public void initialize(){
     }
 
     /**
 	 * Initialize UI components on the JavaFX application thread
 	 */
-	private void initializeUI() {
+	protected void initializeUI(String tipo) {
 		if (initialized) {
 			return;
 		}
 		
 		// Create UI only if we're on JavaFX thread
 		if (!Platform.isFxApplicationThread()) {
-			Platform.runLater(this::initializeUI);
+			Platform.runLater(() -> this.initializeUI(tipo));
 			return;
 		}
 		
 		try {
 			stage = new Stage();
-			stage.setTitle("Cobro con tarjeta");
+			stage.setTitle("Cobro con "+tipo);
 			stage.getIcons().add(new javafx.scene.image.Image(getClass().getResourceAsStream("/img/logo.png")));
 			
 			stage.initModality(Modality.APPLICATION_MODAL);
 
 			// Load FXML
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ventana-cobro-tarjeta.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ventana-cobro-"+tipo+".fxml"));
 			loader.setController(this);
 			Scene scene = new Scene(loader.load(), 580, 440);
 			
@@ -78,38 +65,13 @@ public class VistaCobroTarjeta {
 	}
 
     /**
-	 * Método en el que se muestra toda la pantalla, así mismo se colocan los datos necesarios
-	 * @param venta
-	 */
-    public void muestra(Venta venta){
-		if (!Platform.isFxApplicationThread()) {
-			Platform.runLater(() -> this.muestra(venta));
-			return;
-		}
-		initializeUI();
-
-		colocarDatos(venta);
-
-		stage.showAndWait();
-    }
-
-    /**
-	 * Método encargadoo de colocar los datos de la venta que se cobrará
-	 * @param venta
-	 */
-	private void colocarDatos(Venta venta){
-		String totalVenta = venta.getTotal().toString();
-		totalAPagar.setText("$"+totalVenta);
-	}
-
-    /**
 	 * Cierra la ventana
 	 */
 	public void cierra(){
 		stage.close();
 	}
 
-    // On Action's
+	// On Action's
 	@FXML
 	public void onActionCancelar(){
 		System.out.println("Se presionó el botón cancelar");
@@ -121,4 +83,6 @@ public class VistaCobroTarjeta {
 		System.out.println("Se presionó el botón Paga");
 		control.procesarPago();
 	}
+
+    public abstract void muestra(Venta venta);
 }

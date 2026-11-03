@@ -14,8 +14,9 @@ import io.github.jluane.drinkslab.negocio.ServicioVenta;
 import io.github.jluane.drinkslab.negocio.modelo.DetalleVenta;
 import io.github.jluane.drinkslab.negocio.modelo.Producto;
 import io.github.jluane.drinkslab.negocio.modelo.Venta;
-import io.github.jluane.drinkslab.presentacion.CobroEfectivo.ControlCobroEfectivo;
-import io.github.jluane.drinkslab.presentacion.CobroTarjeta.ControlCobroTarjeta;
+import io.github.jluane.drinkslab.negocio.modelo.Venta.TipoPago;
+import io.github.jluane.drinkslab.presentacion.Cobro.ControlesCobro.ControlCobroEfectivo;
+import io.github.jluane.drinkslab.presentacion.Cobro.ControlesCobro.ControlCobroTarjeta;
 import jakarta.annotation.PostConstruct;
 import javafx.scene.layout.GridPane;
 
@@ -37,7 +38,7 @@ public class ControlVenta {
     private List<itemDetalleVenta> vistasDetalles;
 
     @Autowired
-    public ControlVenta(VistaVenta vista, ServicioProducto servicioProducto, ServicioDetalleVenta servicioDetalleVenta, ServicioVenta servicioVenta, @Lazy ControlCobroEfectivo controlCobroEfectivo, @Lazy ControlCobroTarjeta controlCobroTarjeta){
+    public ControlVenta(VistaVenta vista, ServicioProducto servicioProducto, ServicioDetalleVenta servicioDetalleVenta, ServicioVenta servicioVenta, @Lazy ControlCobroTarjeta controlCobroTarjeta, @Lazy ControlCobroEfectivo controlCobroEfectivo){
         this.vista = vista;
         this.servicioProducto = servicioProducto;
         this.servicioDetalleVenta = servicioDetalleVenta;
@@ -107,7 +108,7 @@ public class ControlVenta {
     public void cobroEfectivo(){
         System.out.println("Se difumina la pantalla principal");
         vista.aplicarDifuminado();
-        controlCobroEfectivo.inicia(venta);
+        controlCobroEfectivo.inicia(venta, TipoPago.EFECTIVO);
         System.out.println("Se quita el difuminado de la pantalla principal");
         vista.quitarDifuminado();
     }
@@ -117,7 +118,7 @@ public class ControlVenta {
     public void cobroTarjeta(){
         System.out.println("Se difumina la pantalla principal");
         vista.aplicarDifuminado();
-        controlCobroTarjeta.inicia(venta);
+        controlCobroTarjeta.inicia(venta, TipoPago.TARJETA);
         System.out.println("Se quita el difuminado de la pantalla principal");
         vista.quitarDifuminado();
     }

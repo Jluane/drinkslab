@@ -1,33 +1,22 @@
-package io.github.jluane.drinkslab.presentacion.CobroEfectivo;
+package io.github.jluane.drinkslab.presentacion.Cobro.VistasCobro;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 
 import org.springframework.stereotype.Component;
 
 import io.github.jluane.drinkslab.negocio.modelo.Venta;
+import io.github.jluane.drinkslab.presentacion.Cobro.VistaCobro;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 @Component 
-public class VistaCobroEfectivo {
-    private Stage stage;
-    private boolean initialized = false;
-
+public class VistaCobroEfectivo extends VistaCobro {
 	private BigDecimal totalVenta = BigDecimal.ZERO; // Inicializada para realizar calculos
 
-    // Controlador de esta vista
-    private ControlCobroEfectivo control;
-
     // Componentes del FXML
-    @FXML private Label totalAPagar;
 	@FXML private Label cambioAEntregar;
 	@FXML private TextField dineroEntregado;
 	@FXML private Label txtAviso;
@@ -35,14 +24,6 @@ public class VistaCobroEfectivo {
 
     // Constructor obligatorio
     public VistaCobroEfectivo(){}
-
-    /**
-     * Se da el control que controlará a este panel
-     * @param control Es específicamente el control que tendrá
-     */
-    public void setControlCobroEfectivo(ControlCobroEfectivo control){
-        this.control = control;
-    }
 
 	/**
      * Inicialización, puesta principalmente para el listener del input
@@ -58,41 +39,6 @@ public class VistaCobroEfectivo {
         });
     }
 
-    /**
-	 * Initialize UI components on the JavaFX application thread
-	 */
-	private void initializeUI() {
-		if (initialized) {
-			return;
-		}
-		
-		// Create UI only if we're on JavaFX thread
-		if (!Platform.isFxApplicationThread()) {
-			Platform.runLater(this::initializeUI);
-			return;
-		}
-		
-		try {
-			stage = new Stage();
-			stage.setTitle("Cobro en efectivo");
-			stage.getIcons().add(new javafx.scene.image.Image(getClass().getResourceAsStream("/img/logo.png")));
-			
-			stage.initModality(Modality.APPLICATION_MODAL);
-
-			// Load FXML
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ventana-cobro-efectivo.fxml"));
-			loader.setController(this);
-			Scene scene = new Scene(loader.load(), 580, 440);
-			
-			stage.setScene(scene);
-            stage.toFront();
-
-			initialized = true;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 	/**
 	 * Método en el que se muestra toda la pantalla, así mismo se colocan los datos necesarios
 	 * @param venta
@@ -102,7 +48,7 @@ public class VistaCobroEfectivo {
 			Platform.runLater(() -> this.muestra(venta));
 			return;
 		}
-		initializeUI();
+		initializeUI("efectivo");
 
 		colocarDatos(venta);
 		dineroEntregado.requestFocus();
@@ -160,25 +106,5 @@ public class VistaCobroEfectivo {
 
 		if(valor)
 			System.out.println("Mostrando error");
-	}
-
-	/**
-	 * Cierra la ventana
-	 */
-	public void cierra(){
-		stage.close();
-	}
-
-	// On Action's
-	@FXML
-	public void onActionCancelar(){
-		System.out.println("Se presionó el botón cancelar");
-		System.out.println("Se cerrará la pantalla emergente");
-		stage.close();
-	}
-	@FXML
-	public void onActionPagar(){
-		System.out.println("Se presionó el botón Paga");
-		control.procesarPago();
 	}
 }

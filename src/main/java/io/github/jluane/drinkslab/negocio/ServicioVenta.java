@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import io.github.jluane.drinkslab.datos.RepositorioVenta;
 import io.github.jluane.drinkslab.negocio.modelo.DetalleVenta;
 import io.github.jluane.drinkslab.negocio.modelo.Venta;
-import io.github.jluane.drinkslab.negocio.modelo.Venta.TipoPago;
 
 @Service
 public class ServicioVenta {
@@ -54,8 +53,7 @@ public class ServicioVenta {
      * @return Regresa true si se logró realizar el guardado, false si ocurrió algún error
      */
     @Transactional
-    public boolean guardarNuevaVenta(Venta venta, TipoPago tipo){
-        venta.setTipoPago(tipo);
+    public boolean guardarNuevaVenta(Venta venta){
         venta.setDeuda(null);
         venta.setFecha(LocalDateTime.now());
 

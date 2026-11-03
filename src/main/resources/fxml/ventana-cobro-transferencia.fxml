@@ -55,7 +55,7 @@
                         <Font name="Lato Bold" size="16.0" />
                      </font>
                   </Label>
-                  <Label fx:id="totalAPagar" alignment="CENTER" contentDisplay="RIGHT" text="\$000.00">
+                  <Label fx:id="totalAPagar" alignment="CENTER" contentDisplay="RIGHT" text="\$00.00">
                      <font>
                         <Font name="DejaVu Serif Bold" size="36.0" />
                      </font>

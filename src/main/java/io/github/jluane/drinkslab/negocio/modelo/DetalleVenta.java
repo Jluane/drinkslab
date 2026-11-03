@@ -17,7 +17,7 @@ public class DetalleVenta {
     private Long idDetalleVenta;
 
     // Atributos
-    private int cantidad;
+    private BigDecimal cantidad;
     private BigDecimal costo;
 
     // Relaciones
@@ -32,20 +32,20 @@ public class DetalleVenta {
 
     // Constructores
     public DetalleVenta(){}
-    public DetalleVenta(int cantidad, BigDecimal costo, Venta venta, Producto producto){
+    public DetalleVenta(BigDecimal cantidad, BigDecimal costo, Venta venta, Producto producto){
         this.cantidad = cantidad;
         this.costo = costo;
         this.venta = venta;
         this.producto = producto;
     }
     public DetalleVenta(Producto producto){
-        this.cantidad = 1;
-        this.costo = producto.getPrecio();
+        this.cantidad = BigDecimal.ONE;
+        this.costo = producto.getPrecioUnitario();
         this.producto = producto;
     }
 
     // Setters
-    public void setCantidad(int cantidad){
+    public void setCantidad(BigDecimal cantidad){
         this.cantidad = cantidad;
     }
     public void setCosto(BigDecimal costo){
@@ -59,7 +59,7 @@ public class DetalleVenta {
     }
 
     // Getters
-    public int getCantidad(){
+    public BigDecimal getCantidad(){
         return cantidad;
     }
     public BigDecimal getCosto(){

@@ -85,14 +85,29 @@ public class DrinkslabApplication {
     public void inicializaBD(){
         Producto p1 = new Producto();
         p1.setNombre("Producto1");
-        p1.setPrecio(new BigDecimal("100"));
+        p1.setPrecioUnitario(new BigDecimal("100"));
         p1.setGTIN("123");
+        p1.setPrecioPaquete(BigDecimal.valueOf(400));
+        p1.setCantPaquete(BigDecimal.valueOf(5));
+        p1.setPrecioPromocion(BigDecimal.valueOf(100));
+        p1.setCantPromocion(BigDecimal.valueOf(2));
         repositorioProducto.save(p1);
 
         Producto p2 = new Producto();
         p2.setNombre("Producto2");
-        p2.setPrecio(new BigDecimal("50"));
+        p2.setPrecioUnitario(new BigDecimal("50"));
         p2.setGTIN("321");
+        p2.setAGranel(true);
         repositorioProducto.save(p2);
+
+        Producto p3 = new Producto();
+        p3.setNombre("Vasos desechables");
+        p3.setPrecioUnitario(new BigDecimal("1"));
+        p3.setGTIN("7501219112605");
+        p3.setPrecioPaquete(BigDecimal.valueOf(25));
+        p3.setCantPaquete(BigDecimal.valueOf(50));
+        p3.setPrecioPromocion(BigDecimal.valueOf(4));
+        p3.setCantPromocion(BigDecimal.valueOf(5));
+        repositorioProducto.save(p3);
     }
 }

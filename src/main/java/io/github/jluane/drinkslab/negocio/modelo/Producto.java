@@ -19,10 +19,17 @@ public class Producto {
 
     // Atributos
     private String nombre;
-    private BigDecimal precio;
-    private int cantInv;
+    private BigDecimal precioUnitario;
+    private BigDecimal cantInv;
     @Column(unique = true, nullable = false)
     private String GTIN;
+    
+    // Tipos de productos
+    private boolean aGranel;
+    private BigDecimal cantPromocion;
+    private BigDecimal precioPromocion;
+    private BigDecimal cantPaquete;
+    private BigDecimal precioPaquete;
 
     // Relaciones
     @ManyToOne
@@ -31,19 +38,20 @@ public class Producto {
 
     // Constructor
     public Producto(){}
-    public Producto(String nombre,  BigDecimal precio, int cantInv, Proveedor proveedor, String GTIN){
+    /**
+     * Constructor para productos comunes
+     */
+    public Producto(String nombre, BigDecimal precioUnitario, Proveedor proveedor, String GTIN, boolean granel){
         this.nombre = nombre;
-        this.precio = precio;
-        this.cantInv = cantInv;
+        this.precioUnitario = precioUnitario;
+        this.cantInv = BigDecimal.ZERO;
         this.proveedor = proveedor;
         this.GTIN = GTIN;
-    }
-    public Producto(String nombre, BigDecimal precio, Proveedor proveedor, String GTIN){
-        this.nombre = nombre;
-        this.precio = precio;
-        this.cantInv = 0;
-        this.proveedor = proveedor;
-        this.GTIN = GTIN;
+        this.aGranel = granel;
+        cantPromocion = null;
+        precioPromocion = null;
+        cantPaquete = null;
+        precioPaquete = null;
     }
 
     // Setters
@@ -53,10 +61,10 @@ public class Producto {
     public void setNombre(String nombre){
         this.nombre = nombre;
     }
-    public void setPrecio(BigDecimal precio){
-        this.precio = precio;
+    public void setPrecioUnitario(BigDecimal precio){
+        this.precioUnitario = precio;
     }
-    public void setCantInv(int cantInv){
+    public void setCantInv(BigDecimal cantInv){
         this.cantInv = cantInv;
     }
     public void setProveedor(Proveedor proveedor){
@@ -64,6 +72,21 @@ public class Producto {
     }
     public void setGTIN(String GTIN){
         this.GTIN = GTIN;
+    }
+    public void setAGranel(boolean granel){
+        this.aGranel = granel;
+    }
+    public void setCantPromocion(BigDecimal cant){
+        this.cantPromocion = cant;
+    }
+    public void setPrecioPromocion(BigDecimal precio){
+        this.precioPromocion = precio;
+    }
+    public void setCantPaquete(BigDecimal cant){
+        this.cantPaquete = cant;
+    }
+    public void setPrecioPaquete(BigDecimal precio){
+        this.precioPaquete = precio;
     }
 
     // Getters
@@ -73,10 +96,10 @@ public class Producto {
     public String getNombre(){
         return nombre;
     }
-    public BigDecimal getPrecio(){
-        return precio;
+    public BigDecimal getPrecioUnitario(){
+        return precioUnitario;
     }
-    public int getCantInv(){
+    public BigDecimal getCantInv(){
         return cantInv;
     }
     public Proveedor getProveedor(){
@@ -85,11 +108,26 @@ public class Producto {
     public String getGTIN(){
         return GTIN;
     }
+    public boolean getAGranel(){
+        return aGranel;
+    }
+    public BigDecimal getCantPromocion(){
+        return cantPromocion;
+    }
+    public BigDecimal getPrecioPromocion(){
+        return precioPromocion;
+    }
+    public BigDecimal getCantPaquete(){
+        return cantPaquete;
+    }
+    public BigDecimal getPrecioPaquete(){
+        return precioPaquete;
+    }
 
     // toString
     @Override
     public String toString(){
-        String cadena = "Producto: "+nombre+" de "+proveedor+" $"+precio+". "+cantInv+" unidades";
+        String cadena = "Producto: "+nombre+" de "+proveedor+" $"+precioUnitario+". "+cantInv+" unidades";
         return cadena;
     }
 

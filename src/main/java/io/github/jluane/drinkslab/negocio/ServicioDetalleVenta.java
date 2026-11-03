@@ -11,10 +11,12 @@ import io.github.jluane.drinkslab.negocio.modelo.Producto;
 
 @Service
 public class ServicioDetalleVenta {
-    
-    @Autowired
-    public ServicioDetalleVenta(){
+    // Servicios a los que se comunica
+    private final ServicioProducto servicioProducto;
 
+    @Autowired
+    public ServicioDetalleVenta(ServicioProducto servicioProducto){
+        this.servicioProducto = servicioProducto;
     }
 
     /**
@@ -40,9 +42,9 @@ public class ServicioDetalleVenta {
      * @param detalle Es el detalle a actualizar
      * @return Regresa el nuevo valor de cantidad del DetalleVenta
      */
-    public int aumentarCantidadProducto(DetalleVenta detalle){
-        if(detalle == null) return 0;
-        if(!cambiarCantidad(detalle, 1)) return 0;
+    public BigDecimal aumentarCantidadProducto(DetalleVenta detalle){
+        if(detalle == null) return BigDecimal.ZERO;
+        if(!cambiarCantidad(detalle, BigDecimal.ONE)) return BigDecimal.ZERO;
         return detalle.getCantidad();
     }
 
@@ -51,9 +53,9 @@ public class ServicioDetalleVenta {
      * @param detalle Es el detalle a actualizar
      * @return Regresa el nuevo valor de cantidad del DetalleVenta
      */
-    public int disminuirCantidadProducto(DetalleVenta detalle){
-        if(detalle == null) return 0;
-        if(!cambiarCantidad(detalle, -1)) return 0;
+    public BigDecimal disminuirCantidadProducto(DetalleVenta detalle){
+        if(detalle == null) return BigDecimal.ZERO;
+        if(!cambiarCantidad(detalle, BigDecimal.ONE.negate())) return BigDecimal.ZERO;
         return detalle.getCantidad();
     }
 
@@ -63,16 +65,13 @@ public class ServicioDetalleVenta {
      * @param N Es la cantidad a la que se sumará la cantidad actual de detalle
      * @return Regresa true si se logró modificar a detalle, false si no se logró
      */
-    private boolean cambiarCantidad(DetalleVenta detalle, int N){
-        int cantActual = detalle.getCantidad();
-        BigDecimal costoIndividual = detalle.getProducto().getPrecio();
-
-        int cantNueva = cantActual + N;
+    private boolean cambiarCantidad(DetalleVenta detalle, BigDecimal N){
+        BigDecimal cantNueva = N.add(detalle.getCantidad());
         
-        if(cantNueva <= 0)
+        if(cantNueva.compareTo(BigDecimal.ZERO)<=0)
             return false;
         
-        BigDecimal costoTotal = costoIndividual.multiply(BigDecimal.valueOf(cantNueva));
+        BigDecimal costoTotal = servicioProducto.obtenerCosto(detalle.getProducto(), cantNueva);
     
         detalle.setCantidad(cantNueva);
         detalle.setCosto(costoTotal);
@@ -85,10 +84,9 @@ public class ServicioDetalleVenta {
      * @param N Es el que será el nuevo valor de cantidad
      * @return Regresa a N (la nueva cantidad), o a 0 si N < 0 
      */
-    public int editarCantidad(DetalleVenta detalle, int N){
-        if(N <= 0) return 0;
-        BigDecimal costoIndividual = detalle.getProducto().getPrecio();
-        BigDecimal costoTotal = costoIndividual.multiply(BigDecimal.valueOf(N));
+    public BigDecimal editarCantidad(DetalleVenta detalle, BigDecimal N){
+        if(N.compareTo(BigDecimal.ZERO)<0) return BigDecimal.ZERO;
+        BigDecimal costoTotal = servicioProducto.obtenerCosto(detalle.getProducto(), N);
 
         detalle.setCantidad(N);
         detalle.setCosto(costoTotal);
@@ -112,5 +110,6 @@ public class ServicioDetalleVenta {
         }
         return null;
     }
+
 
 }

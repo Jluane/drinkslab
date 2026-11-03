@@ -154,8 +154,15 @@ public class VistaVenta {
         // Obtiene los datos que se pondrán
         int articulos = venta.getDetalles().size();
         int productos = 0;
+
+        // Suma de los productos totales
         for(DetalleVenta det : venta.getDetalles()){
-            productos = productos + det.getCantidad();
+            // Si el artículo es a granel entonces sólo se sumará 1 como producto
+            try{
+                productos = productos + det.getCantidad().intValueExact();
+            } catch(Exception e){
+                productos++;
+            }
         }
 
         // Coloca los datos en los Label correspondientes

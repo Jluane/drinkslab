@@ -32,6 +32,9 @@ public class itemDetalleVenta {
     @FXML
     private GridPane contenedorDetalle; // Contenedor completo del detalle
 
+    // Variables
+    private DetalleVenta detalle; // Variable que guarda al detalle del que trata la pantalla
+
     // Constructor necesario para la clase
     public itemDetalleVenta(){}
 
@@ -57,11 +60,11 @@ public class itemDetalleVenta {
     public void configurarDatos(DetalleVenta detalle){
         nombre.setText(detalle.getProducto().getNombre());
         codigo.setText("Código: "+detalle.getProducto().getGTIN());
-        cantidad.setText(Integer.toString(detalle.getCantidad()));
-        pUnitario.setText("$"+detalle.getProducto().getPrecio());
+        cantidad.setText(detalle.getCantidad().toString());
+        pUnitario.setText("$"+detalle.getProducto().getPrecioUnitario());
         pTotal.setText("$"+detalle.getCosto());
 
-        contenedorDetalle.setUserData(detalle);
+        this.detalle = detalle;
     }
 
     /**
@@ -69,8 +72,8 @@ public class itemDetalleVenta {
      * @param cant
      * @param costo
      */
-    public void actualizarCantidad(int cant, BigDecimal costo){
-        cantidad.setText(Integer.toString(cant));
+    public void actualizarCantidad(BigDecimal cant, BigDecimal costo){
+        cantidad.setText(cant.toString());
         pTotal.setText("$"+costo);
     }
 
@@ -81,10 +84,7 @@ public class itemDetalleVenta {
     @FXML
     public void onActionDisminuir(){
         System.out.println("Se presionó el botón para disminuir");
-        if(contenedorDetalle.getUserData() instanceof DetalleVenta detalle)
-            control.disminuirCantDetalle(detalle);
-        else
-            System.err.println("No es posible modificar al detalle");
+        control.disminuirCantDetalle(this.detalle);
     }
     /**
      * En caso de ingresar una cantidad específica para el detalle
@@ -92,24 +92,27 @@ public class itemDetalleVenta {
     @FXML
     public void onActionCantidad(){
         System.out.println("Se presionó el botón para cambiar cantidad");
+        BigDecimal cant = new BigDecimal(cantidad.getText()); // Obtenemos la cantidad ingresdada
+
         try {
-            if(Integer.valueOf(cantidad.getText())<0){
-                // Alerta
-                System.err.println("No es una cantidad válida");
-                cantidad.setText("1");
-                return;
-            }    
+
+            if(detalle.getProducto().getAGranel()){
+                if(cant.compareTo(BigDecimal.ZERO)<0){
+                    throw new IllegalArgumentException("La cantidad es negativa");
+                }
+            }else{
+                if(Integer.valueOf(cantidad.getText())<0){
+                    throw new IllegalArgumentException("La cantidad es negativa");
+                }
+            }
         } catch (Exception e) {
             // Alerta
-            System.err.println("No es una cantidad válida. "+e);
+            System.err.println("ItemDetalleVenta: No es una cantidad válida. "+e);
             cantidad.setText("1");
             return;
         }
         
-        if(contenedorDetalle.getUserData() instanceof DetalleVenta detalle)
-            control.editarCantDetalle(detalle, Integer.valueOf(cantidad.getText()));
-        else
-            System.err.println("No es posible modificar al detalle");
+        control.editarCantDetalle(detalle, cant);
     }
     /**
      * En caso de presioanr el botón aumentar de un detalle
@@ -117,10 +120,7 @@ public class itemDetalleVenta {
     @FXML
     public void onActionAumentar(){
         System.out.println("Se presionó el botón para aumentar");
-        if(contenedorDetalle.getUserData() instanceof DetalleVenta detalle)
-            control.aumentarCantDetalle(detalle);
-        else
-            System.err.println("No es posible modificar al detalle");
+        control.aumentarCantDetalle(detalle);
     }
     /**
      * En caso de presionar el botón eliminar de un detalle
@@ -128,10 +128,7 @@ public class itemDetalleVenta {
     @FXML
     public void onActionEliminar(){
         System.out.println("Se presionó el botón para eliminar");
-        if(contenedorDetalle.getUserData() instanceof DetalleVenta detalle)
-            control.eliminarDetalle(detalle);
-        else
-            System.err.println("No es posible eliminar al detalle");
+        control.eliminarDetalle(detalle);
     }
 
     /**

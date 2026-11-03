@@ -1,5 +1,6 @@
 package io.github.jluane.drinkslab.presentacion.Venta;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -176,8 +177,8 @@ public class ControlVenta {
         itemDetalleVenta vistaDet = vistasDetalles.get(indice);
 
         // Aumentamos la cantidad en 1
-        int cantidad = servicioDetalleVenta.aumentarCantidadProducto(detalle);
-        if(cantidad == 0){ // En caso de que haya sucedido un error
+        BigDecimal cantidad = servicioDetalleVenta.aumentarCantidadProducto(detalle);
+        if(cantidad.compareTo(BigDecimal.ZERO) == 0){ // En caso de que haya sucedido un error
             System.err.println("Ocurrió un error al actualizar, se eliminará");
             mostrarAlerta("No se pudo aumentar la cantidad del producto. Se eliminará.");
             eliminarDetalle(indice);
@@ -215,8 +216,8 @@ public class ControlVenta {
     public void disminuirCantDetalle(DetalleVenta detalle){
         int idx = detallesVenta.indexOf(detalle);
         itemDetalleVenta vistaDet = vistasDetalles.get(idx);
-        int cant = servicioDetalleVenta.disminuirCantidadProducto(detalle);
-        if(cant == 0){
+        BigDecimal cant = servicioDetalleVenta.disminuirCantidadProducto(detalle);
+        if(cant.compareTo(BigDecimal.ZERO)==0){
             System.err.println("Se llegó a una cantidad inválida. Se eliminará");
             mostrarAlerta("El producto llegó a 0, se eliminó.");
             eliminarDetalle(idx);
@@ -235,8 +236,8 @@ public class ControlVenta {
     public void aumentarCantDetalle(DetalleVenta detalle){
         int idx = detallesVenta.indexOf(detalle);
         itemDetalleVenta vistaDet = vistasDetalles.get(idx);
-        int cant = servicioDetalleVenta.aumentarCantidadProducto(detalle);
-        if(cant == 0){
+        BigDecimal cant = servicioDetalleVenta.aumentarCantidadProducto(detalle);
+        if(cant.compareTo(BigDecimal.ZERO)==0){
             System.err.println("Ocurrió al actualizar, se eliminará el detalle");
             mostrarAlerta("No se pudo aumentar la cantidad del producto. Se eliminó.");
             eliminarDetalle(idx);
@@ -262,11 +263,11 @@ public class ControlVenta {
      * @param detalle Es el detalle cuya cantidad será modificada
      * @param cantidad Es la nueva cantidad que tendrá el detalleVenta
      */
-    public void editarCantDetalle(DetalleVenta detalle, int cantidad){
+    public void editarCantDetalle(DetalleVenta detalle, BigDecimal cantidad){
         System.out.println("Se intenta cambiar el detalle a la cantidad "+cantidad);
         int idx = detallesVenta.indexOf(detalle);
-        int cant = servicioDetalleVenta.editarCantidad(detalle, cantidad);
-        if(cant == 0){
+        BigDecimal cant = servicioDetalleVenta.editarCantidad(detalle, cantidad);
+        if(cant.compareTo(BigDecimal.ZERO)==0){
             System.err.println("Se llegó a una cantidad inválida. Se eliminará");
             mostrarAlerta("La cantidad es inválida, se eliminó.");
             eliminarDetalle(idx);

@@ -1,5 +1,8 @@
 package io.github.jluane.drinkslab.negocio;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,4 +33,42 @@ public class ServicioProducto {
             return null;
     }
 
+    /**
+     * Obtiene el costo de total de la cantidad de cierto producto tomando en cuenta las posibles promociones o descuentos por paquete que puede tener
+     * @param producto Es el producto del que se busca el costo
+     * @param cant Es la cantidad de productos de las que se busca saber el costo
+     * @return Regresa el valor del costo de la cantidad de productos establecida
+     */
+    public BigDecimal obtenerCosto(Producto producto, BigDecimal cant){
+        if(producto == null || cant == null) return BigDecimal.ZERO;
+        BigDecimal total = BigDecimal.ZERO;
+        BigDecimal restante = cant;
+
+        // Evalúa el costo de la cantidad de paquetes que se complementen
+        if(producto.getCantPaquete() != null){
+            BigDecimal division[] = restante.divideAndRemainder(producto.getCantPaquete()); // En [0] guarda el cosiente, y en [1] guarda el residuo
+            
+            BigDecimal paquetes = division[0]; // Cantidad de veces que se hace el paquete
+            restante = division[1]; // Cantidad de piezas que no entran en el paquete
+
+            total = total.add(paquetes.multiply(producto.getPrecioPaquete()));
+        }
+
+        // Evalúa el costo de la cantidad de promociones que se complementen
+        if(producto.getCantPromocion() != null){
+            BigDecimal division[] = restante.divideAndRemainder(producto.getCantPromocion());
+
+            BigDecimal promociones = division[0]; // Cant de paquetes
+            restante = division[1]; // Unidades que sobran
+
+            total = total.add(promociones.multiply(producto.getPrecioPromocion()));
+        }
+
+        total = total.add(restante.multiply(producto.getPrecioUnitario())); // Sumamos a los restantes
+
+        // Se redondea para que siempre tenga valores de 0.50 y se redondeé hacia arriba en caso de ser necesario
+        return total.divide(BigDecimal.valueOf(0.50), 0, RoundingMode.CEILING)
+                    .multiply(BigDecimal.valueOf(0.50))
+                    .setScale(2, RoundingMode.UNNECESSARY);
+    }
 }

@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Por seguridad, no se guarda para evitar información sensible en git ###
+/src/main/resources/fxml/ventana-cobro-transferencia.fxml

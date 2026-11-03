@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Transient;
 
 @Entity 
 public class DetalleVenta {
@@ -20,15 +21,19 @@ public class DetalleVenta {
     private BigDecimal cantidad;
     private BigDecimal costo;
 
+    // Almacenamiento de datos del producto
+    private String nombreProducto;
+    private String GTIN;
+
     // Relaciones
     // Venta
     @ManyToOne
     @JoinColumn(name = "idVenta")
     private Venta venta;
-    // Producto
-    @ManyToOne
-    @JoinColumn(name = "idProducto")
-    private Producto producto;
+    
+    // Variables
+    @Transient
+    private Producto producto; // NO se guarda en base de datos ni se relaciona para evitar modificar una venta al momento en el que el producto es eliminado
 
     // Constructores
     public DetalleVenta(){}
@@ -42,6 +47,8 @@ public class DetalleVenta {
         this.cantidad = BigDecimal.ONE;
         this.costo = producto.getPrecioUnitario();
         this.producto = producto;
+        this.nombreProducto = producto.getNombre();
+        this.GTIN = producto.getGTIN();
     }
 
     // Setters
@@ -56,6 +63,12 @@ public class DetalleVenta {
     }
     public void setProducto(Producto producto){
         this.producto = producto;
+    }
+    public void setNombreProducto(String nombre){
+        this.nombreProducto = nombre;
+    }
+    public void setGTIN(String gtin){
+        this.GTIN = gtin;
     }
 
     // Getters
@@ -73,6 +86,18 @@ public class DetalleVenta {
     }
     public Long getIdDetalleVenta(){
         return idDetalleVenta;
+    }
+    public String getNombreProducto(){
+        if(producto == null){
+            return producto.getNombre();
+        }
+        return nombreProducto;
+    }
+    public String getGTIN(){
+        if(producto == null){
+            return producto.getNombre();
+        }
+        return GTIN;
     }
 
     // toString

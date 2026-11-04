@@ -35,10 +35,14 @@ public class ItemProducto {
         this.control = control;
     }
 
+    /**
+     * Configura los datos del producto en el ítem
+     * @param producto Es el producto del que se saca la información
+     */
     public void configurarDatos(Producto producto){
         txtCodigo.setText(producto.getGTIN());
         txtNombre.setText(producto.getNombre());
-        txtPrecio.setText(producto.getPrecioUnitario().toString());
+        txtPrecio.setText("$"+producto.getPrecioUnitario());
 
         if(producto.getAGranel())
             txtCantidad.setText(producto.getCantInv()+" kg");

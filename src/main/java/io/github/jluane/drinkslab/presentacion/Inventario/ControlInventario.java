@@ -1,9 +1,12 @@
 package io.github.jluane.drinkslab.presentacion.Inventario;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import io.github.jluane.drinkslab.negocio.ServicioProducto;
+import io.github.jluane.drinkslab.negocio.modelo.Producto;
 import jakarta.annotation.PostConstruct;
 
 @Component
@@ -43,6 +46,29 @@ public class ControlInventario {
      */
     public void inicia(){
         System.out.println("Inicia Control Inventario");
-        vista.inicia(servicioProducto.totalProductos());
+        vista.inicia(servicioProducto.totalProductos(), 1);
+        mostrarProductos(1);
+    }
+
+    /**
+     * Mëtodo encargado de mandar a traer y mandar a mostrar a los productos en bloques de 8 para mostrar
+     * @param i Es el número de bloque que estamos buscando y mostrando
+     */
+    public void mostrarProductos(int i){
+        vista.limpiarCaja();
+        List<Producto> productos = servicioProducto.obtenerBloqueDeRegistros(i);
+        System.out.println("Lista de productos encontrados: "+productos);
+        for(Producto producto : productos){
+            vista.crearProducto(producto);
+        }
+    }
+
+    /**
+     * Método dado para cambiar la página a una nueva
+     * @param pag Es la página nueva
+     */
+    public void cambioPagina(int pag){
+        vista.inicia(servicioProducto.totalProductos(), pag);
+        mostrarProductos(pag);
     }
 }

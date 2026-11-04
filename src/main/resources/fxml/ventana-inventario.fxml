@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -14,8 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" style="-fx-background-color: #E8E8E8;" stylesheets="@../css/estilos-globales.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" style="-fx-background-color: #E8E8E8;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox alignment="CENTER_LEFT" fillHeight="false" maxWidth="1.7976931348623157E308" spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 5px;">
          <children>
@@ -95,9 +96,9 @@
             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
          </padding>
       </HBox>
-      <VBox spacing="15.0" style="-fx-background-color: #F2F4F8;">
+      <VBox maxHeight="1.7976931348623157E308" spacing="10.0" style="-fx-background-color: #F2F4F8; -fx-background-radius: 5px;" VBox.vgrow="ALWAYS">
          <children>
-            <Label opacity="0.67" text="CATÁLOGO MAESTRO DE ARTÍCULOS">
+            <Label minHeight="16.0" opacity="0.67" text="CATÁLOGO MAESTRO DE ARTÍCULOS">
                <font>
                   <Font name="Lato Bold" size="13.0" />
                </font>
@@ -105,24 +106,24 @@
                   <Insets left="10.0" right="15.0" top="15.0" />
                </VBox.margin>
             </Label>
-            <GridPane>
+            <GridPane minHeight="30.0" minWidth="-Infinity">
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
+                  <ColumnConstraints fillWidth="false" halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" percentWidth="38.0" prefWidth="100.0" />
+                  <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="11.0" prefWidth="100.0" />
+                  <ColumnConstraints fillWidth="false" halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" percentWidth="11.0" prefWidth="100.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label text="CÓDIGO DE BARRAS">
+                  <Label text="CÓDIGO DE BARRAS" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
                      <font>
                         <Font name="Lato Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Label layoutX="10.0" layoutY="16.0" text="NOMBRE DEL PRODUCTO" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                  <Label layoutX="10.0" layoutY="16.0" text="NOMBRE DEL PRODUCTO" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
                      <font>
                         <Font name="Lato Bold" size="14.0" />
                      </font>
@@ -132,7 +133,7 @@
                         <Font name="Lato Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Label layoutX="10.0" layoutY="16.0" text="EXISTENCIAS" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                  <Label layoutX="10.0" layoutY="16.0" text="EXISTENCIAS" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
                      <font>
                         <Font name="Lato Bold" size="14.0" />
                      </font>
@@ -147,7 +148,12 @@
                   <Insets left="10.0" right="15.0" />
                </VBox.margin>
             </GridPane>
-            <VBox fx:id="cajaProductos" style="-fx-background-color: white;" />
+            <ScrollPane fitToHeight="true" fitToWidth="true" focusTraversable="false" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: transparent;" vbarPolicy="NEVER">
+               <content>
+                  <VBox fx:id="cajaProductos" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" />
+               </content>
+            </ScrollPane>
+            <Region maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: transparent;" VBox.vgrow="ALWAYS" />
             <HBox alignment="CENTER_LEFT" spacing="5.0">
                <children>
                   <ImageView fitHeight="17.0" fitWidth="17.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
@@ -161,9 +167,10 @@
                      </font>
                   </Label>
                   <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                  <HBox fx:id="contenedorBotonesPagina" alignment="BOTTOM_LEFT" />
                </children>
                <VBox.margin>
-                  <Insets bottom="10.0" left="10.0" />
+                  <Insets bottom="10.0" left="10.0" right="10.0" />
                </VBox.margin>
             </HBox>
          </children>
@@ -172,4 +179,8 @@
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
    </padding>
+   <stylesheets>
+      <URL value="@../css/estilos-ventana-inventario.css" />
+      <URL value="@../css/estilos-globales.css" />
+   </stylesheets>
 </VBox>

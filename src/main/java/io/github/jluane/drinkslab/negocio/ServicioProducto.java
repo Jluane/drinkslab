@@ -2,8 +2,12 @@ package io.github.jluane.drinkslab.negocio;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -79,5 +83,21 @@ public class ServicioProducto {
     @Transactional(readOnly = true)
     public int totalProductos(){
         return (int) repositorioProducto.count();
+    }
+
+    /**
+     * Se obtiene un bloque de 8 de registros registros deseados
+     * @param pagina Es el número del bloque que queremos obtener
+     * @return Regresa una lista con todos los productos que se encuentran en el bloque deseado
+     */
+    public List<Producto> obtenerBloqueDeRegistros(int pagina){
+        int tamanoBloque = 8;
+        pagina--; // De esta manera tomamos el número de la página que se ve, como si iniciara en 1
+
+        Pageable paginacion = PageRequest.of(pagina, tamanoBloque);
+        
+        Page<Producto> resultadoPagina = repositorioProducto.findAll(paginacion);
+
+        return resultadoPagina.getContent();
     }
 }

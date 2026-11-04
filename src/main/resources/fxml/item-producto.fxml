@@ -50,12 +50,12 @@
       </Label>
       <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="10.0" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" styleClass="boton-editar" text="Editar">
+            <Button focusTraversable="false" mnemonicParsing="false" onAction="#onActionEditar" styleClass="boton-editar" text="Editar">
                <font>
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" styleClass="boton-eliminar" text="Eliminar">
+            <Button focusTraversable="false" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#onActionEliminar" styleClass="boton-eliminar" text="Eliminar">
                <font>
                   <Font size="14.0" />
                </font>

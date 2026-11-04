@@ -14,6 +14,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -194,6 +196,27 @@ public class VistaInventario {
     }
     
     /**
+     * Es el método que detecta las presiones de teclas 
+     * @param event Es la tecla que fue presionada
+     */
+    @FXML
+    public void onAtajoTeclado(KeyEvent event){
+        // El Enter está definido como Default Button dentro de FXML
+        if (event.getCode() == KeyCode.F2) {
+            System.out.println("Se presionó tecla F2");
+            txtBusqueda.requestFocus(); // Pone el cursor en el buscador
+        }
+        else if (event.getCode().isLetterKey() || event.getCode().isDigitKey()) {
+            // Si presionaron una letra o número, pero el buscador NO tenía el foco
+            if (!txtBusqueda.isFocused()) {
+                System.out.println("Tecla perdida detectada");
+                txtBusqueda.clear();
+                txtBusqueda.requestFocus();
+            }
+        }
+    }
+
+    /**
      * Limpia la caja de productos para quitar todos los productos que contiene
      */
     public void limpiarCaja(){
@@ -204,6 +227,17 @@ public class VistaInventario {
     @FXML
     public void onActionBuscar(){
         System.out.println("Se presionó buscar");
+        String texto = txtBusqueda.getText();
+        if (!texto.isEmpty()) {
+            System.out.println("Buscando: " + texto);
+
+            control.buscarProducto(texto);
+            // Aquí llamas a tu controlador: control.buscarProducto(texto);
+            txtBusqueda.clear(); // Limpias el campo después de buscar
+        }else{
+            System.out.println("Se buscó cadena vacía");
+            control.buscarProducto("");
+        }
     }
     @FXML
     public void onActionCambioPagina(ActionEvent event){

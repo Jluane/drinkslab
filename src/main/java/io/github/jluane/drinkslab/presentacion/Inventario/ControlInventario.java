@@ -71,4 +71,18 @@ public class ControlInventario {
         vista.inicia(servicioProducto.totalProductos(), pag);
         mostrarProductos(pag);
     }
+
+    /**
+     * Método que decide qué hacer de acuerdo al código que sea buscado
+     * @param gtin Es el código del producto que buscamos
+     */
+    public void buscarProducto(String gtin){
+        Producto producto = servicioProducto.recuperaProducto(gtin);
+    
+        if(producto == null){
+            System.out.println("Se creará al producto");
+        }else{
+            System.out.println("Se modificará al producto");
+        }
+    }
 }

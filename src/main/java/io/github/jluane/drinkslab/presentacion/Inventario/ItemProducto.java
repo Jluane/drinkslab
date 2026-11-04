@@ -13,6 +13,9 @@ public class ItemProducto {
     // Controlador
     ControlInventario control;
 
+    // Variables
+    private Producto producto = new Producto();
+
     // Elementos FXML
     @FXML private Label txtCodigo;
     @FXML private Label txtNombre;
@@ -42,6 +45,7 @@ public class ItemProducto {
      * @param producto Es el producto del que se saca la información
      */
     public void configurarDatos(Producto producto){
+        this.producto = producto;
         txtCodigo.setText(producto.getGTIN());
         txtNombre.setText(producto.getNombre());
         txtPrecio.setText("$"+producto.getPrecioUnitario());
@@ -53,5 +57,16 @@ public class ItemProducto {
             txtCantidad.setText(producto.getCantInv().stripTrailingZeros().toPlainString()+" kg");
         else
             txtCantidad.setText(producto.getCantInv().intValue()+" pzas");
+    }
+
+    // On Action's
+    @FXML
+    public void onActionEditar(){
+        System.out.println("Se presionó al botón editar");
+        control.buscarProducto(producto.getGTIN());
+    }
+    @FXML
+    public void onActionEliminar(){
+        System.out.println("Se presionó el botón eliminar");
     }
 }

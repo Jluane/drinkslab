@@ -91,7 +91,7 @@ public class VistaVenta {
      */
     public Parent cargaPanel() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ventana-venta.fxml")); // Ajusta el nombre de tu archivo .fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ventana-venta.fxml"));
             loader.setController(this);
             Parent parent = loader.load();
             return parent;

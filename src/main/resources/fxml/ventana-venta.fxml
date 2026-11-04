@@ -33,6 +33,11 @@
                               <Font size="19.0" />
                            </font>
                         </TextField>
+                        <Label style="-fx-text-fill: black;" styleClass="texto-indicacion-tecla" text="F2">
+                           <font>
+                              <Font name="Noto Serif Bold" size="11.0" />
+                           </font>
+                        </Label>
                      </children>
                      <padding>
                         <Insets bottom="8.0" left="15.0" right="15.0" top="8.0" />
@@ -84,27 +89,27 @@
                <children>
                   <Label maxWidth="1.7976931348623157E308" text="PRODUCTO" textFill="#3c3c3c" wrapText="true">
                      <font>
-                        <Font size="14.0" />
+                        <Font name="Lato Regular" size="14.0" />
                      </font>
                   </Label>
                   <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="CANTIDAD" textFill="#3c3c3c" wrapText="true" GridPane.columnIndex="1">
                      <font>
-                        <Font size="14.0" />
+                        <Font name="Lato Regular" size="14.0" />
                      </font>
                   </Label>
                   <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="P.UNITARIO" textFill="#3c3c3c" wrapText="true" GridPane.columnIndex="2">
                      <font>
-                        <Font size="14.0" />
+                        <Font name="Lato Regular" size="14.0" />
                      </font>
                   </Label>
                   <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="IMPORTE" textFill="#3c3c3c" wrapText="true" GridPane.columnIndex="3">
                      <font>
-                        <Font size="14.0" />
+                        <Font name="Lato Regular" size="14.0" />
                      </font>
                   </Label>
                   <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="ACCIÓN" textFill="#3c3c3c" wrapText="true" GridPane.columnIndex="4">
                      <font>
-                        <Font size="14.0" />
+                        <Font name="Lato Regular" size="14.0" />
                      </font>
                   </Label>
                </children>

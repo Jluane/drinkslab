@@ -3,6 +3,7 @@ package io.github.jluane.drinkslab.presentacion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import io.github.jluane.drinkslab.presentacion.Inventario.ControlInventario;
 import io.github.jluane.drinkslab.presentacion.Venta.ControlVenta;
 import jakarta.annotation.PostConstruct;
 
@@ -12,13 +13,15 @@ public class ControlMain {
     private final VistaMain vista;
     // Controles a los que se comunica
     private final ControlVenta controlVenta;
+    private final ControlInventario controlInventario;
     // Servicios a los que se conecta
     // ...
 
     @Autowired
-    public ControlMain(VistaMain vista, ControlVenta controlVenta){
+    public ControlMain(VistaMain vista, ControlVenta controlVenta, ControlInventario controlInventario){
         this.vista = vista;
         this.controlVenta = controlVenta;
+        this.controlInventario = controlInventario;
     }
 
     /**
@@ -46,6 +49,16 @@ public class ControlMain {
         // Le dice a la ventana principal que lo ponga en el centro
         vista.cambiarVista(panelVenta);
         controlVenta.inicia();
+    }
+    /**
+     * Pasa el control a la pantalla de inventario para que se dibuje en el centro
+     */
+    public void irInventario(){
+        // Obtiene el diseño de la venta
+        javafx.scene.Parent panelInventario = controlInventario.obtienePanel();
+        // Le dice a la ventana principal que lo ponga en el centro
+        vista.cambiarVista(panelInventario);
+        controlInventario.inicia();
     }
 
 }

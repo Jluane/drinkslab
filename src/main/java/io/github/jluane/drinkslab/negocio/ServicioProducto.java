@@ -71,4 +71,13 @@ public class ServicioProducto {
                     .multiply(BigDecimal.valueOf(0.50))
                     .setScale(2, RoundingMode.UNNECESSARY);
     }
+
+    /**
+     * Método encargado de realizar el conteo de cuántos productos existen en el repositorio
+     * @return Regresa a la cantidad de productos en repositorio
+     */
+    @Transactional(readOnly = true)
+    public int totalProductos(){
+        return (int) repositorioProducto.count();
+    }
 }

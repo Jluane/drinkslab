@@ -1,0 +1,21 @@
+.boton-editar{
+    -fx-background-color:#F2F4F8;
+    -fx-text-fill: black;
+    background-color:#F2F4F8;
+}
+.boton-editar:hover{
+    -fx-background-color: #cbcccd;
+    -fx-text-fill: #000000;
+    background-color: #cbcccd;
+}
+
+.boton-eliminar{
+    -fx-background-color: #fad5db;
+    -fx-text-fill: #ff0000;
+    background-color: #fad5db;
+}
+.boton-eliminar:hover{
+    -fx-background-color: #ff0000;
+    -fx-text-fill: #fad5db;
+    background-color: #ff0000;
+}

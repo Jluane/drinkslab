@@ -31,6 +31,8 @@ public class VistaMain {
     private StackPane panelDinamico;
 	@FXML
 	private ToggleButton btnVenta;
+	@FXML
+	private ToggleButton btnInventario;
 
     // Constructor necesario para la clase
     public VistaMain(){}
@@ -121,5 +123,13 @@ public class VistaMain {
 
         System.out.println("Botón Venta seleccionado");
         control.irVenta();
+    }
+	@FXML
+    public void onActionBtnInventario(ActionEvent event){
+        ToggleButton botonPresionado = (ToggleButton) event.getSource();
+        botonPresionado.setSelected(true);
+
+        System.out.println("Botón Inventario seleccionado");
+        control.irInventario();
     }
 }

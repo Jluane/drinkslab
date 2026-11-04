@@ -20,6 +20,7 @@ public class Producto {
     // Atributos
     private String nombre;
     private BigDecimal precioUnitario;
+    @Column(precision = 10, scale = 3)
     private BigDecimal cantInv;
     @Column(unique = true, nullable = false)
     private String GTIN;

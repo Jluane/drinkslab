@@ -99,6 +99,7 @@ public class DrinkslabApplication {
         p2.setPrecioUnitario(new BigDecimal("50"));
         p2.setGTIN("321");
         p2.setAGranel(true);
+        p2.setCantInv(new BigDecimal("1.1"));
         repositorioProducto.save(p2);
 
         Producto p3 = new Producto();

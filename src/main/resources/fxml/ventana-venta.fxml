@@ -28,7 +28,7 @@
                               <Image url="@../img/icons/barcode_scanner_25dp_BLACK.png" />
                            </image>
                         </ImageView>
-                        <TextField fx:id="txtBusqueda" maxWidth="1.7976931348623157E308" onAction="#onActionBuscar" promptText="Escanear código de barras" style="-fx-background-color: transparent;" HBox.hgrow="ALWAYS">
+                        <TextField fx:id="txtBusqueda" maxWidth="1.7976931348623157E308" onAction="#onActionBuscar" promptText="Escribe el nombre o escanea el código de barras del producto" style="-fx-background-color: transparent;" HBox.hgrow="ALWAYS">
                            <font>
                               <Font size="19.0" />
                            </font>

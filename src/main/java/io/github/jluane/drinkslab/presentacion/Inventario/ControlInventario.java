@@ -85,4 +85,8 @@ public class ControlInventario {
             System.out.println("Se modificará al producto");
         }
     }
+
+    public List<String> obtenerSugerenciasNombres(String texto){
+        return servicioProducto.obtenerSugerenciasNombres(texto);
+    }
 }

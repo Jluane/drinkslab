@@ -291,4 +291,13 @@ public class ControlVenta {
         }
         actualizarVenta(); // Se actualiza la venta
     }
+
+    /**
+     * Manda a llamar al servicio para obtener las sugerencias de los nombres según el texto dado
+     * @param texto Es el texto parcial con el que se busca el nombre del producto
+     * @return Regresa una lista con los nombres de los productos sugeridos
+     */
+    public List<String> obtenerSugerenciasNombres(String texto){
+        return servicioProducto.obtenerSugerenciasNombres(texto);
+    }
 }

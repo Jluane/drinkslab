@@ -1,6 +1,7 @@
 package io.github.jluane.drinkslab.presentacion.Inventario;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
@@ -8,9 +9,11 @@ import io.github.jluane.drinkslab.negocio.modelo.Producto;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
@@ -19,6 +22,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Popup;
 
 @Component
 public class VistaInventario {
@@ -28,6 +32,9 @@ public class VistaInventario {
     // Variables
     private int cantidadPaginas;
     private ToggleGroup botonesPagina = new ToggleGroup();
+    // Variables para las sugerencias del buscador
+    private Popup popupSugerencias;
+    private ListView<String> listaSugerencias;
 
     // Componentes FXML
     @FXML private TextField txtBusqueda;
@@ -52,6 +59,40 @@ public class VistaInventario {
      */
     @FXML
     public void initialize(){
+        // Configuración para el buscador y sus sugerencias
+        popupSugerencias = new Popup(); // Inicializamos el popup
+        listaSugerencias = new ListView<>(); // Inicializamos a la lista de vista
+        popupSugerencias.getContent().add(listaSugerencias); // Agregamos la lista al popup
+        popupSugerencias.setAutoHide(true); // Se ocultará automáticamente al dar click en otro lado
+        // Cada que se actualice el valor de la busqueda se decide si se muestran las sugerencias o se esconde el popup
+        txtBusqueda.textProperty().addListener((observable, viejoValor, nuevoValor) -> {
+            if (nuevoValor == null || nuevoValor.trim().isEmpty()) {
+                popupSugerencias.hide();
+            } else {
+                mostrarSugerencias(nuevoValor);
+            }
+        });
+        // Cuando se da click a una sugerencia, se coloca realiza la busqueda
+        listaSugerencias.setOnMouseClicked(event -> {
+            String seleccionado = listaSugerencias.getSelectionModel().getSelectedItem();
+            if (seleccionado != null) {
+                txtBusqueda.setText(seleccionado); // Pone el nombre en el buscador
+                popupSugerencias.hide();
+                onActionBuscar(); // Dispara la búsqueda automáticamente
+            }
+        });
+        // Cuando se presiona Enter sobre uno, realiza la misma acción que la búsqueda
+        listaSugerencias.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                String seleccionado = listaSugerencias.getSelectionModel().getSelectedItem();
+                if (seleccionado != null) {
+                    txtBusqueda.setText(seleccionado); // Pone el nombre en el buscador
+                    popupSugerencias.hide();
+                    onActionBuscar(); // Dispara la búsqueda automáticamente
+                }
+                event.consume(); // Previene que el Enter dispare otras cosas
+            }
+        });
     }
 
     /**
@@ -66,6 +107,36 @@ public class VistaInventario {
         } catch (IOException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    /**
+     * Muestra las sugerencias del popup
+     * @param texto Es el texto ingresado para saber qué sugerencias se deben mostrar
+     */
+    private void mostrarSugerencias(String texto) {
+        // Pedimos las sugerencias al controlador
+        List<String> resultados = control.obtenerSugerenciasNombres(texto);
+
+        if (resultados.isEmpty()) {
+            popupSugerencias.hide();
+        } else {
+            // Llenamos la lista visual con los resultados
+            listaSugerencias.getItems().setAll(resultados);
+            
+            // Ajustamos el ancho para que sea idéntico al del TextField
+            listaSugerencias.setPrefWidth(txtBusqueda.getWidth());
+            
+            // Calculamos una altura dinámica (por ejemplo, 24px por cada ítem)
+            listaSugerencias.setPrefHeight(resultados.size() * 24 + 5);
+
+            // Obtenemos las coordenadas exactas del txtBusqueda en el monitor
+            Bounds bounds = txtBusqueda.localToScreen(txtBusqueda.getBoundsInLocal());
+            
+            if (bounds != null) {
+                // Mostramos el popup justo debajo del TextField
+                popupSugerencias.show(txtBusqueda, bounds.getMinX(), bounds.getMaxY());
+            }
         }
     }
 

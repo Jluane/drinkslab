@@ -30,11 +30,11 @@ public class ServicioProducto {
      * @return Regresa al producto encontrado o null si no existen ningún objeto o si GTIN no tiene el formato esperado
      */
     @Transactional(readOnly = true)
-    public Producto recuperaProducto(String gtin){
-        if(gtin.matches("\\d+"))
-            return repositorioProducto.findByGTIN(gtin);
+    public Producto recuperaProducto(String texto){
+        if(texto.matches("\\d+"))
+            return repositorioProducto.findByGTIN(texto);
         else
-            return null;
+            return repositorioProducto.findByNombre(texto);
     }
 
     /**
@@ -99,5 +99,17 @@ public class ServicioProducto {
         Page<Producto> resultadoPagina = repositorioProducto.findAll(paginacion);
 
         return resultadoPagina.getContent();
+    }
+
+    /**
+     * Regresa una lista de 5 productos con un texto similar al dado
+     * @param texto Es el texto del que se busca similitud
+     * @return Regresa una lista de 5 productos
+     */
+    public List<String> obtenerSugerenciasNombres(String texto){
+        // Conseguimos los productos que se tienen con ese texto
+        List<Producto> productos = repositorioProducto.findTop5ByNombreContainingIgnoreCase(texto);
+        // Se transforma la lista a lista de String y se regresa
+        return productos.stream().map(Producto::getNombre).toList();
     }
 }

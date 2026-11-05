@@ -4,6 +4,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
@@ -11,8 +12,11 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -20,7 +24,7 @@
    <children>
       <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox alignment="CENTER_LEFT" fillHeight="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" style="-fx-background-color: #ddecd6;">
+            <HBox alignment="CENTER_LEFT" fillHeight="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" style="-fx-background-color: #ddecd6; -fx-border-color: #B5BFB2; -fx-border-width: 0 0 1 0;">
                <children>
                   <AnchorPane style="-fx-background-color: #006948; -fx-background-radius: 3px;">
                      <children>
@@ -105,7 +109,7 @@
                                           </Label>
                                        </children>
                                     </HBox>
-                                    <TextField fx:id="nombre" promptText="Producto Marca Tipo Cantidad " style="-fx-background-color: #F2F4F8;">
+                                    <TextField fx:id="nombre" promptText="Producto Marca Tipo Cantidad " style="-fx-background-color: #F2F4F8; -fx-border-color: #B5BFB2;">
                                        <font>
                                           <Font name="Lato Regular" size="16.0" />
                                        </font>
@@ -124,7 +128,7 @@
                                                 <Font name="Lato Bold" size="15.0" />
                                              </font>
                                           </Label>
-                                          <TextField fx:id="codigo" promptText="Código sin espacios" style="-fx-background-color: #F2F4F8;">
+                                          <TextField fx:id="codigo" promptText="Código sin espacios" style="-fx-background-color: #F2F4F8; -fx-border-color: #B5BFB2;">
                                              <font>
                                                 <Font name="Serif Regular" size="16.0" />
                                              </font>
@@ -151,7 +155,7 @@
                                                 </Label>
                                              </children>
                                           </HBox>
-                                          <TextField fx:id="precio" alignment="CENTER_RIGHT" promptText="00.00" style="-fx-background-color: #F2F4F8;">
+                                          <TextField fx:id="precio" alignment="CENTER_RIGHT" promptText="00.00" style="-fx-background-color: #F2F4F8; -fx-border-color: #B5BFB2;">
                                              <font>
                                                 <Font name="DejaVu Serif Bold" size="18.0" />
                                              </font>
@@ -168,7 +172,7 @@
                                                 <Font name="Lato Bold" size="15.0" />
                                              </font>
                                           </Label>
-                                          <TextField fx:id="cant" alignment="CENTER_RIGHT" promptText="00" style="-fx-background-color: #F2F4F8;">
+                                          <TextField fx:id="cant" alignment="CENTER_RIGHT" promptText="00" style="-fx-background-color: #F2F4F8; -fx-border-color: #B5BFB2;">
                                              <font>
                                                 <Font name="Lato Regular" size="16.0" />
                                              </font>
@@ -181,6 +185,96 @@
                                  </children>
                               </HBox>
                            </children>
+                        </VBox>
+                        <Separator layoutX="35.0" layoutY="279.0" />
+                        <VBox layoutX="10.0" layoutY="282.0" maxWidth="1.7976931348623157E308" spacing="15.0">
+                           <children>
+                              <Label text="PROVEEDORES ASOCIADOS">
+                                 <font>
+                                    <Font name="Lato Regular" size="12.0" />
+                                 </font>
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" opacity="0.81" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../img/icons/local_shipping_006948.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Label>
+                              <HBox fillHeight="false" maxWidth="1.7976931348623157E308" spacing="15.0" style="-fx-background-color: #ddecd6; -fx-background-radius: 3px; -fx-border-color: #B5BFB2; -fx-border-radius: 3px;">
+                                 <children>
+                                    <GridPane hgap="15.0" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints fillHeight="false" percentHeight="100.0" />
+                                      </rowConstraints>
+                                       <children>
+                                          <VBox maxWidth="1.7976931348623157E308" spacing="7.0" GridPane.hgrow="ALWAYS" GridPane.valignment="TOP">
+                                             <children>
+                                                <Label text="Asignar proveedor">
+                                                   <font>
+                                                      <Font name="Lato Bold" size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <HBox maxWidth="1.7976931348623157E308" spacing="5.0">
+                                                   <children>
+                                                      <ComboBox editable="true" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" HBox.hgrow="ALWAYS" />
+                                                      <Button mnemonicParsing="false" styleClass="boton-generico">
+                                                         <graphic>
+                                                            <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true" style="-fx-padding: 2;">
+                                                               <image>
+                                                                  <Image url="@../img/icons/add_FFFFFF.png" />
+                                                               </image>
+                                                            </ImageView>
+                                                         </graphic>
+                                                      </Button>
+                                                   </children>
+                                                </HBox>
+                                                <Label prefHeight="40.0" text="Ej. Zorro, Sabritas, Jarritos,  Sabritas, Coca Cola, Barcel, Guna, etc. " wrapText="true">
+                                                   <font>
+                                                      <Font name="Lato Regular" size="14.0" />
+                                                   </font>
+                                                   <VBox.margin>
+                                                      <Insets top="5.0" />
+                                                   </VBox.margin>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                          <VBox maxWidth="1.7976931348623157E308" spacing="7.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.valignment="TOP">
+                                             <children>
+                                                <Label text="Proveedores seleccionados">
+                                                   <font>
+                                                      <Font name="Lato Bold" size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="130.0" maxWidth="1.7976931348623157E308" minHeight="0.0" style="-fx-border-color: #B5BFB2; -fx-background-color: white;">
+                                                   <content>
+                                                      <VBox fillWidth="false" maxWidth="1.7976931348623157E308" spacing="5.0" style="-fx-background-color: #FFFFFF;">
+                                                         <padding>
+                                                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                         </padding>
+                                                      </VBox>
+                                                   </content>
+                                                </ScrollPane>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" top="10.0" />
+                                       </padding>
+                                    </GridPane>
+                                 </children>
+                                 <padding>
+                                    <Insets left="20.0" right="20.0" />
+                                 </padding>
+                              </HBox>
+                           </children>
+                           <padding>
+                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                           </padding>
                         </VBox>
                         <Separator>
                            <VBox.margin>
@@ -201,7 +295,7 @@
                                     </ImageView>
                                  </graphic>
                               </Label>
-                              <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" spacing="15.0" style="-fx-background-color: #ddecd6; -fx-background-radius: 3px;">
+                              <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" spacing="15.0" style="-fx-background-color: #ddecd6; -fx-background-radius: 3px; -fx-border-color: #B5BFB2; -fx-border-radius: 3px;">
                                  <children>
                                     <ImageView fitHeight="25.0" fitWidth="25.0" opacity="0.55" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -232,7 +326,7 @@
                                     <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                                  </padding>
                               </HBox>
-                              <VBox maxWidth="1.7976931348623157E308" spacing="10.0" style="-fx-background-color: #ddecd6; -fx-background-radius: 3px;">
+                              <VBox maxWidth="1.7976931348623157E308" spacing="10.0" style="-fx-background-color: #ddecd6; -fx-background-radius: 3px; -fx-border-color: #B5BFB2; -fx-border-radius: 3px;">
                                  <children>
                                     <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" spacing="15.0">
                                        <children>
@@ -271,7 +365,7 @@
                                                       <Font name="Lato Bold" size="15.0" />
                                                    </font>
                                                 </Label>
-                                                <TextField fx:id="pzsPaquete" alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" promptText="00" style="-fx-background-color: white;">
+                                                <TextField fx:id="pzsPaquete" alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" promptText="00" style="-fx-background-color: white; -fx-border-color: #B5BFB2;">
                                                    <font>
                                                       <Font name="Lato Regular" size="16.0" />
                                                    </font>
@@ -288,7 +382,7 @@
                                                       <Font name="Lato Bold" size="15.0" />
                                                    </font>
                                                 </Label>
-                                                <TextField fx:id="precioPaquete" alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" promptText="00.00" style="-fx-background-color: white;">
+                                                <TextField fx:id="precioPaquete" alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" promptText="00.00" style="-fx-background-color: white; -fx-border-color: #B5BFB2;">
                                                    <font>
                                                       <Font name="DejaVu Serif Bold" size="16.0" />
                                                    </font>
@@ -305,7 +399,7 @@
                                     <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                                  </padding>
                               </VBox>
-                              <VBox layoutX="25.0" layoutY="155.0" maxWidth="1.7976931348623157E308" spacing="10.0" style="-fx-background-color: #ddecd6; -fx-background-radius: 3px;">
+                              <VBox layoutX="25.0" layoutY="155.0" maxWidth="1.7976931348623157E308" spacing="10.0" style="-fx-background-color: #ddecd6; -fx-background-radius: 3px; -fx-border-color: #B5BFB2; -fx-border-radius: 3px;">
                                  <children>
                                     <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" spacing="15.0">
                                        <children>
@@ -344,7 +438,7 @@
                                                       <Font name="Lato Bold" size="15.0" />
                                                    </font>
                                                 </Label>
-                                                <TextField fx:id="cantPromo" alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" promptText="00" style="-fx-background-color: white;">
+                                                <TextField fx:id="cantPromo" alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" promptText="00" style="-fx-background-color: white; -fx-border-color: #B5BFB2;">
                                                    <font>
                                                       <Font name="Lato Regular" size="16.0" />
                                                    </font>
@@ -361,7 +455,7 @@
                                                       <Font name="Lato Bold" size="15.0" />
                                                    </font>
                                                 </Label>
-                                                <TextField fx:id="precioPromo" alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" promptText="00.00" style="-fx-background-color: white;">
+                                                <TextField fx:id="precioPromo" alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" promptText="00.00" style="-fx-background-color: white; -fx-border-color: #B5BFB2;">
                                                    <font>
                                                       <Font name="DejaVu Serif Bold" size="16.0" />
                                                    </font>
@@ -387,7 +481,7 @@
                   </VBox>
                </content>
             </ScrollPane>
-            <HBox alignment="CENTER_LEFT" fillHeight="false" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="20.0" style="-fx-background-color: #ddecd6;">
+            <HBox alignment="CENTER_LEFT" fillHeight="false" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="20.0" style="-fx-background-color: #ddecd6; -fx-border-radius: 1 0 0 0; -fx-border-color: #B5BFB2;">
                <children>
                   <Button fx:id="btnEliminar" focusTraversable="false" mnemonicParsing="false" onAction="#onActionEliminar" styleClass="boton-eliminar" text="Eliminar" />
                   <Region maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />

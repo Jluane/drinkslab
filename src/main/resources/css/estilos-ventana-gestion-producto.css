@@ -29,3 +29,12 @@
     -fx-text-fill: #fad5db;
     background-color: #D40000;
 }
+
+.combo-box .arrow-button{
+    -fx-background-color: white;
+    background-color: white;
+}
+.combo-box .arrow-button:hover{
+    -fx-background-color: #0000003d;
+    background-color: #0000003d;
+}

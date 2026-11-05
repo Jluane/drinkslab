@@ -20,12 +20,12 @@
     -fx-text-fill:  #D40000;
     -fx-font-weight: bold;
     -fx-padding: 8px;
-    background-color: #fad5db;
+    background-color: #FFFFFF;
     font-weight: bold;
     padding: 8px;
 }
 .boton-eliminar:hover{
     -fx-background-color: #D40000;
     -fx-text-fill: #fad5db;
-    background-color: #ff0000;
+    background-color: #D40000;
 }

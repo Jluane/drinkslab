@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane fx:id="contenedorDetalle" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" stylesheets="@../css/estilos-item-detalle-venta.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane fx:id="contenedorDetalle" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" minHeight="60.0" prefHeight="60.0" stylesheets="@../css/estilos-item-detalle-venta.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
   <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="38.0" prefWidth="100.0" />
       <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />

@@ -49,7 +49,7 @@ public class ServicioProducto {
         BigDecimal restante = cant;
 
         // Evalúa el costo de la cantidad de paquetes que se complementen
-        if(producto.getCantPaquete() != null){
+        if(producto.getCantPaquete() != null && producto.getCantPaquete().compareTo(BigDecimal.ZERO) > 0){
             BigDecimal division[] = restante.divideAndRemainder(producto.getCantPaquete()); // En [0] guarda el cosiente, y en [1] guarda el residuo
             
             BigDecimal paquetes = division[0]; // Cantidad de veces que se hace el paquete
@@ -59,7 +59,7 @@ public class ServicioProducto {
         }
 
         // Evalúa el costo de la cantidad de promociones que se complementen
-        if(producto.getCantPromocion() != null){
+        if(producto.getCantPromocion() != null && producto.getCantPromocion().compareTo(BigDecimal.ZERO) > 0){
             BigDecimal division[] = restante.divideAndRemainder(producto.getCantPromocion());
 
             BigDecimal promociones = division[0]; // Cant de paquetes
@@ -90,6 +90,7 @@ public class ServicioProducto {
      * @param pagina Es el número del bloque que queremos obtener
      * @return Regresa una lista con todos los productos que se encuentran en el bloque deseado
      */
+    @Transactional(readOnly = true)
     public List<Producto> obtenerBloqueDeRegistros(int pagina){
         int tamanoBloque = 8;
         pagina--; // De esta manera tomamos el número de la página que se ve, como si iniciara en 1
@@ -106,10 +107,55 @@ public class ServicioProducto {
      * @param texto Es el texto del que se busca similitud
      * @return Regresa una lista de 5 productos
      */
+    @Transactional(readOnly = true)
     public List<String> obtenerSugerenciasNombres(String texto){
         // Conseguimos los productos que se tienen con ese texto
         List<Producto> productos = repositorioProducto.findTop5ByNombreContainingIgnoreCase(texto);
         // Se transforma la lista a lista de String y se regresa
         return productos.stream().map(Producto::getNombre).toList();
+    }
+
+    /**
+     * Método que revisa que se guarde o actualice un producto en el repositorio, asegurándose de que no tenga un código repetido
+     * @param producto Es el producto a actualizar o a guardar si es nuevo
+     * @return Regresa true si se logra guardar el producto, false si no
+     */
+    @Transactional
+    public boolean guardarProducto(Producto producto, String nombre, String codigo, String precio, String cant, String cantPaquete, String precioPaquete, String cantPromo, String precioPromo, boolean aGranel){
+        // En caso de tener que verificar que el codigo no exista ya
+        if(producto.getIdProducto() == null ||!producto.getGTIN().equals(codigo))
+            if(repositorioProducto.findByGTIN(codigo) != null){
+                return false;
+            }
+        
+        try{
+            producto.setNombre(nombre);
+            producto.setGTIN(codigo);
+            producto.setPrecioUnitario(new BigDecimal(precio));
+            producto.setCantInv(new BigDecimal(cant));
+            producto.setCantPaquete(new BigDecimal(cantPaquete));
+            producto.setPrecioPaquete(new BigDecimal(precioPaquete));
+            producto.setCantPromocion(new BigDecimal(cantPromo));
+            producto.setPrecioPromocion(new BigDecimal(precioPromo));
+            producto.setAGranel(aGranel);
+            
+            if(repositorioProducto.save(producto) != null)
+                return true;
+
+        }catch(Exception e){
+            System.err.println("No se pudo guardar "+e);
+            return false;
+        }
+
+        return false;
+    }
+
+    public boolean eliminarProducto(Producto producto){
+        try{
+            repositorioProducto.delete(producto);
+            return true;
+        }catch(Exception e){
+            return false;
+        }
     }
 }

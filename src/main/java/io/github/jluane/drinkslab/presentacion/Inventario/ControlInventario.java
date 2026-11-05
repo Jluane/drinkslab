@@ -1,27 +1,32 @@
 package io.github.jluane.drinkslab.presentacion.Inventario;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import io.github.jluane.drinkslab.negocio.ServicioProducto;
 import io.github.jluane.drinkslab.negocio.modelo.Producto;
+import io.github.jluane.drinkslab.presentacion.GestionProducto.ControlGestionProducto;
 import jakarta.annotation.PostConstruct;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
 @Component
 public class ControlInventario {
     // Vista que controla
     private final VistaInventario vista;
     // Controles a los que se comunica
-    // ...
+    private final ControlGestionProducto controlGestionProducto;
     // Servicio a los que se conecta
     private final ServicioProducto servicioProducto;
 
     @Autowired
-    public ControlInventario(VistaInventario vista, ServicioProducto servicioProducto){
+    public ControlInventario(VistaInventario vista, ServicioProducto servicioProducto, ControlGestionProducto controlGestionProducto){
         this.vista = vista;
         this.servicioProducto = servicioProducto;
+        this.controlGestionProducto = controlGestionProducto;
     }
 
     /**
@@ -79,12 +84,45 @@ public class ControlInventario {
     public void buscarProducto(String gtin){
         Producto producto = servicioProducto.recuperaProducto(gtin);
     
+        vista.aplicarDifuminado();
         if(producto == null){
             System.out.println("Se creará al producto");
+            controlGestionProducto.inicia(gtin);
         }else{
             System.out.println("Se modificará al producto");
+            controlGestionProducto.inicia(producto);
+        }
+        inicia();
+        vista.quitarDifuminado();
+    }
+
+    public void confirmacionEliminarProducto(Producto producto){
+        // Creamos una alerta de confirmación
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("ELIMINACIÓN DE PRODUCTO");
+        alert.setHeaderText("¿Estás seguro de que deseas eliminar un producto?");
+        alert.setContentText("Producto:\n"+producto+"\nEsta acción no se puede deshacer.");
+
+        // Mostrar la ventana y esperar respuesta
+        Optional<ButtonType> resultado = alert.showAndWait();
+
+        // Evaluar el botón presionado
+        if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+            System.out.println("Se eliminará al producto");
+            eliminarProducto(producto);
+        } else {
+            // Código si el usuario cancela o cierra la ventana
+            System.out.println("Acción cancelada");
         }
     }
+    private void eliminarProducto(Producto producto){
+        if(servicioProducto.eliminarProducto(producto)){
+            System.out.println("No se pudo borrar al producto");
+        }
+        inicia();
+    }
+
+
 
     public List<String> obtenerSugerenciasNombres(String texto){
         return servicioProducto.obtenerSugerenciasNombres(texto);

@@ -17,6 +17,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
@@ -292,6 +293,19 @@ public class VistaInventario {
      */
     public void limpiarCaja(){
         cajaProductos.getChildren().clear();
+    }
+
+    /**
+     * Aplica un difuminado en toda la pantalla
+     */
+    public void aplicarDifuminado(){
+        txtBusqueda.getScene().getRoot().setEffect(new GaussianBlur(15));
+    }
+    /**
+     * Quita el difuminado de toda la pantalla
+     */
+    public void quitarDifuminado(){
+        txtBusqueda.getScene().getRoot().setEffect(null);
     }
 
     // OnAction's

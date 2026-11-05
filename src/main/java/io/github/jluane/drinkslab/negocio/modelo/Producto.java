@@ -39,6 +39,11 @@ public class Producto {
     // Constructor
     public Producto(){
         this.cantInv = BigDecimal.ONE.negate();
+        precioUnitario = BigDecimal.ZERO;
+        cantPromocion = BigDecimal.ZERO;
+        precioPromocion = BigDecimal.ZERO;
+        cantPaquete = BigDecimal.ZERO;
+        precioPaquete = BigDecimal.ZERO;
     }
     /**
      * Constructor para productos comunes
@@ -101,7 +106,8 @@ public class Producto {
         return precioUnitario;
     }
     public BigDecimal getCantInv(){
-        return cantInv;
+        String cadena = cantInv.stripTrailingZeros().toPlainString();
+        return new BigDecimal(cadena);
     }
     public String getGTIN(){
         return GTIN;
@@ -128,7 +134,7 @@ public class Producto {
     // toString
     @Override
     public String toString(){
-        String cadena = "Producto: "+nombre+", $"+precioUnitario+". "+cantInv+" unidades";
+        String cadena = nombre+", $"+precioUnitario+". "+cantInv.stripTrailingZeros().toPlainString()+" unidades en inventario";
         return cadena;
     }
 

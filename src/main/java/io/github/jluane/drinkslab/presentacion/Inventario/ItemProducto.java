@@ -68,5 +68,6 @@ public class ItemProducto {
     @FXML
     public void onActionEliminar(){
         System.out.println("Se presionó el botón eliminar");
+        control.confirmacionEliminarProducto(producto);
     }
 }

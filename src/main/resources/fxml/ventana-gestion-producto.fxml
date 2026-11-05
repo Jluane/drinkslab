@@ -36,7 +36,7 @@
                   </AnchorPane>
                   <VBox maxWidth="1.7976931348623157E308" spacing="5.0">
                      <children>
-                        <Label text="Gestionar Producto">
+                        <Label fx:id="lblTitulo" text="Gestionar Producto">
                            <font>
                               <Font name="Lato Bold" size="19.0" />
                            </font>
@@ -50,23 +50,26 @@
                   </VBox>
                   <Region maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
                   <Label style="-fx-text-fill: black;" styleClass="texto-indicacion-tecla" text="ESC" />
-                  <Button focusTraversable="false" mnemonicParsing="false" styleClass="boton-claro" text="X" />
+                  <Button focusTraversable="false" mnemonicParsing="false" onAction="#onActionCancelar" styleClass="boton-claro" text="X" />
                </children>
                <padding>
                   <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
                </padding>
             </HBox>
-            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: transparent;" vbarPolicy="NEVER">
+            <ScrollPane fx:id="scroll" fitToWidth="true" focusTraversable="false" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: transparent;" vbarPolicy="NEVER">
                <content>
                   <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                      <children>
-                        <Label style="-fx-text-fill: #D40000;" text="Asegúrate de ingresar los datos correctamente.">
+                        <Label fx:id="lblAviso" maxWidth="1.7976931348623157E308" style="-fx-text-fill: #D40000; -fx-background-color: #fad5db;" text="Asegúrate de ingresar los datos correctamente.">
                            <font>
                               <Font size="15.0" />
                            </font>
                            <VBox.margin>
-                              <Insets left="15.0" />
+                              <Insets left="15.0" right="15.0" top="10.0" />
                            </VBox.margin>
+                           <padding>
+                              <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+                           </padding>
                         </Label>
                         <VBox maxWidth="1.7976931348623157E308" spacing="15.0">
                            <padding>
@@ -102,7 +105,7 @@
                                           </Label>
                                        </children>
                                     </HBox>
-                                    <TextField promptText="Producto Marca Tipo Cantidad " style="-fx-background-color: #F2F4F8;">
+                                    <TextField fx:id="nombre" promptText="Producto Marca Tipo Cantidad " style="-fx-background-color: #F2F4F8;">
                                        <font>
                                           <Font name="Lato Regular" size="16.0" />
                                        </font>
@@ -121,7 +124,7 @@
                                                 <Font name="Lato Bold" size="15.0" />
                                              </font>
                                           </Label>
-                                          <TextField promptText="00000000000000" style="-fx-background-color: #F2F4F8;">
+                                          <TextField fx:id="codigo" promptText="Código sin espacios" style="-fx-background-color: #F2F4F8;">
                                              <font>
                                                 <Font name="Serif Regular" size="16.0" />
                                              </font>
@@ -148,7 +151,7 @@
                                                 </Label>
                                              </children>
                                           </HBox>
-                                          <TextField alignment="CENTER_RIGHT" promptText="00.00" style="-fx-background-color: #F2F4F8;">
+                                          <TextField fx:id="precio" alignment="CENTER_RIGHT" promptText="00.00" style="-fx-background-color: #F2F4F8;">
                                              <font>
                                                 <Font name="DejaVu Serif Bold" size="18.0" />
                                              </font>
@@ -165,7 +168,7 @@
                                                 <Font name="Lato Bold" size="15.0" />
                                              </font>
                                           </Label>
-                                          <TextField alignment="CENTER_RIGHT" promptText="00" style="-fx-background-color: #F2F4F8;">
+                                          <TextField fx:id="cant" alignment="CENTER_RIGHT" promptText="00" style="-fx-background-color: #F2F4F8;">
                                              <font>
                                                 <Font name="Lato Regular" size="16.0" />
                                              </font>
@@ -223,7 +226,7 @@
                                        </children>
                                     </VBox>
                                     <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
-                                    <CheckBox mnemonicParsing="false" />
+                                    <CheckBox fx:id="aGranel" focusTraversable="false" mnemonicParsing="false" />
                                  </children>
                                  <padding>
                                     <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
@@ -256,10 +259,10 @@
                                              </children>
                                           </VBox>
                                           <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
-                                          <CheckBox mnemonicParsing="false" />
+                                          <CheckBox fx:id="paquete" focusTraversable="false" mnemonicParsing="false" onAction="#onActionPaquete" />
                                        </children>
                                     </HBox>
-                                    <HBox maxWidth="1.7976931348623157E308" spacing="15.0">
+                                    <HBox fx:id="boxPaquete" maxWidth="1.7976931348623157E308" spacing="15.0">
                                        <children>
                                           <VBox maxWidth="1.7976931348623157E308" spacing="4.0" HBox.hgrow="ALWAYS">
                                              <children>
@@ -268,7 +271,7 @@
                                                       <Font name="Lato Bold" size="15.0" />
                                                    </font>
                                                 </Label>
-                                                <TextField alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" promptText="00" style="-fx-background-color: white;">
+                                                <TextField fx:id="pzsPaquete" alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" promptText="00" style="-fx-background-color: white;">
                                                    <font>
                                                       <Font name="Lato Regular" size="16.0" />
                                                    </font>
@@ -285,7 +288,7 @@
                                                       <Font name="Lato Bold" size="15.0" />
                                                    </font>
                                                 </Label>
-                                                <TextField alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" promptText="00.00" style="-fx-background-color: white;">
+                                                <TextField fx:id="precioPaquete" alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" promptText="00.00" style="-fx-background-color: white;">
                                                    <font>
                                                       <Font name="DejaVu Serif Bold" size="16.0" />
                                                    </font>
@@ -329,10 +332,10 @@
                                              </children>
                                           </VBox>
                                           <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
-                                          <CheckBox mnemonicParsing="false" />
+                                          <CheckBox fx:id="promocion" focusTraversable="false" mnemonicParsing="false" onAction="#onActionPromocion" />
                                        </children>
                                     </HBox>
-                                    <HBox maxWidth="1.7976931348623157E308" spacing="15.0">
+                                    <HBox fx:id="boxPromocion" maxWidth="1.7976931348623157E308" spacing="15.0">
                                        <children>
                                           <VBox maxWidth="1.7976931348623157E308" spacing="4.0" HBox.hgrow="ALWAYS">
                                              <children>
@@ -341,7 +344,7 @@
                                                       <Font name="Lato Bold" size="15.0" />
                                                    </font>
                                                 </Label>
-                                                <TextField alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" promptText="00" style="-fx-background-color: white;">
+                                                <TextField fx:id="cantPromo" alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" promptText="00" style="-fx-background-color: white;">
                                                    <font>
                                                       <Font name="Lato Regular" size="16.0" />
                                                    </font>
@@ -358,7 +361,7 @@
                                                       <Font name="Lato Bold" size="15.0" />
                                                    </font>
                                                 </Label>
-                                                <TextField alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" promptText="00.00" style="-fx-background-color: white;">
+                                                <TextField fx:id="precioPromo" alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" promptText="00.00" style="-fx-background-color: white;">
                                                    <font>
                                                       <Font name="DejaVu Serif Bold" size="16.0" />
                                                    </font>
@@ -386,9 +389,9 @@
             </ScrollPane>
             <HBox alignment="CENTER_LEFT" fillHeight="false" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="20.0" style="-fx-background-color: #ddecd6;">
                <children>
-                  <Button mnemonicParsing="false" styleClass="boton-eliminar" text="Eliminar" />
+                  <Button fx:id="btnEliminar" focusTraversable="false" mnemonicParsing="false" onAction="#onActionEliminar" styleClass="boton-eliminar" text="Eliminar" />
                   <Region maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
-                  <Button mnemonicParsing="false" styleClass="boton-blanco">
+                  <Button cancelButton="true" focusTraversable="false" mnemonicParsing="false" onAction="#onActionCancelar" styleClass="boton-blanco">
                      <graphic>
                         <VBox alignment="CENTER" spacing="5.0">
                            <children>
@@ -405,7 +408,7 @@
                         </VBox>
                      </graphic>
                   </Button>
-                  <Button mnemonicParsing="false" styleClass="boton-generico">
+                  <Button defaultButton="true" focusTraversable="false" mnemonicParsing="false" onAction="#onActionGuardar" styleClass="boton-generico">
                      <graphic>
                         <HBox alignment="CENTER_LEFT" spacing="10.0">
                            <children>

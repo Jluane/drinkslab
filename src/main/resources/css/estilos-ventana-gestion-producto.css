@@ -1,0 +1,31 @@
+.check-box .box {
+    -fx-background-color: #FFFFFF; /* Color de fondo de la caja */
+    -fx-border-color: #7c7c7c; /* Color del borde de la caja */
+    -fx-border-width: 1; /* Grosor del borde */
+    background-color: #FFFFFF; /* Color de fondo de la caja */
+    border-color: #7c7c7c; /* Color del borde de la caja */
+    border-width: 1; /* Grosor del borde */
+}
+.check-box:hover .box{
+    -fx-background-color: #d7d7d7;
+    background-color: #d7d7d7;
+}
+.check-box:selected .mark {
+    -fx-background-color: #006948; /* Color de la palomita */
+    background-color: #006948;
+}
+
+.boton-eliminar{
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill:  #D40000;
+    -fx-font-weight: bold;
+    -fx-padding: 8px;
+    background-color: #fad5db;
+    font-weight: bold;
+    padding: 8px;
+}
+.boton-eliminar:hover{
+    -fx-background-color: #D40000;
+    -fx-text-fill: #fad5db;
+    background-color: #ff0000;
+}

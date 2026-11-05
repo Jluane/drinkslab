@@ -54,6 +54,27 @@
     -fx-text-fill: black;
 }
 
+.boton-blanco{
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 6px;
+    -fx-border-radius: 6px;
+    -fx-text-fill: black;
+    -fx-font-family: "Lato";
+    -fx-font-weight: bold;
+    background-color: #ddecd6;
+    font-family: "Lato";
+    border-radius: 6px;
+    font-weight: bold;
+}
+.boton-blanco:hover{
+    -fx-background-color: #00000059;
+    background-color: #00000059;
+}
+.texto-blanco-generico{
+    -fx-text-family: "Lato";
+    -fx-text-fill: black;
+}
+
 .texto-alerta{
     -fx-background-color: #FFB8B8;
     -fx-padding: 20;
@@ -63,4 +84,18 @@
     background-color: #FFB8B8;
     padding: 20;
     font-weight: bold;
+}
+
+/* ----------- OBJETOS ----------- */
+/* Cambia el fondo del ScrollPane y de su contenedor interno (viewport) */
+.scroll-pane, .scroll-pane > .viewport {
+    -fx-background-color: transparent;
+    background-color: transparent;
+}
+/* Cambia el color del borde */
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent; 
+    background-color: transparent;
+    border-color: transparent; 
 }

@@ -97,7 +97,7 @@
                         <Font name="Lato Regular" size="14.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="P.UNITARIO" textFill="#3c3c3c" wrapText="true" GridPane.columnIndex="2">
+                  <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="P. UNITARIO" textFill="#3c3c3c" wrapText="true" GridPane.columnIndex="2">
                      <font>
                         <Font name="Lato Regular" size="14.0" />
                      </font>

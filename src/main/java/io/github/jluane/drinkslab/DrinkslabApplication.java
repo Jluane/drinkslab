@@ -1,6 +1,7 @@
 package io.github.jluane.drinkslab;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,7 +9,10 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import io.github.jluane.drinkslab.datos.RepositorioProducto;
+import io.github.jluane.drinkslab.datos.RepositorioVenta;
+import io.github.jluane.drinkslab.negocio.modelo.DetalleVenta;
 import io.github.jluane.drinkslab.negocio.modelo.Producto;
+import io.github.jluane.drinkslab.negocio.modelo.Venta;
 import io.github.jluane.drinkslab.presentacion.ControlMain;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -22,11 +26,13 @@ public class DrinkslabApplication {
 
     // Repositorios para la base de datos de prueba
     private final RepositorioProducto repositorioProducto;
+    private final RepositorioVenta repositorioVenta;
 
     @Autowired
-    public DrinkslabApplication(ControlMain controlMain, RepositorioProducto repositorioProducto){
+    public DrinkslabApplication(ControlMain controlMain, RepositorioProducto repositorioProducto, RepositorioVenta repositorioVenta){
         this.controlMain = controlMain;
         this.repositorioProducto = repositorioProducto;
+        this.repositorioVenta = repositorioVenta;
     }
 
 
@@ -922,5 +928,337 @@ p113.setPrecioUnitario(new BigDecimal("18"));
 p113.setGTIN("7147");
 p113.setCantInv(BigDecimal.valueOf(12));
 repositorioProducto.save(p113);
+
+
+        LocalDateTime ahora = LocalDateTime.now();
+
+    // VENTA 1 - Hoy
+    Venta v1 = new Venta();
+    v1.setFecha(ahora);
+    v1.setTipoPago(Venta.TipoPago.EFECTIVO);
+
+    DetalleVenta d1 = new DetalleVenta();
+    d1.setNombreProducto("Agua natural 600ml");
+    d1.setGTIN("456");
+    d1.setCantidad(new BigDecimal("2"));
+    d1.setCosto(new BigDecimal("15"));
+    d1.setVenta(v1);
+    v1.getDetalles().add(d1);
+
+    DetalleVenta d2 = new DetalleVenta();
+    d2.setNombreProducto("Sabritas");
+    d2.setGTIN("1234");
+    d2.setCantidad(new BigDecimal("1"));
+    d2.setCosto(new BigDecimal("17"));
+    d2.setVenta(v1);
+    v1.getDetalles().add(d2);
+
+    DetalleVenta d3 = new DetalleVenta();
+    d3.setNombreProducto("Gansito");
+    d3.setGTIN("666");
+    d3.setCantidad(new BigDecimal("2"));
+    d3.setCosto(new BigDecimal("18"));
+    d3.setVenta(v1);
+    v1.getDetalles().add(d3);
+
+    v1.setTotal(new BigDecimal("83"));
+    repositorioVenta.save(v1);
+
+
+    // VENTA 2 - Hoy
+    Venta v2 = new Venta();
+    v2.setFecha(ahora.minusMinutes(35));
+    v2.setTipoPago(Venta.TipoPago.TARJETA);
+
+    DetalleVenta d4 = new DetalleVenta();
+    d4.setNombreProducto("Coca Cola 600ml");
+    d4.setGTIN("111");
+    d4.setCantidad(new BigDecimal("2"));
+    d4.setCosto(new BigDecimal("18"));
+    d4.setVenta(v2);
+    v2.getDetalles().add(d4);
+
+    DetalleVenta d5 = new DetalleVenta();
+    d5.setNombreProducto("Vasos desechables");
+    d5.setGTIN("7501219112605");
+    d5.setCantidad(new BigDecimal("1"));
+    d5.setCosto(new BigDecimal("1"));
+    d5.setVenta(v2);
+    v2.getDetalles().add(d5);
+
+    DetalleVenta d6 = new DetalleVenta();
+    d6.setNombreProducto("Galletas");
+    d6.setGTIN("4321");
+    d6.setCantidad(new BigDecimal("2"));
+    d6.setCosto(new BigDecimal("12"));
+    d6.setVenta(v2);
+    v2.getDetalles().add(d6);
+
+    v2.setTotal(new BigDecimal("61"));
+    repositorioVenta.save(v2);
+
+
+    // VENTA 3 - Hoy
+    Venta v3 = new Venta();
+    v3.setFecha(ahora.minusHours(1));
+    v3.setTipoPago(Venta.TipoPago.TRANSFERENCIA);
+
+    DetalleVenta d7 = new DetalleVenta();
+    d7.setNombreProducto("Leche 1L");
+    d7.setGTIN("789");
+    d7.setCantidad(new BigDecimal("2"));
+    d7.setCosto(new BigDecimal("28"));
+    d7.setVenta(v3);
+    v3.getDetalles().add(d7);
+
+    DetalleVenta d8 = new DetalleVenta();
+    d8.setNombreProducto("Pan de caja");
+    d8.setGTIN("1467");
+    d8.setCantidad(new BigDecimal("1"));
+    d8.setCosto(new BigDecimal("48"));
+    d8.setVenta(v3);
+    v3.getDetalles().add(d8);
+
+    v3.setTotal(new BigDecimal("104"));
+    repositorioVenta.save(v3);
+
+
+    // VENTA 4 - Ayer
+    Venta v4 = new Venta();
+    v4.setFecha(ahora.minusDays(1).withHour(10).withMinute(25));
+    v4.setTipoPago(Venta.TipoPago.EFECTIVO);
+
+    DetalleVenta d9 = new DetalleVenta();
+    d9.setNombreProducto("Arroz 1kg");
+    d9.setGTIN("2468");
+    d9.setCantidad(new BigDecimal("2"));
+    d9.setCosto(new BigDecimal("32"));
+    d9.setVenta(v4);
+    v4.getDetalles().add(d9);
+
+    DetalleVenta d10 = new DetalleVenta();
+    d10.setNombreProducto("Frijoles en lata");
+    d10.setGTIN("3344");
+    d10.setCantidad(new BigDecimal("1"));
+    d10.setCosto(new BigDecimal("19"));
+    d10.setVenta(v4);
+    v4.getDetalles().add(d10);
+
+    DetalleVenta d11 = new DetalleVenta();
+    d11.setNombreProducto("Aceite 1L");
+    d11.setGTIN("147258");
+    d11.setCantidad(new BigDecimal("1"));
+    d11.setCosto(new BigDecimal("45"));
+    d11.setVenta(v4);
+    v4.getDetalles().add(d11);
+
+    v4.setTotal(new BigDecimal("128"));
+    repositorioVenta.save(v4);
+
+
+    // VENTA 5 - Ayer
+    Venta v5 = new Venta();
+    v5.setFecha(ahora.minusDays(1).withHour(13).withMinute(40));
+    v5.setTipoPago(Venta.TipoPago.TARJETA);
+
+    DetalleVenta d12 = new DetalleVenta();
+    d12.setNombreProducto("Refresco 600ml");
+    d12.setGTIN("654");
+    d12.setCantidad(new BigDecimal("3"));
+    d12.setCosto(new BigDecimal("18"));
+    d12.setVenta(v5);
+    v5.getDetalles().add(d12);
+
+    DetalleVenta d13 = new DetalleVenta();
+    d13.setNombreProducto("Chocorroles");
+    d13.setGTIN("8877");
+    d13.setCantidad(new BigDecimal("1"));
+    d13.setCosto(new BigDecimal("19"));
+    d13.setVenta(v5);
+    v5.getDetalles().add(d13);
+
+    DetalleVenta d14 = new DetalleVenta();
+    d14.setNombreProducto("Chocolate");
+    d14.setGTIN("987");
+    d14.setCantidad(new BigDecimal("2"));
+    d14.setCosto(new BigDecimal("10"));
+    d14.setVenta(v5);
+    v5.getDetalles().add(d14);
+
+    v5.setTotal(new BigDecimal("93"));
+    repositorioVenta.save(v5);
+
+
+    // VENTA 6 - Hace 2 días
+    Venta v6 = new Venta();
+    v6.setFecha(ahora.minusDays(2).withHour(11).withMinute(15));
+    v6.setTipoPago(Venta.TipoPago.EFECTIVO);
+
+    DetalleVenta d15 = new DetalleVenta();
+    d15.setNombreProducto("Huevo por pieza");
+    d15.setGTIN("8642");
+    d15.setCantidad(new BigDecimal("6"));
+    d15.setCosto(new BigDecimal("4"));
+    d15.setVenta(v6);
+    v6.getDetalles().add(d15);
+
+    DetalleVenta d16 = new DetalleVenta();
+    d16.setNombreProducto("Tortillas");
+    d16.setGTIN("3689");
+    d16.setCantidad(new BigDecimal("1"));
+    d16.setCosto(new BigDecimal("24"));
+    d16.setVenta(v6);
+    v6.getDetalles().add(d16);
+
+    DetalleVenta d17 = new DetalleVenta();
+    d17.setNombreProducto("Queso panela");
+    d17.setGTIN("4979");
+    d17.setCantidad(new BigDecimal("1"));
+    d17.setCosto(new BigDecimal("75"));
+    d17.setVenta(v6);
+    v6.getDetalles().add(d17);
+
+    v6.setTotal(new BigDecimal("123"));
+    repositorioVenta.save(v6);
+
+
+    // VENTA 7 - Hace 2 días
+    Venta v7 = new Venta();
+    v7.setFecha(ahora.minusDays(2).withHour(17).withMinute(30));
+    v7.setTipoPago(Venta.TipoPago.TRANSFERENCIA);
+
+    DetalleVenta d18 = new DetalleVenta();
+    d18.setNombreProducto("Shampoo");
+    d18.setGTIN("8857");
+    d18.setCantidad(new BigDecimal("1"));
+    d18.setCosto(new BigDecimal("65"));
+    d18.setVenta(v7);
+    v7.getDetalles().add(d18);
+
+    DetalleVenta d19 = new DetalleVenta();
+    d19.setNombreProducto("Jabón de baño");
+    d19.setGTIN("1593");
+    d19.setCantidad(new BigDecimal("2"));
+    d19.setCosto(new BigDecimal("18"));
+    d19.setVenta(v7);
+    v7.getDetalles().add(d19);
+
+    DetalleVenta d20 = new DetalleVenta();
+    d20.setNombreProducto("Papel higiénico");
+    d20.setGTIN("3692");
+    d20.setCantidad(new BigDecimal("1"));
+    d20.setCosto(new BigDecimal("45"));
+    d20.setVenta(v7);
+    v7.getDetalles().add(d20);
+
+    v7.setTotal(new BigDecimal("146"));
+    repositorioVenta.save(v7);
+
+
+    // VENTA 8 - Hace 3 días
+    Venta v8 = new Venta();
+    v8.setFecha(ahora.minusDays(3).withHour(12).withMinute(10));
+    v8.setTipoPago(Venta.TipoPago.TARJETA);
+
+    DetalleVenta d21 = new DetalleVenta();
+    d21.setNombreProducto("Cereal de maíz");
+    d21.setGTIN("258");
+    d21.setCantidad(new BigDecimal("1"));
+    d21.setCosto(new BigDecimal("55"));
+    d21.setVenta(v8);
+    v8.getDetalles().add(d21);
+
+    DetalleVenta d22 = new DetalleVenta();
+    d22.setNombreProducto("Yogur natural");
+    d22.setGTIN("3868");
+    d22.setCantidad(new BigDecimal("3"));
+    d22.setCosto(new BigDecimal("18"));
+    d22.setVenta(v8);
+    v8.getDetalles().add(d22);
+
+    DetalleVenta d23 = new DetalleVenta();
+    d23.setNombreProducto("Boing mango");
+    d23.setGTIN("555");
+    d23.setCantidad(new BigDecimal("2"));
+    d23.setCosto(new BigDecimal("12"));
+    d23.setVenta(v8);
+    v8.getDetalles().add(d23);
+
+    v8.setTotal(new BigDecimal("133"));
+    repositorioVenta.save(v8);
+
+
+    // VENTA 9 - Hace 4 días
+    Venta v9 = new Venta();
+    v9.setFecha(ahora.minusDays(4).withHour(16).withMinute(45));
+    v9.setTipoPago(Venta.TipoPago.EFECTIVO);
+
+    DetalleVenta d24 = new DetalleVenta();
+    d24.setNombreProducto("Mayonesa");
+    d24.setGTIN("963");
+    d24.setCantidad(new BigDecimal("1"));
+    d24.setCosto(new BigDecimal("38"));
+    d24.setVenta(v9);
+    v9.getDetalles().add(d24);
+
+    DetalleVenta d25 = new DetalleVenta();
+    d25.setNombreProducto("Catsup");
+    d25.setGTIN("159");
+    d25.setCantidad(new BigDecimal("1"));
+    d25.setCosto(new BigDecimal("25"));
+    d25.setVenta(v9);
+    v9.getDetalles().add(d25);
+
+    DetalleVenta d26 = new DetalleVenta();
+    d26.setNombreProducto("Sopa instantánea");
+    d26.setGTIN("6655");
+    d26.setCantidad(new BigDecimal("3"));
+    d26.setCosto(new BigDecimal("18"));
+    d26.setVenta(v9);
+    v9.getDetalles().add(d26);
+
+    DetalleVenta d27 = new DetalleVenta();
+    d27.setNombreProducto("Palomitas");
+    d27.setGTIN("1468");
+    d27.setCantidad(new BigDecimal("2"));
+    d27.setCosto(new BigDecimal("15"));
+    d27.setVenta(v9);
+    v9.getDetalles().add(d27);
+
+    v9.setTotal(new BigDecimal("147"));
+    repositorioVenta.save(v9);
+
+
+    // VENTA 10 - Hace 5 días
+    Venta v10 = new Venta();
+    v10.setFecha(ahora.minusDays(5).withHour(19).withMinute(20));
+    v10.setTipoPago(Venta.TipoPago.TRANSFERENCIA);
+
+    DetalleVenta d28 = new DetalleVenta();
+    d28.setNombreProducto("Café soluble");
+    d28.setGTIN("642");
+    d28.setCantidad(new BigDecimal("1"));
+    d28.setCosto(new BigDecimal("85"));
+    d28.setVenta(v10);
+    v10.getDetalles().add(d28);
+
+    DetalleVenta d29 = new DetalleVenta();
+    d29.setNombreProducto("Azúcar 1kg");
+    d29.setGTIN("7531");
+    d29.setCantidad(new BigDecimal("2"));
+    d29.setCosto(new BigDecimal("29"));
+    d29.setVenta(v10);
+    v10.getDetalles().add(d29);
+
+    DetalleVenta d30 = new DetalleVenta();
+    d30.setNombreProducto("Leche deslactosada");
+    d30.setGTIN("2757");
+    d30.setCantidad(new BigDecimal("2"));
+    d30.setCosto(new BigDecimal("32"));
+    d30.setVenta(v10);
+    v10.getDetalles().add(d30);
+
+    v10.setTotal(new BigDecimal("207"));
+    repositorioVenta.save(v10);
     }
 }

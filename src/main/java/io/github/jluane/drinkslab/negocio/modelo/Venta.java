@@ -37,7 +37,7 @@ public class Venta {
 
     // Relaciones
     // DetallesVenta
-    @OneToMany(mappedBy = "venta", targetEntity = DetalleVenta.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "venta", targetEntity = DetalleVenta.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     List<DetalleVenta> detalles = new ArrayList<>();
     // Deuda
     @OneToOne(mappedBy = "venta", targetEntity = Deuda.class, cascade = CascadeType.ALL, orphanRemoval = true)

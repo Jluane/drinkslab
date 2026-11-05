@@ -88,13 +88,13 @@ public class DetalleVenta {
         return idDetalleVenta;
     }
     public String getNombreProducto(){
-        if(producto == null){
+        if(producto != null){
             return producto.getNombre();
         }
         return nombreProducto;
     }
     public String getGTIN(){
-        if(producto == null){
+        if(producto != null){
             return producto.getNombre();
         }
         return GTIN;

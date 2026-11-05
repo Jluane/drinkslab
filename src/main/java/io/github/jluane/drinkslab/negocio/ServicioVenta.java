@@ -1,7 +1,9 @@
 package io.github.jluane.drinkslab.negocio;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,5 +86,12 @@ public class ServicioVenta {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public List<Venta> obtenerPorFecha(LocalDate fecha){
+        LocalDateTime inicioDia = fecha.atStartOfDay();
+        LocalDateTime finalDia = fecha.atTime(LocalTime.MAX);
+
+        return repositorioVenta.findByFechaBetween(inicioDia, finalDia);
     }
 }

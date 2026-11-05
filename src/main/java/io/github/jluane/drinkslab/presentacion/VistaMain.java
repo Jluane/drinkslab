@@ -33,6 +33,8 @@ public class VistaMain {
 	private ToggleButton btnVenta;
 	@FXML
 	private ToggleButton btnInventario;
+	@FXML
+	private ToggleButton btnCorte;
 
     // Constructor necesario para la clase
     public VistaMain(){}
@@ -132,4 +134,12 @@ public class VistaMain {
         System.out.println("Botón Inventario seleccionado");
         control.irInventario();
     }
+	@FXML
+	public void onActionBtnCorte(ActionEvent event){
+		ToggleButton botonPresionado = (ToggleButton) event.getSource();
+        botonPresionado.setSelected(true);
+
+		System.out.println("Botón Corte seleccionado");
+        control.irCorte();
+	}
 }

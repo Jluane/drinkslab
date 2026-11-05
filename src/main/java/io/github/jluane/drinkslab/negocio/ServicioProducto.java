@@ -70,10 +70,10 @@ public class ServicioProducto {
 
         total = total.add(restante.multiply(producto.getPrecioUnitario())); // Sumamos a los restantes
 
-        // Se redondea para que siempre tenga valores de 0.50 y se redondeé hacia arriba en caso de ser necesario
-        return total.divide(BigDecimal.valueOf(0.50), 0, RoundingMode.CEILING)
-                    .multiply(BigDecimal.valueOf(0.50))
+        // Se redondea para que siempre tenga valores enteros
+        return total.setScale(0, RoundingMode.CEILING)
                     .setScale(2, RoundingMode.UNNECESSARY);
+
     }
 
     /**

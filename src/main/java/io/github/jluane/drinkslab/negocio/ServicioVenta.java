@@ -1,6 +1,7 @@
 package io.github.jluane.drinkslab.negocio;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -15,6 +16,7 @@ import io.github.jluane.drinkslab.datos.RepositorioVenta;
 import io.github.jluane.drinkslab.negocio.modelo.DetalleVenta;
 import io.github.jluane.drinkslab.negocio.modelo.Producto;
 import io.github.jluane.drinkslab.negocio.modelo.Venta;
+import io.github.jluane.drinkslab.negocio.modelo.Venta.TipoPago;
 
 @Service
 public class ServicioVenta {
@@ -77,6 +79,22 @@ public class ServicioVenta {
                     prod.setCantInv(diferencia);
                 repositorioProducto.save(prod);
             }
+
+            // Calculamos la comisión de la terminal
+            if(venta.getTipoPago() == TipoPago.TARJETA){
+                BigDecimal porcentaje = new BigDecimal("0.0299");
+                BigDecimal IVA = new BigDecimal("0.16");
+                BigDecimal comisionCompleta = ((venta.getTotal().multiply(porcentaje)).add(BigDecimal.ONE)).setScale(2, RoundingMode.UP); // Redondeamos a dos cifras
+                BigDecimal IVAComision = (comisionCompleta.multiply(IVA)).setScale(2, RoundingMode.UP);
+                BigDecimal descuento = comisionCompleta.add(IVAComision);
+                BigDecimal nuevoTotal = venta.getTotal().subtract(descuento);
+                venta.setTotal(nuevoTotal);
+                System.out.println("Comisión: "+comisionCompleta);
+                System.out.println("IVA; "+IVAComision);
+                System.out.println("Descuento: "+descuento);
+                System.out.println("Total: "+nuevoTotal);
+            }
+
 
             repositorioVenta.save(venta); // Gracias a la configuación en las entidades, se guardan los detalles y la venta automáticamente
             System.out.println("Se guadó la venta satisfactoriamente");

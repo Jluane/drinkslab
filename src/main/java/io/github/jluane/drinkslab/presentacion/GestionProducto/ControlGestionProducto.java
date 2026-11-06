@@ -11,7 +11,10 @@ import io.github.jluane.drinkslab.negocio.ServicioProducto;
 import io.github.jluane.drinkslab.negocio.ServicioProveedor;
 import io.github.jluane.drinkslab.negocio.modelo.Producto;
 import io.github.jluane.drinkslab.negocio.modelo.Proveedor;
+import io.github.jluane.drinkslab.presentacion.LectorCodigoBarras;
 import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
@@ -25,15 +28,19 @@ public class ControlGestionProducto {
     private final ServicioProducto servicioProducto;
     private final ServicioProveedor servicioProveedor;
 
+    // Lector de códigos de barras
+    private final LectorCodigoBarras lectorCodigoBarras;
+
     // Datos
     private Producto producto;
     private List<Proveedor> proveedores = new ArrayList<>();
 
     @Autowired
-    public ControlGestionProducto(VistaGestionProducto vista, ServicioProducto servicioProducto, ServicioProveedor servicioProveedor){
+    public ControlGestionProducto(VistaGestionProducto vista, ServicioProducto servicioProducto, ServicioProveedor servicioProveedor, LectorCodigoBarras lectorCodigoBarras){
         this.vista = vista;
         this.servicioProducto = servicioProducto;
         this.servicioProveedor = servicioProveedor;
+        this.lectorCodigoBarras = lectorCodigoBarras;
     }
 
     /**
@@ -53,6 +60,11 @@ public class ControlGestionProducto {
     public void inicia(String codigo){
         this.producto = new Producto();
         producto.setGTIN(codigo);
+
+        lectorCodigoBarras.iniciar(codigoObtenido -> {
+            Platform.runLater(() -> vista.ingresarCodigo(codigoObtenido));
+        });
+
         vista.muestra(this.producto, false);
     }
 
@@ -63,6 +75,11 @@ public class ControlGestionProducto {
      */
     public void inicia(Producto producto){
         this.producto = producto;
+
+        lectorCodigoBarras.iniciar(codigoObtenido -> {
+            Platform.runLater(() -> vista.ingresarCodigo(codigoObtenido));
+        });
+
         vista.muestra(producto, true);
     }
 
@@ -79,7 +96,7 @@ public class ControlGestionProducto {
             mostrarAlerta("Estás en Creación.\nVerifica que no exista un producto con ese código.\nO busca el producto directamente con el código.");
         }else{
             // Mostrar aviso
-            vista.cierra();
+            this.cierra();
         }
     }
 
@@ -113,7 +130,7 @@ public class ControlGestionProducto {
         if(servicioProducto.eliminarProducto(producto)){
             System.out.println("No se pudo borrar al producto");
         }
-        vista.cierra();
+        this.cierra();
     }
 
     /**
@@ -164,4 +181,26 @@ public class ControlGestionProducto {
         mostrarProveedoresTenidos();
     }
 
+    /**
+     * Cierra al código de barras
+     */
+    @PreDestroy
+    public void cerrarLector(){
+        lectorCodigoBarras.detener();
+    }
+
+    /**
+     * Cierra al código de barras desde una llamada externa
+     */
+    public void detenerLector(){
+        lectorCodigoBarras.detener();
+    }
+
+    /**
+     * Lleva el proceso para cerrar correctamente la ventana
+     */
+    public void cierra(){
+        detenerLector();
+        vista.cierra();
+    }
 }

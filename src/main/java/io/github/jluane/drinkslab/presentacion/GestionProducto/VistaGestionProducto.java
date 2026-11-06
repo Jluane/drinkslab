@@ -62,6 +62,14 @@ public class VistaGestionProducto {
         temporizadorAviso.setOnFinished(evento -> {
             habilitarMostrar(lblAviso, false);
         });
+
+		// En caso de que se cierre la pantalla
+		stage.setOnCloseRequest(event -> {
+			control.cierra();
+		});
+		stage.setOnHidden(event -> {
+			control.cierra();
+		});
     }
 
     /**
@@ -351,6 +359,13 @@ public class VistaGestionProducto {
         System.out.println("Mostrando error: "+texto);
         temporizadorAviso.playFromStart();
 	}
+	/**
+	 * Ingresa el texto dado en el field de código
+	 * @param codigo
+	 */
+	public void ingresarCodigo(String codigo){
+		this.codigo.setText(codigo);
+	}
 
 	// ------------------ ON ACTION'S ------------------
 	@FXML
@@ -381,7 +396,7 @@ public class VistaGestionProducto {
 	@FXML
 	public void onActionCancelar(){
 		System.out.println("Se presionó Cancelar");
-		cierra();
+		control.cierra();
 	}
 	@FXML
 	public void onActionEliminar(){

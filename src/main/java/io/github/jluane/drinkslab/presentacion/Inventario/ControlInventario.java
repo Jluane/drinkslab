@@ -61,6 +61,7 @@ public class ControlInventario {
         System.out.println("Inicia Control Inventario");
         vista.inicia(servicioProducto.totalProductos(), 1);
         mostrarProductos(1);
+
         lectorCodigoBarras.iniciar(codigo ->
             Platform.runLater(() -> buscarProducto(codigo))
         );

@@ -333,4 +333,11 @@ public class ControlVenta {
     public void cerrarLector(){
         lectorCodigoBarras.detener();
     }
+
+    /**
+     * Cierra al lector desde una llamada externa
+     */
+    public void detenerLector() {
+        lectorCodigoBarras.detener();
+    }
 }

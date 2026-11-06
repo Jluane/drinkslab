@@ -4,12 +4,16 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import io.github.jluane.drinkslab.negocio.ServicioProducto;
 import io.github.jluane.drinkslab.negocio.modelo.Producto;
+import io.github.jluane.drinkslab.presentacion.LectorCodigoBarras;
 import io.github.jluane.drinkslab.presentacion.GestionProducto.ControlGestionProducto;
 import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
@@ -22,11 +26,15 @@ public class ControlInventario {
     // Servicio a los que se conecta
     private final ServicioProducto servicioProducto;
 
+    // Lector de código de barras
+    private final LectorCodigoBarras lectorCodigoBarras;
+
     @Autowired
-    public ControlInventario(VistaInventario vista, ServicioProducto servicioProducto, ControlGestionProducto controlGestionProducto){
+    public ControlInventario(VistaInventario vista, ServicioProducto servicioProducto, @Lazy ControlGestionProducto controlGestionProducto, LectorCodigoBarras lectorCodigoBarras){
         this.vista = vista;
         this.servicioProducto = servicioProducto;
         this.controlGestionProducto = controlGestionProducto;
+        this.lectorCodigoBarras = lectorCodigoBarras;
     }
 
     /**
@@ -53,6 +61,9 @@ public class ControlInventario {
         System.out.println("Inicia Control Inventario");
         vista.inicia(servicioProducto.totalProductos(), 1);
         mostrarProductos(1);
+        lectorCodigoBarras.iniciar(codigo ->
+            Platform.runLater(() -> buscarProducto(codigo))
+        );
     }
 
     /**
@@ -82,8 +93,9 @@ public class ControlInventario {
      * @param gtin Es el código del producto que buscamos
      */
     public void buscarProducto(String gtin){
+        detenerLector();
         Producto producto = servicioProducto.recuperaProducto(gtin);
-    
+        
         vista.aplicarDifuminado();
         if(producto == null){
             System.out.println("Se creará al producto");
@@ -126,5 +138,20 @@ public class ControlInventario {
 
     public List<String> obtenerSugerenciasNombres(String texto){
         return servicioProducto.obtenerSugerenciasNombres(texto);
+    }
+
+    /**
+     * Cierra al código de barras
+     */
+    @PreDestroy
+    public void cerrarLector(){
+        lectorCodigoBarras.detener();
+    }
+
+    /**
+     * Cierra al código de barras desde una llamada externa
+     */
+    public void detenerLector(){
+        lectorCodigoBarras.detener();
     }
 }

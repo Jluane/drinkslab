@@ -47,6 +47,9 @@ public class ControlMain {
      * Pasa el control a la pantalla de ventas para que se dibuje en el centro
      */
     public void irVenta(){
+        // Cerramos los lectores de los demás
+        controlInventario.detenerLector();
+
         // Obtiene el diseño de la venta
         javafx.scene.Parent panelVenta = controlVenta.obtienePanel();
         // Le dice a la ventana principal que lo ponga en el centro
@@ -57,6 +60,9 @@ public class ControlMain {
      * Pasa el control a la pantalla de inventario para que se dibuje en el centro
      */
     public void irInventario(){
+        // Cerramos al lector que apunta a ControlVenta
+        controlVenta.detenerLector();
+
         // Obtiene el diseño de la venta
         javafx.scene.Parent panelInventario = controlInventario.obtienePanel();
         // Le dice a la ventana principal que lo ponga en el centro
@@ -67,6 +73,10 @@ public class ControlMain {
      * Pasa el control a la pantalla de corte para que se dibuje en el centro
      */
     public void irCorte(){
+        // Cerramos al lector que apunta a ControlVenta
+        controlVenta.detenerLector();
+        controlInventario.detenerLector();
+
         // Obtiene el diseño de la venta
         javafx.scene.Parent panelCorte = controlCorte.obtienePanel();
         // Le dice a la ventana principal que lo ponga en el centro

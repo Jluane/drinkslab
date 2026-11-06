@@ -123,6 +123,8 @@ public class VistaGestionProducto {
 			return;
 		}
 		initializeUI(accion);
+		stage.toFront();
+		stage.setTitle(accion+" producto");
 		
 		lblTitulo.setText(accion+" producto");
 		habilitarMostrar(btnEliminar, existe);

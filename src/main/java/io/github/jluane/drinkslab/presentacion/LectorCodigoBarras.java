@@ -45,6 +45,8 @@ public class LectorCodigoBarras {
 
         System.out.println("Lector conectado correctamente");
 
+        puerto.flushIOBuffers();
+
         puerto.addDataListener(new SerialPortDataListener() {
             @Override 
             public int getListeningEvents(){
@@ -84,6 +86,8 @@ public class LectorCodigoBarras {
      */
     public void detener(){
         if(puerto != null && puerto.isOpen()){
+
+            puerto.flushIOBuffers();
             puerto.removeDataListener();
             puerto.closePort();
             System.out.println("Lector desconectado");

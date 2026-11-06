@@ -15,10 +15,13 @@ import io.github.jluane.drinkslab.negocio.modelo.DetalleVenta;
 import io.github.jluane.drinkslab.negocio.modelo.Producto;
 import io.github.jluane.drinkslab.negocio.modelo.Venta;
 import io.github.jluane.drinkslab.negocio.modelo.Venta.TipoPago;
+import io.github.jluane.drinkslab.presentacion.LectorCodigoBarras;
 import io.github.jluane.drinkslab.presentacion.Cobro.Efectivo.ControlCobroEfectivo;
 import io.github.jluane.drinkslab.presentacion.Cobro.Tarjeta.ControlCobroTarjeta;
 import io.github.jluane.drinkslab.presentacion.Cobro.Transferencia.ControlCobroTransferencia;
 import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+import javafx.application.Platform;
 import javafx.scene.layout.GridPane;
 
 @Component
@@ -34,13 +37,16 @@ public class ControlVenta {
     private final ServicioDetalleVenta servicioDetalleVenta;
     private final ServicioVenta servicioVenta;
 
+    // Lector
+    private final LectorCodigoBarras lectorCodigoBarras;
+
     // Variables en la clase dadas para la creación de los objetos
     private Venta venta;
     private List<DetalleVenta> detallesVenta;
     private List<itemDetalleVenta> vistasDetalles;
 
     @Autowired
-    public ControlVenta(VistaVenta vista, ServicioProducto servicioProducto, ServicioDetalleVenta servicioDetalleVenta, ServicioVenta servicioVenta, @Lazy ControlCobroTarjeta controlCobroTarjeta, @Lazy ControlCobroEfectivo controlCobroEfectivo, @Lazy ControlCobroTransferencia controlCobroTransferencia){
+    public ControlVenta(VistaVenta vista, ServicioProducto servicioProducto, ServicioDetalleVenta servicioDetalleVenta, ServicioVenta servicioVenta, @Lazy ControlCobroTarjeta controlCobroTarjeta, @Lazy ControlCobroEfectivo controlCobroEfectivo, @Lazy ControlCobroTransferencia controlCobroTransferencia, LectorCodigoBarras lectorCodigoBarras){
         this.vista = vista;
         this.servicioProducto = servicioProducto;
         this.servicioDetalleVenta = servicioDetalleVenta;
@@ -48,6 +54,7 @@ public class ControlVenta {
         this.controlCobroEfectivo = controlCobroEfectivo;
         this.controlCobroTarjeta = controlCobroTarjeta;
         this.controlCobroTransferencia = controlCobroTransferencia;
+        this.lectorCodigoBarras = lectorCodigoBarras;
     }
 
     /**
@@ -74,19 +81,27 @@ public class ControlVenta {
         System.out.println("Inicia Control Venta");
         recargarObjetos();
         vista.inicia(servicioVenta.obtenerSigId());
+
+        lectorCodigoBarras.iniciar(codigo ->
+            Platform.runLater(() -> agregarProducto(codigo, true))
+        );
     }
 
     /*  ----------------- FLUJO NORMAL ----------------- */
     /**
      * Método encargado de los pasos a seguir al momento en el que es ingresado un nuevo producto mediante el código GTIN
      * @param gtin Es el valor del GTIN del producto que se buscará
+     * @param esEscaner Determina si la información es sacada del escaner o no
      */
-    public void agregarProducto(String gtin){
+    public void agregarProducto(String gtin, boolean esEscaner){
         // Se evalúa si existe un producto con ese código
         Producto producto = servicioProducto.recuperaProducto(gtin);
         if(producto == null){
             System.err.println("El producto no existe");
             mostrarAlerta("No se encontró producto con ese código.");
+            if(esEscaner){
+                vista.pedirFocoBuscador();
+            }
             return;
         }
         System.out.println("El producto se encontró");
@@ -94,16 +109,25 @@ public class ControlVenta {
         // Verificamos si el producto ya existe en nuestra lista actual
         Integer indiceDetalle = servicioDetalleVenta.existeEnListaPorProducto(detallesVenta, producto);
 
+        itemDetalleVenta tarjetaProducto;
+
         // Dependiendo de si se encuentra o no en la lista de la venta actual, decidimos qué hacer
         if(indiceDetalle == null){ // Significa que ese producto es nuevo en la lista
             System.out.println("El producto no existe en la lista, se creará");
-            crearDetalleVenta(producto);
+            tarjetaProducto = crearDetalleVenta(producto);
         }else{ // Significa que ya existe un producto así en esa lista
             System.out.println("El producto ya existe en la lista, se actualizará");
             actualizarDetalleVenta(indiceDetalle);
+            tarjetaProducto = vistasDetalles.get(indiceDetalle);
         }
         System.out.println("La lista: \n"+detallesVenta);
         actualizarVenta();
+
+        if(esEscaner){
+            tarjetaProducto.enfocarCantidad();
+        }else if(indiceDetalle == null){
+            tarjetaProducto.enfocarCantidad();
+        }
     }
     /**
      * El proceso que lleva a cobrar la venta que se tiene mediante efectivo
@@ -161,13 +185,13 @@ public class ControlVenta {
      * Método destinado a agregar un nuevo producto a la lista que tenemos
      * @param producto Es el producto que se agregará dentro de su detalle correspondiente
      */
-    private void crearDetalleVenta(Producto producto){
+    private itemDetalleVenta crearDetalleVenta(Producto producto){
         // Actualizamos las listas con el producto
         DetalleVenta detalle = servicioDetalleVenta.agregarProductoNuevo(detallesVenta, producto);
         if(detalle == null){
             System.err.println("Ocurrió un error al intentar guardar el producto");
             mostrarAlerta("No se pudo crear al detalle de venta para el producto "+producto.getNombre()+".");
-            return;
+            return null;
         }
         System.out.println("Se logró guardar el producto en un nuevo detalle venta");
         
@@ -177,9 +201,10 @@ public class ControlVenta {
         if(tarjeta == null){
             System.err.println("Ocurrió un error al intentar crear  al detalle venta gráficamente");
             mostrarAlerta("El producto se guardó pero no se logró mostrar.");
-            return;
+            return null;
         }
         vistasDetalles.add(tarjeta); // Guardamos también la tarjeta en nuestra lista de tarjetas visuales
+        return tarjeta;
     }
     /**
      * Método destinado a agregar un producto ya existente a la lista que tenemos
@@ -299,5 +324,13 @@ public class ControlVenta {
      */
     public List<String> obtenerSugerenciasNombres(String texto){
         return servicioProducto.obtenerSugerenciasNombres(texto);
+    }
+
+    /**
+     * Cierra al código de barras
+     */
+    @PreDestroy
+    public void cerrarLector(){
+        lectorCodigoBarras.detener();
     }
 }

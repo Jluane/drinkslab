@@ -250,13 +250,12 @@ public class VistaVenta {
         }else{
             habilitarBotones(true);
         }
-        pedirFocoBuscador(); // Solicita de vuelta el foco para el buscador para evitar que se quede el foco en el ítem modificado
     }
 
     /**
      * Solicita el enfoque en el texto de búsqueda para asegurarse de que es esta pantalla a la que se está apuntando
      */
-    private void pedirFocoBuscador(){
+    public void pedirFocoBuscador(){
         txtBusqueda.requestFocus();
     }
     
@@ -336,7 +335,7 @@ public class VistaVenta {
         if (!texto.isEmpty()) {
             System.out.println("Buscando: " + texto);
 
-            control.agregarProducto(texto);
+            control.agregarProducto(texto, false);
             // Aquí llamas a tu controlador: control.buscarProducto(texto);
             txtBusqueda.clear(); // Limpias el campo después de buscar
         }else{

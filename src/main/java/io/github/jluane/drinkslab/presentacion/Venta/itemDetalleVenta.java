@@ -138,4 +138,14 @@ public class itemDetalleVenta {
     public GridPane getContenedorDetalle(){
         return this.contenedorDetalle;
     }
+
+    /**
+     * Pide el enfoque a la cantidad del producto
+     */
+    public void enfocarCantidad() {
+        javafx.application.Platform.runLater(() -> {
+            cantidad.requestFocus();
+            cantidad.selectAll();
+        });
+    }
 }

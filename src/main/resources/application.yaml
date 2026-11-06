@@ -2,9 +2,11 @@ spring:
   application:
     name: drinkslab
   datasource:
-    url: jdbc:h2:mem:drinkslabdb
+    # Para base de datos NO persistente:
+    # url: jdbc:h2:mem:drinkslab
+    url: jdbc:h2:file:./datos/tienda_db;DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE
     username: sa
-    password:
+    password: password
     driverClassName: org.h2.Driver
   h2:
     console:

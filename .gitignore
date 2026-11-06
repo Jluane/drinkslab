@@ -34,3 +34,6 @@ build/
 
 ### Secretos locales ###
 application-local.yaml
+
+### Base de datos persistente ###
+/datos/

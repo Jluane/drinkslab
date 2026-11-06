@@ -150,6 +150,12 @@ public class ServicioProducto {
         return false;
     }
 
+    /**
+     * Elimina a un producto del repositorio
+     * @param producto Es el producto a eliminar
+     * @return Regresa true si se eliminó con exito, false si no se logró
+     */
+    @Transactional
     public boolean eliminarProducto(Producto producto){
         try{
             repositorioProducto.delete(producto);

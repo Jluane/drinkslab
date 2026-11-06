@@ -2,6 +2,7 @@ package io.github.jluane.drinkslab.negocio;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,16 +13,24 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.github.jluane.drinkslab.datos.RepositorioProducto;
+import io.github.jluane.drinkslab.datos.RepositorioProveedor;
+import io.github.jluane.drinkslab.datos.RepositorioRelacionProductoProveedor;
 import io.github.jluane.drinkslab.negocio.modelo.Producto;
+import io.github.jluane.drinkslab.negocio.modelo.Proveedor;
+import io.github.jluane.drinkslab.negocio.modelo.RelacionProductoProveedor;
 
 @Service
 public class ServicioProducto {
     // Repositorios a los que se conecta
     private final RepositorioProducto repositorioProducto;
+    private final RepositorioRelacionProductoProveedor repositorioRelacionProductoProveedor;
+    private final RepositorioProveedor repositorioProveedor;
 
     @Autowired
-    public ServicioProducto(RepositorioProducto repositorioProducto){
+    public ServicioProducto(RepositorioProducto repositorioProducto, RepositorioRelacionProductoProveedor repositorioRelacionProductoProveedor, RepositorioProveedor repositorioProveedor){
         this.repositorioProducto = repositorioProducto;
+        this.repositorioRelacionProductoProveedor = repositorioRelacionProductoProveedor;
+        this.repositorioProveedor = repositorioProveedor;
     }
 
     /**
@@ -121,9 +130,9 @@ public class ServicioProducto {
      * @return Regresa true si se logra guardar el producto, false si no
      */
     @Transactional
-    public boolean guardarProducto(Producto producto, String nombre, String codigo, String precio, String cant, String cantPaquete, String precioPaquete, String cantPromo, String precioPromo, boolean aGranel){
+    public boolean guardarProducto(Producto producto, String nombre, String codigo, String precio, String cant, String cantPaquete, String precioPaquete, String cantPromo, String precioPromo, boolean aGranel, List<Proveedor> proveedores){
         // En caso de tener que verificar que el codigo no exista ya
-        if(producto.getIdProducto() == null ||!producto.getGTIN().equals(codigo))
+        if(producto.getIdProducto() == null || !producto.getGTIN().equals(codigo))
             if(repositorioProducto.findByGTIN(codigo) != null){
                 return false;
             }
@@ -139,15 +148,74 @@ public class ServicioProducto {
             producto.setPrecioPromocion(new BigDecimal(precioPromo));
             producto.setAGranel(aGranel);
             
-            if(repositorioProducto.save(producto) != null)
-                return true;
+            producto = repositorioProducto.save(producto);
+            if(producto == null || !actualizarProveedores(producto, proveedores))
+                return false;
 
+            return true;
         }catch(Exception e){
             System.err.println("No se pudo guardar "+e);
             return false;
         }
 
-        return false;
+        
+    }
+
+    /**
+     * Actualizamos a los proveedores a los que un producto está relacionado
+     * @param producto Es el producto a actualizar
+     * @param proveedores Son los proveedores que queremos asignarle
+     * @return
+     */
+    @Transactional
+    private boolean actualizarProveedores(Producto producto, List<Proveedor> proveedores){
+        // Guardamos y evaluamos a los proveedores
+        // Obtenemos la lista de nuevas relaciones y de las antiguas
+        List<RelacionProductoProveedor> relacionesActuales = repositorioRelacionProductoProveedor.findByProducto(producto);
+        List<RelacionProductoProveedor> relacionesNuevas = new ArrayList<>();
+        
+        // Listas que guardarán las cosas a cambiar
+        List<RelacionProductoProveedor> aCrear = new ArrayList<>();
+
+        // Convertimos a los proveedores en relaciones con el producto
+        for(Proveedor prov : proveedores){
+            relacionesNuevas.add(new RelacionProductoProveedor(producto, prov));
+        }
+
+        // Evaluamos entre todos para verificar si existen coincidencias. Aquellos que tenga nueva y no 
+        for(RelacionProductoProveedor nueva : relacionesNuevas){
+            RelacionProductoProveedor quitar = null; // Nos dice si debemos quitar al actual de la lista para que no se borre
+            
+            // Busca coincidencia entre nueva y actual
+            for(RelacionProductoProveedor actual : relacionesActuales){
+                // Cuando consigue coincidencia, quita a actual de la lista de relaciones actuales
+                if(nueva.equals(actual)){
+                    quitar = actual;
+                    break;
+                }
+            }
+            if(quitar == null){ // Si no hubo coincidencia, se creará a nueva
+                aCrear.add(nueva);
+            }else
+                relacionesActuales.remove(quitar); // Si hubo coincidencia, quitamos a actual de su lista. Ya sabemos que existe
+            // relacionesActuales conserva solamente a aquellos que nunca tuvieron coincidencia, y que por lo tanto, serán eliminados
+        }
+        // En nueva quedaron todos los que queremos que se queden, en actual todos los que ya no queremos que estén
+        
+        try{
+            // Eliminamos a las relaciones viejas
+            for(RelacionProductoProveedor actual : relacionesActuales)
+                repositorioRelacionProductoProveedor.delete(actual);
+
+            // Agregamos a las relaciones nuevas
+            for(RelacionProductoProveedor nueva : aCrear){
+                repositorioProveedor.save(nueva.getProveedor());
+                repositorioRelacionProductoProveedor.save(nueva);
+            }
+            return true;
+        }catch(Exception e){
+            return false;
+        }
     }
 
     /**
@@ -163,5 +231,21 @@ public class ServicioProducto {
         }catch(Exception e){
             return false;
         }
+    }
+
+    /**
+     * Método que regresa a los proveedores que tiene un producto
+     * @param producto Producto del que se quiere a los proveedores
+     * @return Regresa una lista de proveedores
+     */
+    @Transactional(readOnly = true)
+    public List<Proveedor> obtenerProveedores(Producto producto){
+        if(producto == null||producto.getIdProducto() == null) return new ArrayList<Proveedor>();
+        List<RelacionProductoProveedor> lista = repositorioRelacionProductoProveedor.findByProducto(producto);
+        List<Proveedor> proveedores = new ArrayList<>();
+        for(RelacionProductoProveedor rel : lista){
+            proveedores.add(rel.getProveedor());
+        }
+        return proveedores;
     }
 }

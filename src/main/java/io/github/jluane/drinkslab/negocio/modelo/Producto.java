@@ -1,14 +1,11 @@
 package io.github.jluane.drinkslab.negocio.modelo;
 
 import java.math.BigDecimal;
-import java.util.List;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 
 @Entity 
 public class Producto {
@@ -31,10 +28,6 @@ public class Producto {
     private BigDecimal precioPromocion;
     private BigDecimal cantPaquete;
     private BigDecimal precioPaquete;
-
-    // Relaciones
-    @ManyToMany(mappedBy = "productos")
-    private List<Proveedor> proveedores;
 
     // Constructor
     public Producto(){
@@ -91,9 +84,6 @@ public class Producto {
     public void setPrecioPaquete(BigDecimal precio){
         this.precioPaquete = precio;
     }
-    public void setProveedores(List<Proveedor> proveedores){
-        this.proveedores = proveedores;
-    }
 
     // Getters
     public Long getIdProducto(){
@@ -126,9 +116,6 @@ public class Producto {
     }
     public BigDecimal getPrecioPaquete(){
         return precioPaquete;
-    }
-    public List<Proveedor> getProveedores(){
-        return proveedores;
     }
 
     // toString

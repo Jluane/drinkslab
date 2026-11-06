@@ -221,8 +221,8 @@
                                                 </Label>
                                                 <HBox maxWidth="1.7976931348623157E308" spacing="5.0">
                                                    <children>
-                                                      <ComboBox editable="true" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" HBox.hgrow="ALWAYS" />
-                                                      <Button mnemonicParsing="false" styleClass="boton-generico">
+                                                      <ComboBox fx:id="comboProveedores" editable="true" maxWidth="1.7976931348623157E308" promptText="Buscar o escribir proveedor" style="-fx-background-color: white; -fx-border-color: #B5BFB2;" HBox.hgrow="ALWAYS" />
+                                                      <Button mnemonicParsing="false" onAction="#onActionAgregarProveedor" styleClass="boton-generico">
                                                          <graphic>
                                                             <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true" style="-fx-padding: 2;">
                                                                <image>
@@ -252,7 +252,7 @@
                                                 </Label>
                                                 <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="130.0" maxWidth="1.7976931348623157E308" minHeight="0.0" style="-fx-border-color: #B5BFB2; -fx-background-color: white;">
                                                    <content>
-                                                      <VBox fillWidth="false" maxWidth="1.7976931348623157E308" spacing="5.0" style="-fx-background-color: #FFFFFF;">
+                                                      <VBox fx:id="cajaProveedores" fillWidth="false" maxWidth="1.7976931348623157E308" spacing="5.0" style="-fx-background-color: #FFFFFF;">
                                                          <padding>
                                                             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                                          </padding>

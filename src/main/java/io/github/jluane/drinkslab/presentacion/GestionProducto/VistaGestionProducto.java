@@ -2,23 +2,29 @@ package io.github.jluane.drinkslab.presentacion.GestionProducto;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
 import io.github.jluane.drinkslab.negocio.modelo.Producto;
+import io.github.jluane.drinkslab.negocio.modelo.Proveedor;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -41,6 +47,8 @@ public class VistaGestionProducto {
 	@FXML private HBox boxPaquete;
 	@FXML private HBox boxPromocion;
 	@FXML private CheckBox aGranel, paquete, promocion;
+	@FXML private VBox cajaProveedores;
+	@FXML private ComboBox<String> comboProveedores;
 	// Fields para escribir
 	@FXML private TextField nombre, codigo, precio, cant, pzsPaquete, precioPaquete, cantPromo, precioPromo;
 
@@ -146,6 +154,7 @@ public class VistaGestionProducto {
 		precioPaquete.setText(producto.getPrecioPaquete().toString());
 		cantPromo.setText(producto.getCantPromocion().toString());
 		precioPromo.setText(producto.getPrecioPromocion().toString());
+		comboProveedores.setValue(null);
 		
 		if(producto.getCantPaquete() != null && producto.getCantPaquete().compareTo(BigDecimal.ZERO) != 0){
 			paquete.setSelected(true);
@@ -160,6 +169,41 @@ public class VistaGestionProducto {
 		else{
 			aGranel.setSelected(false);
 		}
+
+		// Colocar a los proveedores
+		limpiarCajaProveedores();
+		control.colocarProveedores();
+	}
+
+	/**
+	 * Limpia la caja de proveedores
+	 */
+	public void limpiarCajaProveedores(){
+		cajaProveedores.getChildren().clear();
+	}
+	/**
+	 * Manda a crear al item con la información deseada
+	 * @param prov Es el proveedor del que se saca la información
+	 */
+	public void mostrarProveedoresSeleccionados(Proveedor prov){
+		try{
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/item-proveedor.fxml"));
+			ItemProveedor tarjeta = new ItemProveedor();
+			tarjeta.setControlGestionProducto(control);
+			loader.setController(tarjeta);
+			Node tarjetaVisual = loader.load();
+			tarjeta.configurarDatos(prov);
+			cajaProveedores.getChildren().add(tarjetaVisual);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * Enseña a todos los proveedores en el Combo que los contiene
+	 * @param nombres Es la lista de nombres de los proveedores
+	 */
+	public void mostrarProveedores(List<String> nombres){
+		comboProveedores.setItems(FXCollections.observableArrayList(nombres));
 	}
 
 	// --------------------- HERRAMIENTAS ---------------------
@@ -341,5 +385,14 @@ public class VistaGestionProducto {
 	public void onActionEliminar(){
 		System.out.println("Se presionó eliminar");
 		control.confirmacionEliminarProducto();
+	}
+	@FXML
+	public void onActionAgregarProveedor(Event event){
+		System.out.println("Se presionó el agregar proveedor");
+
+		control.agregarProveedor(comboProveedores.getValue());
+		
+		comboProveedores.setValue(null);
+		event.consume();
 	}
 }

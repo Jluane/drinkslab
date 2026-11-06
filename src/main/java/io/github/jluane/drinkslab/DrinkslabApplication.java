@@ -9,9 +9,13 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import io.github.jluane.drinkslab.datos.RepositorioProducto;
+import io.github.jluane.drinkslab.datos.RepositorioProveedor;
+import io.github.jluane.drinkslab.datos.RepositorioRelacionProductoProveedor;
 import io.github.jluane.drinkslab.datos.RepositorioVenta;
 import io.github.jluane.drinkslab.negocio.modelo.DetalleVenta;
 import io.github.jluane.drinkslab.negocio.modelo.Producto;
+import io.github.jluane.drinkslab.negocio.modelo.Proveedor;
+import io.github.jluane.drinkslab.negocio.modelo.RelacionProductoProveedor;
 import io.github.jluane.drinkslab.negocio.modelo.Venta;
 import io.github.jluane.drinkslab.presentacion.ControlMain;
 import javafx.application.Application;
@@ -27,12 +31,16 @@ public class DrinkslabApplication {
     // Repositorios para la base de datos de prueba
     private final RepositorioProducto repositorioProducto;
     private final RepositorioVenta repositorioVenta;
+    private final RepositorioProveedor repositorioProveedor;
+    private final RepositorioRelacionProductoProveedor repositorioRelacionProductoProveedor;
 
     @Autowired
-    public DrinkslabApplication(ControlMain controlMain, RepositorioProducto repositorioProducto, RepositorioVenta repositorioVenta){
+    public DrinkslabApplication(ControlMain controlMain, RepositorioProducto repositorioProducto, RepositorioVenta repositorioVenta, RepositorioProveedor repositorioProveedor, RepositorioRelacionProductoProveedor repositorioRelacionProductoProveedor){
         this.controlMain = controlMain;
         this.repositorioProducto = repositorioProducto;
         this.repositorioVenta = repositorioVenta;
+        this.repositorioProveedor = repositorioProveedor;
+        this.repositorioRelacionProductoProveedor = repositorioRelacionProductoProveedor;
     }
 
 
@@ -89,6 +97,13 @@ public class DrinkslabApplication {
      * Inicializa BD para pruebas
      */
     public void inicializaBD(){
+        Proveedor prov1 = new Proveedor("Coca");
+        Proveedor prov2 = new Proveedor("Jarritos");
+        Proveedor prov3 = new Proveedor("Sabritas");
+        prov1 = repositorioProveedor.save(prov1);
+        prov2 = repositorioProveedor.save(prov2);
+        prov3 = repositorioProveedor.save(prov3);
+
         Producto p1 = new Producto();
         p1.setNombre("Producto1");
         p1.setPrecioUnitario(new BigDecimal("100"));
@@ -98,7 +113,10 @@ public class DrinkslabApplication {
         p1.setPrecioPromocion(BigDecimal.valueOf(100));
         p1.setCantPromocion(BigDecimal.valueOf(2));
         p1.setCantInv(BigDecimal.valueOf(10));
-        repositorioProducto.save(p1);
+        p1 = repositorioProducto.save(p1);
+        repositorioRelacionProductoProveedor.save(new RelacionProductoProveedor(p1, prov1));
+        repositorioRelacionProductoProveedor.save(new RelacionProductoProveedor(p1, prov2));
+        
 
         Producto p2 = new Producto();
         p2.setNombre("Producto2");
@@ -106,7 +124,8 @@ public class DrinkslabApplication {
         p2.setGTIN("321");
         p2.setAGranel(true);
         p2.setCantInv(new BigDecimal("1.1"));
-        repositorioProducto.save(p2);
+        p2 = repositorioProducto.save(p2);
+        repositorioRelacionProductoProveedor.save(new RelacionProductoProveedor(p2, prov2));
 
         Producto p3 = new Producto();
         p3.setNombre("Vasos desechables");
@@ -116,7 +135,8 @@ public class DrinkslabApplication {
         p3.setCantPaquete(BigDecimal.valueOf(50));
         p3.setPrecioPromocion(BigDecimal.valueOf(4));
         p3.setCantPromocion(BigDecimal.valueOf(5));
-        repositorioProducto.save(p3);
+        p3 = repositorioProducto.save(p3);
+        repositorioRelacionProductoProveedor.save(new RelacionProductoProveedor(p3, prov3));
 
         Producto p4 = new Producto();
         p4.setNombre("Agua natural 600ml");

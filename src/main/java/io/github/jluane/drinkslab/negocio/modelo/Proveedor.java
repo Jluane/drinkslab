@@ -1,14 +1,9 @@
 package io.github.jluane.drinkslab.negocio.modelo;
 
-import java.util.List;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 
 @Entity 
 public class Proveedor {
@@ -19,15 +14,6 @@ public class Proveedor {
 
     // Atributos
     private String nombre;
-
-    // Relaciones
-    @ManyToMany
-    @JoinTable(
-        name = "proveedor_producto", // Nombre de la tabla intermedia en la BD
-        joinColumns = @JoinColumn(name = "id_proveedor"), // Llave que apunta a esta clase (Proveedor)
-        inverseJoinColumns = @JoinColumn(name = "id_producto") // Llave que apunta a la otra clase (Producto)
-    )
-    private List<Producto> productos;
 
     // Constructores
     public Proveedor(){}
@@ -54,5 +40,14 @@ public class Proveedor {
     @Override
     public String toString(){
         return nombre;
+    }
+    @Override
+    public boolean equals(Object object){
+        if(object == null) return false;
+        if(object instanceof Proveedor proveedor){
+            if(this.nombre.equals(proveedor.getNombre()))
+                return true;
+        }
+        return false;
     }
 }

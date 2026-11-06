@@ -1,12 +1,16 @@
 package io.github.jluane.drinkslab.presentacion.GestionProducto;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import io.github.jluane.drinkslab.negocio.ServicioProducto;
+import io.github.jluane.drinkslab.negocio.ServicioProveedor;
 import io.github.jluane.drinkslab.negocio.modelo.Producto;
+import io.github.jluane.drinkslab.negocio.modelo.Proveedor;
 import jakarta.annotation.PostConstruct;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -19,14 +23,17 @@ public class ControlGestionProducto {
     // ...
     // Servicios a los que se comunica
     private final ServicioProducto servicioProducto;
+    private final ServicioProveedor servicioProveedor;
 
     // Datos
     private Producto producto;
+    private List<Proveedor> proveedores = new ArrayList<>();
 
     @Autowired
-    public ControlGestionProducto(VistaGestionProducto vista, ServicioProducto servicioProducto){
+    public ControlGestionProducto(VistaGestionProducto vista, ServicioProducto servicioProducto, ServicioProveedor servicioProveedor){
         this.vista = vista;
         this.servicioProducto = servicioProducto;
+        this.servicioProveedor = servicioProveedor;
     }
 
     /**
@@ -67,7 +74,7 @@ public class ControlGestionProducto {
         vista.mostrarAlerta(texto);
     }
     public void guardarProducto(String nombre, String codigo, String precio, String cant, String cantPaquete, String precioPaquete, String cantPromo, String precioPromo, boolean aGranel){
-        boolean logrado = servicioProducto.guardarProducto(this.producto, nombre, codigo, precio, cant, cantPaquete, precioPaquete, cantPromo, precioPromo, aGranel);
+        boolean logrado = servicioProducto.guardarProducto(this.producto, nombre, codigo, precio, cant, cantPaquete, precioPaquete, cantPromo, precioPromo, aGranel, proveedores);
         if(!logrado){
             mostrarAlerta("Estás en Creación.\nVerifica que no exista un producto con ese código.\nO busca el producto directamente con el código.");
         }else{
@@ -76,6 +83,9 @@ public class ControlGestionProducto {
         }
     }
 
+    /**
+     * Muestra una pantalla para pedir confirmación y eliminar a un producto
+     */
     public void confirmacionEliminarProducto(){
         // Creamos una alerta de confirmación
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -95,6 +105,10 @@ public class ControlGestionProducto {
             System.out.println("Acción cancelada");
         }
     }
+    /**
+     * Manda a eliminar de repositorio al producto que le es dado
+     * @param producto producto que se eliminará
+     */
     private void eliminarProducto(Producto producto){
         if(servicioProducto.eliminarProducto(producto)){
             System.out.println("No se pudo borrar al producto");
@@ -102,5 +116,52 @@ public class ControlGestionProducto {
         vista.cierra();
     }
 
+    /**
+     * Busca la lista de proveedores del producto actual y los proveedores generales
+     */
+    public void colocarProveedores(){
+        List<Proveedor> todosProveedores = servicioProveedor.obtenerProveedores();
+        this.proveedores = servicioProducto.obtenerProveedores(producto);
+        mostrarProveedoresTenidos();
+
+        if(!todosProveedores.isEmpty()){
+            List<String> nombres = new ArrayList<>();
+            for(Proveedor prov : todosProveedores)
+                nombres.add(prov.getNombre());
+
+            vista.mostrarProveedores(nombres);
+        }
+    }
+    /**
+     * Manda a vista a mostrar la lista de proveedores que se tiene actualmente
+     */
+    private void mostrarProveedoresTenidos(){
+        vista.limpiarCajaProveedores();
+        for(Proveedor prov : this.proveedores){
+            vista.mostrarProveedoresSeleccionados(prov);
+        }
+    }
+    /**
+     * Recibe un nombre para proveedor, se obtiene un proveedor con ese nombre y se agrega a la lista
+     * @param nombre Nombre para el proveedor
+     */
+    public void agregarProveedor(String nombre){
+        Proveedor proveedor = servicioProveedor.obtenerPorNombre(nombre);
+        if(proveedor == null) return;
+        
+        if(proveedores.contains(proveedor)) return ; // Si ya se encuentra en la lista, no se hace nada
+        
+        proveedores.add(proveedor);
+        mostrarProveedoresTenidos();
+    }
+
+    /**
+     * Elimina a un proveedor de su lista
+     * @param proveedor Es el proveedor a eliminar
+     */
+    public void eliminarProveedor(Proveedor proveedor){
+        proveedores.remove(proveedor);
+        mostrarProveedoresTenidos();
+    }
 
 }

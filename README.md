@@ -32,13 +32,22 @@ Las caracterísitas principales de DrinksLab están basadas en los objetivos de 
 ### Requisitos previos
 * [Java 21 JRE](https://adoptium.net/) instalado en el sistema operativo (Linux, Windows o macOS).
 
-### Paso a paso
-1. Descarga la última versión (`.jar`) desde la pestaña de **Releases** a la derecha de este repositorio.
+### Instalación
+1. Descarga la última versión (`.zip`) desde la pestaña de **Releases** a la derecha de este repositorio.
 2. Crea una carpeta en tu computadora donde vivirá el sistema (ej. `DrinksLab`).
-3. Coloca el archivo `.jar` dentro de esa carpeta.
-4. Abre una terminal en esa carpeta y ejecuta el siguiente comando:
+3. Descomprime el archivo `.zip` dentro de esa carpeta.
+4. Abre una terminal en esa carpeta y ejecuta los siguientes comando:
+   ```bash
+   chmod +x configurar_lector_linux.sh
+   ./configurar_lector_linux.sh
+   ```
+5. Cierra la sesión y vuelve a entrar
+### Ejecución
+1. Abre la carpeta en la que descomprimiste el `.zip`
+2. Abre una terminal en esa carpeta y ejecuta el siguiente comando:
    ```bash
    java -jar drinkslab-1.0.0.jar
+   ```
 
 ## Estado del proyecto
 Actualmente el proyecto todavía no está terminado, se busca crear nuevas funcionalidades de acuerdo a las necesidades actuales y a las que vayan surgiendo para el negocio que busca apoyar.
@@ -62,7 +71,7 @@ Existen tres tipos distintos de cobro:
 * **Transferencia:**
 ![Cobro por transferencia](assets/cobro-transferencia.png)
 El cobro por transferencia muestra a la clabe para transferencias asignada.\
-Para mostrar tu propia CLABE se necesita el archivo `application-local.yaml` en la ruta `src/main/resources`:
+Para mostrar tu propia CLABE se necesita el archivo `application-local.yaml` en la ruta del jar:
 ```yaml
 tienda:
   cuenta:

@@ -31,3 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Secretos locales ###
+application-local.yaml
+
+### Base de datos persistente ###
+/datos/

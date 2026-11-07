@@ -12,13 +12,17 @@ import javafx.stage.Stage;
 
 @SpringBootApplication
 public class DrinkslabApplication {
-    
+    // Inicializador de BD sin persistencia
+    private final DatosPrueba datosPrueba;
+
     // Control que inicializa
     private final ControlMain controlMain;
 
+
     @Autowired
-    public DrinkslabApplication(ControlMain controlMain){
+    public DrinkslabApplication(ControlMain controlMain, DatosPrueba datosPrueba){
         this.controlMain = controlMain;
+        this.datosPrueba = datosPrueba;
     }
 
 
@@ -60,6 +64,9 @@ public class DrinkslabApplication {
      * Aquí llamaremos al controlador de la primera ventana gráfica.
      */
     public void inicia() {
+
+        datosPrueba.iniciarDatosPruebaBD();
+
         Platform.runLater(() -> {
             controlMain.inicia();
             System.out.println("¡Spring Boot y JavaFX están conectados!");

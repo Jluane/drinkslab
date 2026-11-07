@@ -41,4 +41,13 @@ public class Proveedor {
     public String toString(){
         return nombre;
     }
+    @Override
+    public boolean equals(Object object){
+        if(object == null) return false;
+        if(object instanceof Proveedor proveedor){
+            if(this.nombre.equals(proveedor.getNombre()))
+                return true;
+        }
+        return false;
+    }
 }

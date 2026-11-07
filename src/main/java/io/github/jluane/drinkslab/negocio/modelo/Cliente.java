@@ -55,4 +55,18 @@ public class Cliente {
     public String toString(){
         return nombre;
     }
+
+    @Override
+    public boolean equals(Object object){
+        if(object == null) return false;
+        if(this == object) return true;
+        if(object instanceof Cliente cliente){
+            if(this.idCliente != null & cliente.getIdCliente() != null)
+                if(this.idCliente == cliente.getIdCliente())
+                    return true;
+                if(this.nombre == cliente.getNombre())
+                    return true;
+        }
+        return false;
+    }
 }

@@ -52,4 +52,18 @@ public class DetalleGasto {
     public int getCantidad(){
         return cantidad;
     }
+    public Long getIdDetalleGasto(){
+        return idDetalleGasto;
+    }
+
+    @Override
+    public boolean equals(Object object){
+        if(object == null) return false;
+        if(this == object) return true;
+        if(object instanceof DetalleGasto detalle)
+            if(this.idDetalleGasto != null & detalle.getIdDetalleGasto() != null)
+                if(this.idDetalleGasto == detalle.getIdDetalleGasto())
+                    return true;
+        return false;
+    }
 }

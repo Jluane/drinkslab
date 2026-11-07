@@ -67,5 +67,18 @@ public class Deuda {
     public Cliente getCliente(){
         return cliente;
     }
+    public Long getIdDeuda(){
+        return idDeuda;
+    }
 
+    @Override
+    public boolean equals(Object object){
+        if(object == null) return false;
+        if(this == object) return true;
+        if(object instanceof Deuda deuda)
+            if(this.idDeuda != null & deuda.getIdDeuda() != null)
+                if(this.idDeuda == deuda.getIdDeuda())
+                    return true;
+        return false;
+    }
 }

@@ -1,13 +1,11 @@
 package io.github.jluane.drinkslab.negocio.modelo;
 
 import java.math.BigDecimal;
-
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 
 @Entity 
 public class Producto {
@@ -18,30 +16,41 @@ public class Producto {
 
     // Atributos
     private String nombre;
-    private BigDecimal precio;
-    private int cantInv;
+    private BigDecimal precioUnitario;
+    @Column(precision = 10, scale = 3)
+    private BigDecimal cantInv;
+    @Column(unique = true, nullable = false)
     private String GTIN;
-
-    // Relaciones
-    @ManyToOne
-    @JoinColumn(name = "idProveedor")
-    private Proveedor proveedor;
+    
+    // Tipos de productos
+    private boolean aGranel;
+    private BigDecimal cantPromocion;
+    private BigDecimal precioPromocion;
+    private BigDecimal cantPaquete;
+    private BigDecimal precioPaquete;
 
     // Constructor
-    public Producto(){}
-    public Producto(String nombre,  BigDecimal precio, int cantInv, Proveedor proveedor, String GTIN){
-        this.nombre = nombre;
-        this.precio = precio;
-        this.cantInv = cantInv;
-        this.proveedor = proveedor;
-        this.GTIN = GTIN;
+    public Producto(){
+        this.cantInv = BigDecimal.ONE.negate();
+        precioUnitario = BigDecimal.ZERO;
+        cantPromocion = BigDecimal.ZERO;
+        precioPromocion = BigDecimal.ZERO;
+        cantPaquete = BigDecimal.ZERO;
+        precioPaquete = BigDecimal.ZERO;
     }
-    public Producto(String nombre, BigDecimal precio, Proveedor proveedor, String GTIN){
+    /**
+     * Constructor para productos comunes
+     */
+    public Producto(String nombre, BigDecimal precioUnitario, String GTIN, boolean granel){
         this.nombre = nombre;
-        this.precio = precio;
-        this.cantInv = 0;
-        this.proveedor = proveedor;
+        this.precioUnitario = precioUnitario;
+        this.cantInv = BigDecimal.ONE.negate();
         this.GTIN = GTIN;
+        this.aGranel = granel;
+        cantPromocion = null;
+        precioPromocion = null;
+        cantPaquete = null;
+        precioPaquete = null;
     }
 
     // Setters
@@ -51,17 +60,29 @@ public class Producto {
     public void setNombre(String nombre){
         this.nombre = nombre;
     }
-    public void setPrecio(BigDecimal precio){
-        this.precio = precio;
+    public void setPrecioUnitario(BigDecimal precio){
+        this.precioUnitario = precio;
     }
-    public void setCantInv(int cantInv){
+    public void setCantInv(BigDecimal cantInv){
         this.cantInv = cantInv;
-    }
-    public void setProveedor(Proveedor proveedor){
-        this.proveedor = proveedor;
     }
     public void setGTIN(String GTIN){
         this.GTIN = GTIN;
+    }
+    public void setAGranel(boolean granel){
+        this.aGranel = granel;
+    }
+    public void setCantPromocion(BigDecimal cant){
+        this.cantPromocion = cant;
+    }
+    public void setPrecioPromocion(BigDecimal precio){
+        this.precioPromocion = precio;
+    }
+    public void setCantPaquete(BigDecimal cant){
+        this.cantPaquete = cant;
+    }
+    public void setPrecioPaquete(BigDecimal precio){
+        this.precioPaquete = precio;
     }
 
     // Getters
@@ -71,23 +92,47 @@ public class Producto {
     public String getNombre(){
         return nombre;
     }
-    public BigDecimal getPrecio(){
-        return precio;
+    public BigDecimal getPrecioUnitario(){
+        return precioUnitario;
     }
-    public int getCantInv(){
-        return cantInv;
-    }
-    public Proveedor getProveedor(){
-        return proveedor;
+    public BigDecimal getCantInv(){
+        String cadena = cantInv.stripTrailingZeros().toPlainString();
+        return new BigDecimal(cadena);
     }
     public String getGTIN(){
         return GTIN;
+    }
+    public boolean getAGranel(){
+        return aGranel;
+    }
+    public BigDecimal getCantPromocion(){
+        return cantPromocion;
+    }
+    public BigDecimal getPrecioPromocion(){
+        return precioPromocion;
+    }
+    public BigDecimal getCantPaquete(){
+        return cantPaquete;
+    }
+    public BigDecimal getPrecioPaquete(){
+        return precioPaquete;
     }
 
     // toString
     @Override
     public String toString(){
-        String cadena = "Producto: "+nombre+" de "+proveedor+" $"+precio+". "+cantInv+" unidades";
+        String cadena = nombre+", $"+precioUnitario+". "+cantInv.stripTrailingZeros().toPlainString()+" unidades en inventario";
         return cadena;
+    }
+
+    // equals
+    @Override
+    public boolean equals(Object objeto){
+        if(this == objeto)
+            return true;
+        if(!(objeto instanceof Producto producto))
+            return false;
+        else
+            return producto.getGTIN().equals(this.GTIN);
     }
 }

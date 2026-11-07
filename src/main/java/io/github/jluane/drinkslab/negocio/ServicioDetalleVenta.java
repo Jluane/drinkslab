@@ -1,0 +1,115 @@
+package io.github.jluane.drinkslab.negocio;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import io.github.jluane.drinkslab.negocio.modelo.DetalleVenta;
+import io.github.jluane.drinkslab.negocio.modelo.Producto;
+
+@Service
+public class ServicioDetalleVenta {
+    // Servicios a los que se comunica
+    private final ServicioProducto servicioProducto;
+
+    @Autowired
+    public ServicioDetalleVenta(ServicioProducto servicioProducto){
+        this.servicioProducto = servicioProducto;
+    }
+
+    /**
+     * Crea un DetalleVenta con un Producto para agregarlo a una lista y regresa al detalle ya creado
+     * @param detalles Es la lista a la que se agregará el nuevo detalle
+     * @param producto Es el producto con el que se creará el DetalleVenta
+     * @return Regresa al detalle nuevo o null si no se logró crear
+     */
+    public DetalleVenta agregarProductoNuevo(List<DetalleVenta> detalles, Producto producto){
+        if(producto  == null || detalles == null) return null;
+        try {
+            DetalleVenta detalle = new DetalleVenta(producto);
+            detalles.add(detalle);
+            return detalle;
+        } catch (Exception e) {
+            System.err.println("Error en servicio: "+e);
+            return null;
+        }
+    }
+
+    /**
+     * Incrementa el atributo cantidad en DetalleVenta en 1 y regresa la nueva cantidad de detalle
+     * @param detalle Es el detalle a actualizar
+     * @return Regresa el nuevo valor de cantidad del DetalleVenta
+     */
+    public BigDecimal aumentarCantidadProducto(DetalleVenta detalle){
+        if(detalle == null) return BigDecimal.ZERO;
+        if(!cambiarCantidad(detalle, BigDecimal.ONE)) return BigDecimal.ZERO;
+        return detalle.getCantidad();
+    }
+
+    /**
+     * Disminuye el atributo cantidad en DetalleVenta en 1 y regresa la nueva cantidad de detalle
+     * @param detalle Es el detalle a actualizar
+     * @return Regresa el nuevo valor de cantidad del DetalleVenta
+     */
+    public BigDecimal disminuirCantidadProducto(DetalleVenta detalle){
+        if(detalle == null) return BigDecimal.ZERO;
+        if(!cambiarCantidad(detalle, BigDecimal.ONE.negate())) return BigDecimal.ZERO;
+        return detalle.getCantidad();
+    }
+
+    /**
+     * Aumenta al atributo cantidad de un DetalleVenta en N
+     * @param detalle Es el detalle al que se actualizará
+     * @param N Es la cantidad a la que se sumará la cantidad actual de detalle
+     * @return Regresa true si se logró modificar a detalle, false si no se logró
+     */
+    private boolean cambiarCantidad(DetalleVenta detalle, BigDecimal N){
+        BigDecimal cantNueva = N.add(detalle.getCantidad());
+        
+        if(cantNueva.compareTo(BigDecimal.ZERO)<=0)
+            return false;
+        
+        BigDecimal costoTotal = servicioProducto.obtenerCosto(detalle.getProducto(), cantNueva);
+    
+        detalle.setCantidad(cantNueva);
+        detalle.setCosto(costoTotal);
+        return true;
+    }
+
+    /**
+     * Coloca al atributo cantidad en un número específico
+     * @param detalle Es el detalle Venta que se modifica
+     * @param N Es el que será el nuevo valor de cantidad
+     * @return Regresa a N (la nueva cantidad), o a 0 si N < 0 
+     */
+    public BigDecimal editarCantidad(DetalleVenta detalle, BigDecimal N){
+        if(N.compareTo(BigDecimal.ZERO)<0) return BigDecimal.ZERO;
+        BigDecimal costoTotal = servicioProducto.obtenerCosto(detalle.getProducto(), N);
+
+        detalle.setCantidad(N);
+        detalle.setCosto(costoTotal);
+        return N;
+    }
+
+    /**
+     * Revisa una lista de DetalleVenta en busca de un DetalleVenta que contenga a producto
+     * @param detalles Es la lista de detalles sobre la que se buscará al detalle indicado
+     * @param producto Es el producto que debe contener el detalle que buscamos
+     * @return Regresa al índice del detalle que contenga al producto, o null si no existe
+     */
+    public Integer existeEnListaPorProducto(List<DetalleVenta> detalles, Producto producto){
+        if(producto == null) return null;
+        if(detalles.size() <= 0) return null;
+        int i = 0;
+        for(DetalleVenta detalle : detalles){
+            if(detalle.getProducto().equals(producto))
+                return i;
+            i++;
+        }
+        return null;
+    }
+
+
+}

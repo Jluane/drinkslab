@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-radius: 6px;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox alignment="CENTER_LEFT" fillHeight="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" style="-fx-background-color: #ddecd6; -fx-border-color: #B5BFB2; -fx-border-width: 0 0 1 0;">
+               <children>
+                  <AnchorPane style="-fx-background-color: #006948; -fx-background-radius: 3px;">
+                     <children>
+                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <image>
+                              <Image url="@../img/icons/local_hospital_FFFFFF.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </AnchorPane>
+                  <VBox maxWidth="1.7976931348623157E308" spacing="5.0">
+                     <children>
+                        <Label fx:id="lblTitulo" text="Gestionar Producto">
+                           <font>
+                              <Font name="Lato Bold" size="19.0" />
+                           </font>
+                        </Label>
+                        <Label opacity="0.85" text="Complete la ficha y modalidades del producto">
+                           <font>
+                              <Font name="Lato Regular" size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <Region maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                  <Label style="-fx-text-fill: black;" styleClass="texto-indicacion-tecla" text="ESC" />
+                  <Button focusTraversable="false" mnemonicParsing="false" onAction="#onActionCancelar" styleClass="boton-claro" text="X" />
+               </children>
+               <padding>
+                  <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
+               </padding>
+            </HBox>
+            <ScrollPane fx:id="scroll" fitToWidth="true" focusTraversable="false" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: transparent;" vbarPolicy="NEVER">
+               <content>
+                  <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                     <children>
+                        <Label fx:id="lblAviso" maxWidth="1.7976931348623157E308" style="-fx-text-fill: #D40000; -fx-background-color: #fad5db;" text="Asegúrate de ingresar los datos correctamente.">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="15.0" right="15.0" top="10.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+                           </padding>
+                        </Label>
+                        <VBox maxWidth="1.7976931348623157E308" spacing="15.0">
+                           <padding>
+                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                           </padding>
+                           <children>
+                              <Label text="DATOS GENERALES">
+                                 <font>
+                                    <Font name="Lato Regular" size="12.0" />
+                                 </font>
+                                 <graphic>
+                                    <ImageView fitHeight="17.0" fitWidth="17.0" opacity="0.81" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../img/icons/info_000000.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Label>
+                              <VBox maxWidth="1.7976931348623157E308" spacing="4.0">
+                                 <children>
+                                    <HBox maxWidth="1.7976931348623157E308">
+                                       <children>
+                                          <Label text="Nombre del producto">
+                                             <font>
+                                                <Font name="Lato Bold" size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                                          <Label style="-fx-text-fill: #D40000;" text="* Obligatorio">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <TextField fx:id="nombre" promptText="Producto Marca Tipo Cantidad " style="-fx-background-color: #F2F4F8; -fx-border-color: #B5BFB2;">
+                                       <font>
+                                          <Font name="Lato Regular" size="16.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                       </padding>
+                                    </TextField>
+                                 </children>
+                              </VBox>
+                              <HBox maxWidth="1.7976931348623157E308" spacing="10.0">
+                                 <children>
+                                    <VBox maxWidth="1.7976931348623157E308" spacing="4.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Label text="Código de barras">
+                                             <font>
+                                                <Font name="Lato Bold" size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="codigo" promptText="Código sin espacios" style="-fx-background-color: #F2F4F8; -fx-border-color: #B5BFB2;">
+                                             <font>
+                                                <Font name="Serif Regular" size="16.0" />
+                                             </font>
+                                             <padding>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </padding>
+                                          </TextField>
+                                       </children>
+                                    </VBox>
+                                    <VBox layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" spacing="4.0">
+                                       <children>
+                                          <HBox maxWidth="1.7976931348623157E308">
+                                             <children>
+                                                <Label text="Precio Venta ($ MXN)">
+                                                   <font>
+                                                      <Font name="Lato Bold" size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                                                <Label style="-fx-text-fill: #D40000;" text="* Obligatorio">
+                                                   <font>
+                                                      <Font name="System Bold" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                          <TextField fx:id="precio" alignment="CENTER_RIGHT" promptText="00.00" style="-fx-background-color: #F2F4F8; -fx-border-color: #B5BFB2;">
+                                             <font>
+                                                <Font name="DejaVu Serif Bold" size="18.0" />
+                                             </font>
+                                             <padding>
+                                                <Insets bottom="15.0" left="10.0" right="10.0" top="15.0" />
+                                             </padding>
+                                          </TextField>
+                                       </children>
+                                    </VBox>
+                                    <VBox layoutX="239.0" layoutY="10.0" maxWidth="1.7976931348623157E308" spacing="4.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Label text="Cantidad inicial">
+                                             <font>
+                                                <Font name="Lato Bold" size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="cant" alignment="CENTER_RIGHT" promptText="00" style="-fx-background-color: #F2F4F8; -fx-border-color: #B5BFB2;">
+                                             <font>
+                                                <Font name="Lato Regular" size="16.0" />
+                                             </font>
+                                             <padding>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </padding>
+                                          </TextField>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                        <Separator layoutX="35.0" layoutY="279.0" />
+                        <VBox layoutX="10.0" layoutY="282.0" maxWidth="1.7976931348623157E308" spacing="15.0">
+                           <children>
+                              <Label text="PROVEEDORES ASOCIADOS">
+                                 <font>
+                                    <Font name="Lato Regular" size="12.0" />
+                                 </font>
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" opacity="0.81" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../img/icons/local_shipping_006948.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Label>
+                              <HBox fillHeight="false" maxWidth="1.7976931348623157E308" spacing="15.0" style="-fx-background-color: #ddecd6; -fx-background-radius: 3px; -fx-border-color: #B5BFB2; -fx-border-radius: 3px;">
+                                 <children>
+                                    <GridPane hgap="15.0" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints fillHeight="false" percentHeight="100.0" />
+                                      </rowConstraints>
+                                       <children>
+                                          <VBox maxWidth="1.7976931348623157E308" spacing="7.0" GridPane.hgrow="ALWAYS" GridPane.valignment="TOP">
+                                             <children>
+                                                <Label text="Asignar proveedor">
+                                                   <font>
+                                                      <Font name="Lato Bold" size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <HBox maxWidth="1.7976931348623157E308" spacing="5.0">
+                                                   <children>
+                                                      <ComboBox fx:id="comboProveedores" editable="true" maxWidth="1.7976931348623157E308" promptText="Buscar o escribir proveedor" style="-fx-background-color: white; -fx-border-color: #B5BFB2;" HBox.hgrow="ALWAYS" />
+                                                      <Button mnemonicParsing="false" onAction="#onActionAgregarProveedor" styleClass="boton-generico">
+                                                         <graphic>
+                                                            <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true" style="-fx-padding: 2;">
+                                                               <image>
+                                                                  <Image url="@../img/icons/add_FFFFFF.png" />
+                                                               </image>
+                                                            </ImageView>
+                                                         </graphic>
+                                                      </Button>
+                                                   </children>
+                                                </HBox>
+                                                <Label prefHeight="40.0" text="Ej. Zorro, Sabritas, Jarritos,  Sabritas, Coca Cola, Barcel, Guna, etc. " wrapText="true">
+                                                   <font>
+                                                      <Font name="Lato Regular" size="14.0" />
+                                                   </font>
+                                                   <VBox.margin>
+                                                      <Insets top="5.0" />
+                                                   </VBox.margin>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                          <VBox maxWidth="1.7976931348623157E308" spacing="7.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.valignment="TOP">
+                                             <children>
+                                                <Label text="Proveedores seleccionados">
+                                                   <font>
+                                                      <Font name="Lato Bold" size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="130.0" maxWidth="1.7976931348623157E308" minHeight="0.0" style="-fx-border-color: #B5BFB2; -fx-background-color: white;">
+                                                   <content>
+                                                      <VBox fx:id="cajaProveedores" fillWidth="false" maxWidth="1.7976931348623157E308" spacing="5.0" style="-fx-background-color: #FFFFFF;">
+                                                         <padding>
+                                                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                         </padding>
+                                                      </VBox>
+                                                   </content>
+                                                </ScrollPane>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" top="10.0" />
+                                       </padding>
+                                    </GridPane>
+                                 </children>
+                                 <padding>
+                                    <Insets left="20.0" right="20.0" />
+                                 </padding>
+                              </HBox>
+                           </children>
+                           <padding>
+                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                           </padding>
+                        </VBox>
+                        <Separator>
+                           <VBox.margin>
+                              <Insets left="25.0" right="25.0" />
+                           </VBox.margin>
+                        </Separator>
+                        <VBox spacing="15.0">
+                           <children>
+                              <Label text="OPCIONES AVANZADAS">
+                                 <font>
+                                    <Font name="Lato Regular" size="12.0" />
+                                 </font>
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" opacity="0.81" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../img/icons/tune_D49100.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Label>
+                              <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" spacing="15.0" style="-fx-background-color: #ddecd6; -fx-background-radius: 3px; -fx-border-color: #B5BFB2; -fx-border-radius: 3px;">
+                                 <children>
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" opacity="0.55" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../img/icons/scale_000000.png" />
+                                       </image>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                    </ImageView>
+                                    <VBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" spacing="5.0">
+                                       <children>
+                                          <Label text="¿Venta a granel / por peso?">
+                                             <font>
+                                                <Font name="Lato Bold" size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label text="Permite fraccionar ventas por Kilogramo (kg)">
+                                             <font>
+                                                <Font name="Lato Regular" size="14.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </VBox>
+                                    <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                                    <CheckBox fx:id="aGranel" focusTraversable="false" mnemonicParsing="false" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                 </padding>
+                              </HBox>
+                              <VBox maxWidth="1.7976931348623157E308" spacing="10.0" style="-fx-background-color: #ddecd6; -fx-background-radius: 3px; -fx-border-color: #B5BFB2; -fx-border-radius: 3px;">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" spacing="15.0">
+                                       <children>
+                                          <ImageView fitHeight="25.0" fitWidth="25.0" opacity="0.55" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../img/icons/inventory_2_000000.png" />
+                                             </image>
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                          </ImageView>
+                                          <VBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" spacing="5.0">
+                                             <children>
+                                                <Label text="¿Venta por paquete / caja?">
+                                                   <font>
+                                                      <Font name="Lato Bold" size="16.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="Precio preferencial para ventas de cajas o paquetes">
+                                                   <font>
+                                                      <Font name="Lato Regular" size="14.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                          <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                                          <CheckBox fx:id="paquete" focusTraversable="false" mnemonicParsing="false" onAction="#onActionPaquete" />
+                                       </children>
+                                    </HBox>
+                                    <HBox fx:id="boxPaquete" maxWidth="1.7976931348623157E308" spacing="15.0">
+                                       <children>
+                                          <VBox maxWidth="1.7976931348623157E308" spacing="4.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label maxWidth="1.7976931348623157E308" opacity="0.8" text="Piezas por paquete / caja">
+                                                   <font>
+                                                      <Font name="Lato Bold" size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <TextField fx:id="pzsPaquete" alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" promptText="00" style="-fx-background-color: white; -fx-border-color: #B5BFB2;">
+                                                   <font>
+                                                      <Font name="Lato Regular" size="16.0" />
+                                                   </font>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                </TextField>
+                                             </children>
+                                          </VBox>
+                                          <VBox layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" spacing="4.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label maxWidth="1.7976931348623157E308" opacity="0.8" text="Precio por paquete ($ MXN)">
+                                                   <font>
+                                                      <Font name="Lato Bold" size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <TextField fx:id="precioPaquete" alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" promptText="00.00" style="-fx-background-color: white; -fx-border-color: #B5BFB2;">
+                                                   <font>
+                                                      <Font name="DejaVu Serif Bold" size="16.0" />
+                                                   </font>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                </TextField>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                 </padding>
+                              </VBox>
+                              <VBox layoutX="25.0" layoutY="155.0" maxWidth="1.7976931348623157E308" spacing="10.0" style="-fx-background-color: #ddecd6; -fx-background-radius: 3px; -fx-border-color: #B5BFB2; -fx-border-radius: 3px;">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" spacing="15.0">
+                                       <children>
+                                          <ImageView fitHeight="25.0" fitWidth="25.0" opacity="0.55" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../img/icons/sell_000000.png" />
+                                             </image>
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                          </ImageView>
+                                          <VBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" spacing="5.0">
+                                             <children>
+                                                <Label text="¿Promoción por cantidad?  (ej. 3 por $50)">
+                                                   <font>
+                                                      <Font name="Lato Bold" size="16.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="Aplica precio especial al acumular cantidades fijas en la venta">
+                                                   <font>
+                                                      <Font name="Lato Regular" size="14.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                          <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                                          <CheckBox fx:id="promocion" focusTraversable="false" mnemonicParsing="false" onAction="#onActionPromocion" />
+                                       </children>
+                                    </HBox>
+                                    <HBox fx:id="boxPromocion" maxWidth="1.7976931348623157E308" spacing="15.0">
+                                       <children>
+                                          <VBox maxWidth="1.7976931348623157E308" spacing="4.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label maxWidth="1.7976931348623157E308" opacity="0.8" text="Cantidad para promo">
+                                                   <font>
+                                                      <Font name="Lato Bold" size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <TextField fx:id="cantPromo" alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" promptText="00" style="-fx-background-color: white; -fx-border-color: #B5BFB2;">
+                                                   <font>
+                                                      <Font name="Lato Regular" size="16.0" />
+                                                   </font>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                </TextField>
+                                             </children>
+                                          </VBox>
+                                          <VBox layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" spacing="4.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label maxWidth="1.7976931348623157E308" opacity="0.8" text="Precio de la promoción ($ MXN)">
+                                                   <font>
+                                                      <Font name="Lato Bold" size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <TextField fx:id="precioPromo" alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" promptText="00.00" style="-fx-background-color: white; -fx-border-color: #B5BFB2;">
+                                                   <font>
+                                                      <Font name="DejaVu Serif Bold" size="16.0" />
+                                                   </font>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                </TextField>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                           <padding>
+                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                  </VBox>
+               </content>
+            </ScrollPane>
+            <HBox alignment="CENTER_LEFT" fillHeight="false" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="20.0" style="-fx-background-color: #ddecd6; -fx-border-radius: 1 0 0 0; -fx-border-color: #B5BFB2;">
+               <children>
+                  <Button fx:id="btnEliminar" focusTraversable="false" mnemonicParsing="false" onAction="#onActionEliminar" styleClass="boton-eliminar" text="Eliminar" />
+                  <Region maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                  <Button cancelButton="true" focusTraversable="false" mnemonicParsing="false" onAction="#onActionCancelar" styleClass="boton-blanco">
+                     <graphic>
+                        <VBox alignment="CENTER" spacing="5.0">
+                           <children>
+                              <Label style="-fx-font-size: 14;" styleClass="texto-blanco-generico" text="Cancelar">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="10.0" style="-fx-text-fill: black; -fx-font-size: 12px;" styleClass="texto-indicacion-tecla" text="Esc" />
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                           </padding>
+                        </VBox>
+                     </graphic>
+                  </Button>
+                  <Button defaultButton="true" focusTraversable="false" mnemonicParsing="false" onAction="#onActionGuardar" styleClass="boton-generico">
+                     <graphic>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <children>
+                              <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../img/icons/check_circle_FFFFFF.png" />
+                                 </image>
+                              </ImageView>
+                              <VBox alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="3.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label style="-fx-font-size: 16;" styleClass="texto-boton-generico" text="Guardar Producto" />
+                                    <Label layoutX="10.0" layoutY="10.0" styleClass="texto-indicacion-tecla" text="Enter ↵" />
+                                 </children>
+                              </VBox>
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="10.0" top="5.0" />
+                           </padding>
+                        </HBox>
+                     </graphic>
+                  </Button>
+               </children>
+               <padding>
+                  <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
+               </padding>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+   <stylesheets>
+      <URL value="@../css/estilos-ventana-gestion-producto.css" />
+      <URL value="@../css/estilos-globales.css" />
+   </stylesheets>
+</AnchorPane>

@@ -1,0 +1,23 @@
+.boton-pagina{
+    -fx-background-color: white;
+    -fx-font-family: "Serif";
+    background-color: #FFFFFF;
+    font-family: "Serif";
+}
+.boton-pagina:hover{
+    -fx-background-color: #eaebf0;
+    background-color: #eaebf0;
+}
+.boton-pagina:selected{
+    -fx-background-color: #bfbfc0;
+    background-color: #bfbfc0;
+}
+
+.puntos-entre-paginas{
+    -fx-font-family: "Serif";
+    -fx-font-weight: bold;
+    -fx-padding: 0 3 0 3;
+    font-weight: bold;
+    font-family: "Serif";
+    padding: 0 3 0 3;
+}

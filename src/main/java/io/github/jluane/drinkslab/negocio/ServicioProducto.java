@@ -138,7 +138,7 @@ public class ServicioProducto {
             }
         
         try{
-            producto.setNombre(nombre);
+            producto.setNombre(nombre.trim().toUpperCase());
             producto.setGTIN(codigo);
             producto.setPrecioUnitario(new BigDecimal(precio));
             producto.setCantInv(new BigDecimal(cant));

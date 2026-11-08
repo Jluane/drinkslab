@@ -43,7 +43,6 @@ public class LectorCodigoBarras {
             return;
         }
 
-        System.out.println("Lector conectado correctamente");
 
         puerto.flushIOBuffers();
 
@@ -90,7 +89,6 @@ public class LectorCodigoBarras {
             puerto.flushIOBuffers();
             puerto.removeDataListener();
             puerto.closePort();
-            System.out.println("Lector desconectado");
         }
         puerto = null;
 
@@ -109,7 +107,6 @@ public class LectorCodigoBarras {
             String nombre = puerto.getSystemPortName();
 
             if(nombre.startsWith("ttyACM") || nombre.startsWith("ttyUSB")){
-                System.out.println("Lector detectado en: "+nombre);
                 return puerto;
             }
         }

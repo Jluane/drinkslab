@@ -2,10 +2,14 @@ package io.github.jluane.drinkslab.presentacion.Inventario;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.springframework.stereotype.Component;
 
 import io.github.jluane.drinkslab.negocio.modelo.Producto;
+import javafx.animation.PauseTransition;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,13 +21,14 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.effect.GaussianBlur;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
+import javafx.util.Duration;
 
 @Component
 public class VistaInventario {
@@ -36,6 +41,13 @@ public class VistaInventario {
     // Variables para las sugerencias del buscador
     private Popup popupSugerencias;
     private ListView<String> listaSugerencias;
+    private final PauseTransition esperaBusqueda = new PauseTransition(Duration.millis(250));
+    private Task<List<String>> tareaSugerencias;
+    private final ExecutorService hiloSugerencias = Executors.newSingleThreadExecutor(r -> {
+        Thread hilo = new Thread(r, "sugerencias");
+        hilo.setDaemon(true); // No impide que la aplicación cierre
+        return hilo;
+    });
 
     // Componentes FXML
     @FXML private TextField txtBusqueda;
@@ -67,11 +79,16 @@ public class VistaInventario {
         popupSugerencias.setAutoHide(true); // Se ocultará automáticamente al dar click en otro lado
         // Cada que se actualice el valor de la busqueda se decide si se muestran las sugerencias o se esconde el popup
         txtBusqueda.textProperty().addListener((observable, viejoValor, nuevoValor) -> {
-            if (nuevoValor == null || nuevoValor.trim().isEmpty()) {
+            esperaBusqueda.stop();
+            String texto = (nuevoValor == null) ? "" : nuevoValor.trim();
+
+            // Muy corto, o solo números (es un código de barras): sin sugerencias
+            if (texto.length() < 2 || texto.matches("\\d+")) {
                 popupSugerencias.hide();
-            } else {
-                mostrarSugerencias(nuevoValor);
+                return;
             }
+            esperaBusqueda.setOnFinished(e -> mostrarSugerencias(texto));
+            esperaBusqueda.playFromStart();
         });
         // Cuando se da click a una sugerencia, se coloca realiza la busqueda
         listaSugerencias.setOnMouseClicked(event -> {
@@ -116,28 +133,37 @@ public class VistaInventario {
      * @param texto Es el texto ingresado para saber qué sugerencias se deben mostrar
      */
     private void mostrarSugerencias(String texto) {
-        // Pedimos las sugerencias al controlador
-        List<String> resultados = control.obtenerSugerenciasNombres(texto);
+        if (tareaSugerencias != null) tareaSugerencias.cancel();
 
+        Task<List<String>> tarea = new Task<>() {
+            @Override
+            protected List<String> call() {
+                return control.obtenerSugerenciasNombres(texto); // Fuera del hilo de JavaFX
+            }
+        };
+        tarea.setOnSucceeded(e -> {
+            // Si el usuario ya escribió otra cosa, se descarta este resultado
+            if (texto.equals(txtBusqueda.getText().trim())) {
+                mostrarPopup(tarea.getValue());
+            }
+        });
+        tarea.setOnFailed(e -> popupSugerencias.hide());
+
+        tareaSugerencias = tarea;
+        hiloSugerencias.submit(tarea);
+    }
+    private void mostrarPopup(List<String> resultados) {
         if (resultados.isEmpty()) {
             popupSugerencias.hide();
-        } else {
-            // Llenamos la lista visual con los resultados
-            listaSugerencias.getItems().setAll(resultados);
-            
-            // Ajustamos el ancho para que sea idéntico al del TextField
-            listaSugerencias.setPrefWidth(txtBusqueda.getWidth());
-            
-            // Calculamos una altura dinámica (por ejemplo, 24px por cada ítem)
-            listaSugerencias.setPrefHeight(resultados.size() * 24 + 5);
+            return;
+        }
+        listaSugerencias.getItems().setAll(resultados);
+        listaSugerencias.setPrefWidth(txtBusqueda.getWidth());
+        listaSugerencias.setPrefHeight(resultados.size() * 24 + 5);
 
-            // Obtenemos las coordenadas exactas del txtBusqueda en el monitor
-            Bounds bounds = txtBusqueda.localToScreen(txtBusqueda.getBoundsInLocal());
-            
-            if (bounds != null) {
-                // Mostramos el popup justo debajo del TextField
-                popupSugerencias.show(txtBusqueda, bounds.getMinX(), bounds.getMaxY());
-            }
+        Bounds bounds = txtBusqueda.localToScreen(txtBusqueda.getBoundsInLocal());
+        if (bounds != null) {
+            popupSugerencias.show(txtBusqueda, bounds.getMinX(), bounds.getMaxY());
         }
     }
 
@@ -159,14 +185,12 @@ public class VistaInventario {
      * @param cantProductos Cantidad de productos que se tienen
      */
     private void calcularPaginas(int cantProductos){
-        System.out.println("Entra a calcular paginas");
         // Calculamos la cantidad de grupos que queremos
         int bloques = cantProductos/8;
         if(cantProductos%8 != 0){ // Si no es justamente un bloque, agregamos uno más para el residuo
             bloques++;
         }
         this.cantidadPaginas = bloques;
-        System.out.println("Cantidad de páginas: "+cantidadPaginas);
     }
 
     /**
@@ -174,13 +198,11 @@ public class VistaInventario {
      * @param pagina Es la página en la que nos encontramos
      */
     private void seleccionarBotonPagina(int pagina){
-        System.out.println("Entra a seleccionar botón pagina");
         contenedorBotonesPagina.getChildren().clear();
         botonesPagina.getToggles().clear();
 
         // Si hay 5 páginas o menos, se pintan todos los botones
         if(cantidadPaginas < 5){
-            System.out.println("Son menos de 5 páginas");
             // Vamos de uno en uno para pintar los botones
             for(int i=1; i<=cantidadPaginas; i++){
                 if(i == pagina) // Si estamos en la página seleccionada, al crear el botón lo ponemos como seleccionado
@@ -190,7 +212,6 @@ public class VistaInventario {
             }
         }
         else{
-            System.out.println("Son más de 5 páginas");
             boolean puntosPintados = false;
 
             for(int i=1; i<=cantidadPaginas; i++){
@@ -264,7 +285,6 @@ public class VistaInventario {
      */
     public void eliminarProducto(GridPane nodoVisual){
         cajaProductos.getChildren().remove(nodoVisual);
-        System.out.println("Se mató gráficamente al producto");
     }
     
     /**
@@ -275,13 +295,11 @@ public class VistaInventario {
     public void onAtajoTeclado(KeyEvent event){
         // El Enter está definido como Default Button dentro de FXML
         if (event.getCode() == KeyCode.F2) {
-            System.out.println("Se presionó tecla F2");
             txtBusqueda.requestFocus(); // Pone el cursor en el buscador
         }
         else if (event.getCode().isLetterKey() || event.getCode().isDigitKey()) {
             // Si presionaron una letra o número, pero el buscador NO tenía el foco
             if (!txtBusqueda.isFocused()) {
-                System.out.println("Tecla perdida detectada");
                 txtBusqueda.clear();
                 txtBusqueda.requestFocus();
             }
@@ -295,15 +313,11 @@ public class VistaInventario {
         cajaProductos.getChildren().clear();
     }
 
-    /**
-     * Aplica un difuminado en toda la pantalla
-     */
-    public void aplicarDifuminado(){
-        txtBusqueda.getScene().getRoot().setEffect(new GaussianBlur(15));
+    public void aplicarDifuminado(){ColorAdjust oscurecer = new ColorAdjust();
+        oscurecer.setBrightness(-0.5); // Reduce el brillo un 50% (rango de -1.0 a 0.0)
+
+        txtBusqueda.getScene().getRoot().setEffect(oscurecer);
     }
-    /**
-     * Quita el difuminado de toda la pantalla
-     */
     public void quitarDifuminado(){
         txtBusqueda.getScene().getRoot().setEffect(null);
     }
@@ -311,16 +325,13 @@ public class VistaInventario {
     // OnAction's
     @FXML
     public void onActionBuscar(){
-        System.out.println("Se presionó buscar");
         String texto = txtBusqueda.getText();
         if (!texto.isEmpty()) {
-            System.out.println("Buscando: " + texto);
 
             control.buscarProducto(texto);
             // Aquí llamas a tu controlador: control.buscarProducto(texto);
             txtBusqueda.clear(); // Limpias el campo después de buscar
         }else{
-            System.out.println("Se buscó cadena vacía");
             control.buscarProducto("");
         }
     }

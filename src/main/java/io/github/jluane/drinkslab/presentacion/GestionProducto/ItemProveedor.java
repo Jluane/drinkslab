@@ -47,7 +47,6 @@ public class ItemProveedor {
     // On Action's
     @FXML
     public void onActionEliminar(){
-        System.out.println("Se eliminará a un proveedor de la lista");
         control.eliminarProveedor(proveedor);
     }
 }

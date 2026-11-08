@@ -41,7 +41,6 @@ public class ServicioProveedor {
         // Arreglamos al nombre
         nombre = nombre.trim(); // Quitamos espacios de más
         nombre = nombre.substring(0,1).toUpperCase() + nombre.substring(1).toLowerCase(); // Damos a la primera mayúscula
-        System.out.println(nombre);
         // Verificamos si existe o no un proveedor con el nombre
         Proveedor proveedor = repositorioProveedor.findByNombre(nombre);
         if(proveedor == null){

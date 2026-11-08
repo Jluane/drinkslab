@@ -356,7 +356,6 @@ public class VistaGestionProducto {
 		scroll.setVvalue(0.0);
 		scroll.setHvalue(0.0);
 
-        System.out.println("Mostrando error: "+texto);
         temporizadorAviso.playFromStart();
 	}
 	/**
@@ -386,7 +385,6 @@ public class VistaGestionProducto {
 	}
 	@FXML
 	public void onActionGuardar(){
-		System.out.println("Se presionó Guardar");
 		if(!validarDatos()){
 			control.mostrarAlerta("Asegúrate de ingresar los datos correctamente");
 		}else{
@@ -395,17 +393,14 @@ public class VistaGestionProducto {
 	}
 	@FXML
 	public void onActionCancelar(){
-		System.out.println("Se presionó Cancelar");
 		control.cierra();
 	}
 	@FXML
 	public void onActionEliminar(){
-		System.out.println("Se presionó eliminar");
 		control.confirmacionEliminarProducto();
 	}
 	@FXML
 	public void onActionAgregarProveedor(Event event){
-		System.out.println("Se presionó el agregar proveedor");
 
 		control.agregarProveedor(comboProveedores.getValue());
 		

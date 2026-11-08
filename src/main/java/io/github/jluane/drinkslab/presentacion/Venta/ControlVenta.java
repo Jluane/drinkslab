@@ -78,7 +78,6 @@ public class ControlVenta {
      * Inicia o reinicia la HU reestableciendo los valores de todo como para una nueva venta
      */
     public void inicia(){
-        System.out.println("Inicia Control Venta");
         recargarObjetos();
         vista.inicia(servicioVenta.obtenerSigId());
 
@@ -104,7 +103,6 @@ public class ControlVenta {
             }
             return;
         }
-        System.out.println("El producto se encontró");
         
         // Verificamos si el producto ya existe en nuestra lista actual
         Integer indiceDetalle = servicioDetalleVenta.existeEnListaPorProducto(detallesVenta, producto);
@@ -113,14 +111,11 @@ public class ControlVenta {
 
         // Dependiendo de si se encuentra o no en la lista de la venta actual, decidimos qué hacer
         if(indiceDetalle == null){ // Significa que ese producto es nuevo en la lista
-            System.out.println("El producto no existe en la lista, se creará");
             tarjetaProducto = crearDetalleVenta(producto);
         }else{ // Significa que ya existe un producto así en esa lista
-            System.out.println("El producto ya existe en la lista, se actualizará");
             actualizarDetalleVenta(indiceDetalle);
             tarjetaProducto = vistasDetalles.get(indiceDetalle);
         }
-        System.out.println("La lista: \n"+detallesVenta);
         actualizarVenta();
 
         if(esEscaner){
@@ -133,30 +128,24 @@ public class ControlVenta {
      * El proceso que lleva a cobrar la venta que se tiene mediante efectivo
      */
     public void cobroEfectivo(){
-        System.out.println("Se difumina la pantalla principal");
         vista.aplicarDifuminado();
         controlCobroEfectivo.inicia(venta, TipoPago.EFECTIVO);
-        System.out.println("Se quita el difuminado de la pantalla principal");
         vista.quitarDifuminado();
     }
     /**
      * El proceso que lleva a cobrar la venta que se tiene mediante tarjeta
      */
     public void cobroTarjeta(){
-        System.out.println("Se difumina la pantalla principal");
         vista.aplicarDifuminado();
         controlCobroTarjeta.inicia(venta, TipoPago.TARJETA);
-        System.out.println("Se quita el difuminado de la pantalla principal");
         vista.quitarDifuminado();
     }
     /**
      * El proceso que lleva a cobrar la venta que se tiene con transferencia
      */
     public void cobroTransferencia(){
-        System.out.println("Se difumina la pantalla principal");
         vista.aplicarDifuminado();
         controlCobroTransferencia.inicia(venta, TipoPago.TRANSFERENCIA);
-        System.out.println("Se quita el difuminado de la pantalla principal");
         vista.quitarDifuminado();
     }
 
@@ -193,10 +182,8 @@ public class ControlVenta {
             mostrarAlerta("No se pudo crear al detalle de venta para el producto "+producto.getNombre()+".");
             return null;
         }
-        System.out.println("Se logró guardar el producto en un nuevo detalle venta");
         
         // Agregamos gráficamente al detalle
-        System.out.println("Se intenta crear graficamente");
         itemDetalleVenta tarjeta = vista.crearDetalleVenta(detalle);
         if(tarjeta == null){
             System.err.println("Ocurrió un error al intentar crear  al detalle venta gráficamente");
@@ -222,8 +209,6 @@ public class ControlVenta {
             mostrarAlerta("No se pudo aumentar la cantidad del producto. Se eliminará.");
             eliminarDetalle(indice);
         }else{
-            System.out.println("Se logró actualizar a detalle venta");
-            System.out.println("Se intentará actualizar gráficamente");
             vistaDet.actualizarCantidad(cantidad, detalle.getCosto());
         }
     }
@@ -244,7 +229,6 @@ public class ControlVenta {
         detallesVenta.remove(indice);
         vistasDetalles.remove(indice);
         vista.eliminarDetalleVenta(itemGrafico);
-        System.out.println("Fue eliminado. Lista ahora:\n"+detallesVenta);
     }
 
     /* ----------------- CONTROLES DE CADA DETALLE VENTA ----------------- */
@@ -262,9 +246,7 @@ public class ControlVenta {
             eliminarDetalle(idx);
         }else{
             // Si la cantidad nueva es aceptable, se actualiza como corresponde
-            System.out.println("Se actualizará la cantidad y el costo");
             vistaDet.actualizarCantidad(detalle.getCantidad(), detalle.getCosto());
-            System.out.println("Fue disminuido. Lista ahora:\n"+detallesVenta);
         }
         actualizarVenta(); // Se actualiza la Venta tras el cambio
     }
@@ -281,9 +263,7 @@ public class ControlVenta {
             mostrarAlerta("No se pudo aumentar la cantidad del producto. Se eliminó.");
             eliminarDetalle(idx);
         }else{
-            System.out.println("Se actualizará la cantidad y el costo");
             vistaDet.actualizarCantidad(detalle.getCantidad(), detalle.getCosto());
-            System.out.println("Fue aumentado. Lista ahora:\n"+detallesVenta);
         }
         actualizarVenta(); // Se actualiza la Venta tras el cambio
     }
@@ -293,7 +273,6 @@ public class ControlVenta {
      */
     public void eliminarDetalle(DetalleVenta detalle){
         int indice = detallesVenta.indexOf(detalle);
-        System.out.println("Se eliminará a "+detalle);
         eliminarDetalle(indice);
         actualizarVenta(); // Se actualiza la venta
     }
@@ -303,7 +282,6 @@ public class ControlVenta {
      * @param cantidad Es la nueva cantidad que tendrá el detalleVenta
      */
     public void editarCantDetalle(DetalleVenta detalle, BigDecimal cantidad){
-        System.out.println("Se intenta cambiar el detalle a la cantidad "+cantidad);
         int idx = detallesVenta.indexOf(detalle);
         BigDecimal cant = servicioDetalleVenta.editarCantidad(detalle, cantidad);
         if(cant.compareTo(BigDecimal.ZERO)==0){
@@ -311,7 +289,6 @@ public class ControlVenta {
             mostrarAlerta("La cantidad es inválida, se eliminó.");
             eliminarDetalle(idx);
         }else{
-            System.out.println("Fue modificado. Lista ahora:\n"+detallesVenta);
             vistasDetalles.get(idx).actualizarCantidad(cant, detalle.getCosto());
         }
         actualizarVenta(); // Se actualiza la venta

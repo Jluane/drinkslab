@@ -35,8 +35,8 @@ public class ServicioVenta {
      * @return
      */
     @Transactional(readOnly = true)
-    public int obtenerSigId(){
-        return repositorioVenta.findAll().size()+1;
+    public Long obtenerSigId(){
+        return repositorioVenta.count()+1;
     }
 
     /**
@@ -89,15 +89,10 @@ public class ServicioVenta {
                 BigDecimal descuento = comisionCompleta.add(IVAComision);
                 BigDecimal nuevoTotal = venta.getTotal().subtract(descuento);
                 venta.setTotal(nuevoTotal);
-                System.out.println("Comisión: "+comisionCompleta);
-                System.out.println("IVA; "+IVAComision);
-                System.out.println("Descuento: "+descuento);
-                System.out.println("Total: "+nuevoTotal);
             }
 
 
             repositorioVenta.save(venta); // Gracias a la configuación en las entidades, se guardan los detalles y la venta automáticamente
-            System.out.println("Se guadó la venta satisfactoriamente");
             return true;
         }catch(Exception e){
             System.err.println("Ocurrió un error al guardar la venta");

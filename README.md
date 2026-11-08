@@ -12,8 +12,6 @@
 DrinksLab es un sistema de Punto de Venta local diseñado para la gestión rápida de ventas, control de inventario y administración de proveedores. Está optimizado para terminales físicas con soporte para escáneres de código de barras y atajos de teclado globales.\
 El nombre es dado debido a que está hecho a medida para la tienda local con el mismo nombre
 
-![Captura de pantalla de la aplicación](enlace-a-tu-imagen.png)
-
 ## Características Principales
 Las caracterísitas principales de DrinksLab están basadas en los objetivos de la aplicación
 * **Ventas Fluidas:** Soporte para atajos de teclado (F12, F10, F8, ESC) y captura automática de lectores de código de barras sin necesidad de usar el ratón.
@@ -23,7 +21,7 @@ Las caracterísitas principales de DrinksLab están basadas en los objetivos de 
 * **Base de Datos Local:** Utiliza H2 Database en un archivo local persistente, no requiere conexión a internet para operar.
 
 ## Tecnologías Utilizadas
-* **Backend:** Java 21, Spring Boot, Spring Data JPA.
+* **Backend:** Java 25, Spring Boot, Spring Data JPA.
 * **Frontend:** JavaFX, FXML, Scene Builder.
 * **Base de Datos:** H2 Database (Modo persistente en disco).
 

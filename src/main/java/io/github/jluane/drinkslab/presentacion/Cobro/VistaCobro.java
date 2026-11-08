@@ -74,13 +74,10 @@ public abstract class VistaCobro {
 	// On Action's
 	@FXML
 	public void onActionCancelar(){
-		System.out.println("Se presionó el botón cancelar");
-		System.out.println("Se cerrará la pantalla emergente");
 		stage.close();
 	}
 	@FXML
 	public void onActionPagar(){
-		System.out.println("Se presionó el botón Paga");
 		control.procesarPago();
 	}
 

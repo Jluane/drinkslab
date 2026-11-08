@@ -56,11 +56,9 @@ public class DatosPrueba {
     public void iniciarDatosPruebaBD() {
 
         if (esPersistente()) {
-        System.out.println("BD persistente: no se cargan datos de prueba.");
               return;
         }
 
-        System.out.println("BD temporal: cargando datos de prueba.");
 
         // =========================
         // PROVEEDORES

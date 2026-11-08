@@ -62,12 +62,10 @@ public class ItemProducto {
     // On Action's
     @FXML
     public void onActionEditar(){
-        System.out.println("Se presionó al botón editar");
         control.buscarProducto(producto.getGTIN());
     }
     @FXML
     public void onActionEliminar(){
-        System.out.println("Se presionó el botón eliminar");
         control.confirmacionEliminarProducto(producto);
     }
 }

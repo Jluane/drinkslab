@@ -123,7 +123,6 @@ public class VistaMain {
         ToggleButton botonPresionado = (ToggleButton) event.getSource();
         botonPresionado.setSelected(true);
 
-        System.out.println("Botón Venta seleccionado");
         control.irVenta();
     }
 	@FXML
@@ -131,7 +130,6 @@ public class VistaMain {
         ToggleButton botonPresionado = (ToggleButton) event.getSource();
         botonPresionado.setSelected(true);
 
-        System.out.println("Botón Inventario seleccionado");
         control.irInventario();
     }
 	@FXML
@@ -139,7 +137,6 @@ public class VistaMain {
 		ToggleButton botonPresionado = (ToggleButton) event.getSource();
         botonPresionado.setSelected(true);
 
-		System.out.println("Botón Corte seleccionado");
         control.irCorte();
 	}
 }

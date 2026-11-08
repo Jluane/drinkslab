@@ -115,11 +115,9 @@ public class ControlGestionProducto {
 
         // Evaluar el botón presionado
         if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
-            System.out.println("Se eliminará al producto");
             eliminarProducto(producto);
         } else {
             // Código si el usuario cancela o cierra la ventana
-            System.out.println("Acción cancelada");
         }
     }
     /**
@@ -128,7 +126,6 @@ public class ControlGestionProducto {
      */
     private void eliminarProducto(Producto producto){
         if(servicioProducto.eliminarProducto(producto)){
-            System.out.println("No se pudo borrar al producto");
         }
         this.cierra();
     }

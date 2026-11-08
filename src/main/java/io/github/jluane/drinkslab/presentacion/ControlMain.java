@@ -7,6 +7,7 @@ import io.github.jluane.drinkslab.presentacion.Corte.ControlCorte;
 import io.github.jluane.drinkslab.presentacion.Inventario.ControlInventario;
 import io.github.jluane.drinkslab.presentacion.Venta.ControlVenta;
 import jakarta.annotation.PostConstruct;
+import javafx.scene.Parent;
 
 @Component
 public class ControlMain {
@@ -18,6 +19,11 @@ public class ControlMain {
     private final ControlCorte controlCorte;
     // Servicios a los que se conecta
     // ...
+
+    // Es el panel que se está mostrando
+    private Parent panelVenta;
+    private Parent panelInventario;
+    private Parent panelCorte;
 
     @Autowired
     public ControlMain(VistaMain vista, ControlVenta controlVenta, ControlInventario controlInventario, ControlCorte controlCorte){
@@ -51,7 +57,9 @@ public class ControlMain {
         controlInventario.detenerLector();
 
         // Obtiene el diseño de la venta
-        javafx.scene.Parent panelVenta = controlVenta.obtienePanel();
+        if(panelVenta == null)
+            panelVenta = controlVenta.obtienePanel();
+
         // Le dice a la ventana principal que lo ponga en el centro
         vista.cambiarVista(panelVenta);
         controlVenta.inicia();
@@ -63,8 +71,10 @@ public class ControlMain {
         // Cerramos al lector que apunta a ControlVenta
         controlVenta.detenerLector();
 
-        // Obtiene el diseño de la venta
-        javafx.scene.Parent panelInventario = controlInventario.obtienePanel();
+        // Obtiene el diseño del inventario
+        if(panelInventario == null)
+            panelInventario = controlInventario.obtienePanel();
+
         // Le dice a la ventana principal que lo ponga en el centro
         vista.cambiarVista(panelInventario);
         controlInventario.inicia();
@@ -77,8 +87,10 @@ public class ControlMain {
         controlVenta.detenerLector();
         controlInventario.detenerLector();
 
-        // Obtiene el diseño de la venta
-        javafx.scene.Parent panelCorte = controlCorte.obtienePanel();
+        // Obtiene el diseño del corte
+        if(panelCorte == null)
+            panelCorte = controlCorte.obtienePanel();
+
         // Le dice a la ventana principal que lo ponga en el centro
         vista.cambiarVista(panelCorte);
         controlCorte.inicia();

@@ -69,7 +69,6 @@ public class DrinkslabApplication {
 
         Platform.runLater(() -> {
             controlMain.inicia();
-            System.out.println("¡Spring Boot y JavaFX están conectados!");
         });
     }
 }

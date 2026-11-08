@@ -58,7 +58,6 @@ public class ControlInventario {
      * Inicia o reinicia la HU reestableciendo los valores de todo como para una nueva venta
      */
     public void inicia(){
-        System.out.println("Inicia Control Inventario");
         vista.inicia(servicioProducto.totalProductos(), 1);
         mostrarProductos(1);
 
@@ -74,7 +73,6 @@ public class ControlInventario {
     public void mostrarProductos(int i){
         vista.limpiarCaja();
         List<Producto> productos = servicioProducto.obtenerBloqueDeRegistros(i);
-        System.out.println("Lista de productos encontrados: "+productos);
         for(Producto producto : productos){
             vista.crearProducto(producto);
         }
@@ -99,10 +97,8 @@ public class ControlInventario {
         
         vista.aplicarDifuminado();
         if(producto == null){
-            System.out.println("Se creará al producto");
             controlGestionProducto.inicia(gtin);
         }else{
-            System.out.println("Se modificará al producto");
             controlGestionProducto.inicia(producto);
         }
         inicia();
@@ -121,16 +117,13 @@ public class ControlInventario {
 
         // Evaluar el botón presionado
         if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
-            System.out.println("Se eliminará al producto");
             eliminarProducto(producto);
         } else {
             // Código si el usuario cancela o cierra la ventana
-            System.out.println("Acción cancelada");
         }
     }
     private void eliminarProducto(Producto producto){
         if(servicioProducto.eliminarProducto(producto)){
-            System.out.println("No se pudo borrar al producto");
         }
         inicia();
     }

@@ -48,15 +48,11 @@ public abstract class ControlCobro {
         boolean procesado = servicioVenta.guardarNuevaVenta(venta);
         if(procesado){
             vista.cierra();
-            System.out.println("Se cierra la vista");
             controlVenta.inicia();
-            System.out.println("Se manda el regreso a control Venta");
         }else{
-            System.out.println("Ocurrió un error al procesar el pago");
             vista.cierra();
             controlVenta.mostrarAlerta("No se pudieron guardar los datos de la venta. Se recomiendo reiniciar la venta (presionar F1)");
         }
-        System.out.println(venta);
     }
 
     /**

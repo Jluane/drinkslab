@@ -83,7 +83,6 @@ public class itemDetalleVenta {
      */
     @FXML
     public void onActionDisminuir(){
-        System.out.println("Se presionó el botón para disminuir");
         control.disminuirCantDetalle(this.detalle);
     }
     /**
@@ -91,7 +90,6 @@ public class itemDetalleVenta {
      */
     @FXML
     public void onActionCantidad(){
-        System.out.println("Se presionó el botón para cambiar cantidad");
         BigDecimal cant = new BigDecimal(cantidad.getText()); // Obtenemos la cantidad ingresdada
 
         try {
@@ -119,7 +117,6 @@ public class itemDetalleVenta {
      */
     @FXML
     public void onActionAumentar(){
-        System.out.println("Se presionó el botón para aumentar");
         control.aumentarCantDetalle(detalle);
     }
     /**
@@ -127,7 +124,6 @@ public class itemDetalleVenta {
      */
     @FXML
     public void onActionEliminar(){
-        System.out.println("Se presionó el botón para eliminar");
         control.eliminarDetalle(detalle);
     }
 

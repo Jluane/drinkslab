@@ -2,12 +2,15 @@ package io.github.jluane.drinkslab.presentacion.Venta;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.springframework.stereotype.Component;
 
 import io.github.jluane.drinkslab.negocio.modelo.DetalleVenta;
 import io.github.jluane.drinkslab.negocio.modelo.Venta;
 import javafx.animation.PauseTransition;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
@@ -17,7 +20,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.effect.GaussianBlur;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
@@ -35,6 +38,13 @@ public class VistaVenta {
     // Variables para las sugerencias del buscador
     private Popup popupSugerencias;
     private ListView<String> listaSugerencias;
+    private final PauseTransition esperaBusqueda = new PauseTransition(Duration.millis(250));
+    private Task<List<String>> tareaSugerencias;
+    private final ExecutorService hiloSugerencias = Executors.newSingleThreadExecutor(r -> {
+        Thread hilo = new Thread(r, "sugerencias");
+        hilo.setDaemon(true); // No impide que la aplicación cierre
+        return hilo;
+    });
 
     // Componentes del FXML
     // Botones
@@ -99,11 +109,16 @@ public class VistaVenta {
         popupSugerencias.setAutoHide(true); // Se ocultará automáticamente al dar click en otro lado
         // Cada que se actualice el valor de la busqueda se decide si se muestran las sugerencias o se esconde el popup
         txtBusqueda.textProperty().addListener((observable, viejoValor, nuevoValor) -> {
-            if (nuevoValor == null || nuevoValor.trim().isEmpty()) {
+            esperaBusqueda.stop();
+            String texto = (nuevoValor == null) ? "" : nuevoValor.trim();
+
+            // Muy corto, o solo números (es un código de barras): sin sugerencias
+            if (texto.length() < 2 || texto.matches("\\d+")) {
                 popupSugerencias.hide();
-            } else {
-                mostrarSugerencias(nuevoValor);
+                return;
             }
+            esperaBusqueda.setOnFinished(e -> mostrarSugerencias(texto));
+            esperaBusqueda.playFromStart();
         });
         // Cuando se da click a una sugerencia, se coloca realiza la busqueda
         listaSugerencias.setOnMouseClicked(event -> {
@@ -135,8 +150,7 @@ public class VistaVenta {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ventana-venta.fxml"));
             loader.setController(this);
-            Parent parent = loader.load();
-            return parent;
+            return loader.load();
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -148,28 +162,37 @@ public class VistaVenta {
      * @param texto Es el texto ingresado para saber qué sugerencias se deben mostrar
      */
     private void mostrarSugerencias(String texto) {
-        // Pedimos las sugerencias al controlador
-        List<String> resultados = control.obtenerSugerenciasNombres(texto);
+        if (tareaSugerencias != null) tareaSugerencias.cancel();
 
+        Task<List<String>> tarea = new Task<>() {
+            @Override
+            protected List<String> call() {
+                return control.obtenerSugerenciasNombres(texto); // Fuera del hilo de JavaFX
+            }
+        };
+        tarea.setOnSucceeded(e -> {
+            // Si el usuario ya escribió otra cosa, se descarta este resultado
+            if (texto.equals(txtBusqueda.getText().trim())) {
+                mostrarPopup(tarea.getValue());
+            }
+        });
+        tarea.setOnFailed(e -> popupSugerencias.hide());
+
+        tareaSugerencias = tarea;
+        hiloSugerencias.submit(tarea);
+    }
+    private void mostrarPopup(List<String> resultados) {
         if (resultados.isEmpty()) {
             popupSugerencias.hide();
-        } else {
-            // Llenamos la lista visual con los resultados
-            listaSugerencias.getItems().setAll(resultados);
-            
-            // Ajustamos el ancho para que sea idéntico al del TextField
-            listaSugerencias.setPrefWidth(txtBusqueda.getWidth());
-            
-            // Calculamos una altura dinámica (por ejemplo, 24px por cada ítem)
-            listaSugerencias.setPrefHeight(resultados.size() * 24 + 5);
+            return;
+        }
+        listaSugerencias.getItems().setAll(resultados);
+        listaSugerencias.setPrefWidth(txtBusqueda.getWidth());
+        listaSugerencias.setPrefHeight(resultados.size() * 24 + 5);
 
-            // Obtenemos las coordenadas exactas del txtBusqueda en el monitor
-            Bounds bounds = txtBusqueda.localToScreen(txtBusqueda.getBoundsInLocal());
-            
-            if (bounds != null) {
-                // Mostramos el popup justo debajo del TextField
-                popupSugerencias.show(txtBusqueda, bounds.getMinX(), bounds.getMaxY());
-            }
+        Bounds bounds = txtBusqueda.localToScreen(txtBusqueda.getBoundsInLocal());
+        if (bounds != null) {
+            popupSugerencias.show(txtBusqueda, bounds.getMinX(), bounds.getMaxY());
         }
     }
 
@@ -201,14 +224,13 @@ public class VistaVenta {
      */
     public void eliminarDetalleVenta(GridPane nodoVisual){
         cajaVentas.getChildren().remove(nodoVisual);
-        System.out.println("Se mató gráficamente al detalle");
     }
 
     /**
      * Inicializa todos los datos de manera en que tenga aspecto de una venta nueva
      * @param idxVenta Es el id de la venta sobre la que se está
      */
-    public void inicia(int idxVenta){
+    public void inicia(Long idxVenta){
         cajaVentas.getChildren().clear();
         numVenta.setText("ID VENTA: #"+idxVenta);
         cantVenta.setText(0+" artículo "+"("+0+" unid.)");
@@ -280,12 +302,13 @@ public class VistaVenta {
         txtAviso.setVisible(true); 
         txtAviso.setDisable(false);
 
-        System.out.println("Mostrando error con mensaje:\n" +'"'+motivo+'"');
         temporizadorAviso.playFromStart();
     }
 
-    public void aplicarDifuminado(){
-        txtBusqueda.getScene().getRoot().setEffect(new GaussianBlur(15));
+    public void aplicarDifuminado(){ColorAdjust oscurecer = new ColorAdjust();
+        oscurecer.setBrightness(-0.5); // Reduce el brillo un 50% (rango de -1.0 a 0.0)
+
+        txtBusqueda.getScene().getRoot().setEffect(oscurecer);
     }
     public void quitarDifuminado(){
         txtBusqueda.getScene().getRoot().setEffect(null);
@@ -300,25 +323,20 @@ public class VistaVenta {
     public void onAtajoTeclado(KeyEvent event){
         // El Enter está definido como Default Button dentro de FXML
         if (event.getCode() == KeyCode.F12) {
-            System.out.println("Se presinó tecla F12");
             btnPagarF12.fire(); // Presiona el botón automáticamente
         } 
         else if (event.getCode() == KeyCode.F2) {
-            System.out.println("Se presionó tecla F2");
             txtBusqueda.requestFocus(); // Pone el cursor en el buscador
         }
         else if(event.getCode() == KeyCode.F10) {
-            System.out.println("Se presionó tecla F10");
             btnTarjetaF10.fire();
         }
         else if(event.getCode() == KeyCode.F8){
-            System.out.println("Se presionó tecla F8");
             btnTransferenciaF8.fire();
         }
         else if (event.getCode().isLetterKey() || event.getCode().isDigitKey()) {
             // Si presionaron una letra o número, pero el buscador NO tenía el foco
             if (!txtBusqueda.isFocused()) {
-                System.out.println("Tecla perdida detectada");
                 txtBusqueda.clear();
                 txtBusqueda.requestFocus();
             }
@@ -333,13 +351,11 @@ public class VistaVenta {
     public void onActionBuscar(){
         String texto = txtBusqueda.getText();
         if (!texto.isEmpty()) {
-            System.out.println("Buscando: " + texto);
 
             control.agregarProducto(texto, false);
             // Aquí llamas a tu controlador: control.buscarProducto(texto);
             txtBusqueda.clear(); // Limpias el campo después de buscar
         }else{
-            System.out.println("Se buscó cadena vacía");
         }
     }
     /**
@@ -347,7 +363,6 @@ public class VistaVenta {
      */
     @FXML
     public void onActionPagar(){
-        System.out.println("Se presionó botón pagar");
         control.cobroEfectivo();
     }
     /**
@@ -355,7 +370,6 @@ public class VistaVenta {
      */
     @FXML
     public void onActionTarjeta(){
-        System.out.println("Se presionó botón pagar con tarjeta");
         control.cobroTarjeta();
     }
     /**
@@ -363,7 +377,6 @@ public class VistaVenta {
      */
     @FXML
     public void onActionTransferencia(){
-        System.out.println("Se presionó el botón transferencia");
         control.cobroTransferencia();
     }
 

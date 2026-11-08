@@ -81,8 +81,6 @@ public class VistaCobroEfectivo extends VistaCobro {
 			mostrarError(false);
 		}catch(Exception e){
 			mostrarError(true);
-			System.out.println("Entrada inválida en el teclado: " + textoIngresado);
-			mostrarError(true);
 		}
 
 		BigDecimal restante = entregado.subtract(totalVenta);
@@ -103,8 +101,5 @@ public class VistaCobroEfectivo extends VistaCobro {
 	public void mostrarError(boolean valor){
         txtAviso.setVisible(valor); 
         txtAviso.setDisable(!valor);
-
-		if(valor)
-			System.out.println("Mostrando error");
 	}
 }

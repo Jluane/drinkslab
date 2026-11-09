@@ -26,8 +26,12 @@ public class ControlInventario {
     // Servicio a los que se conecta
     private final ServicioProducto servicioProducto;
 
+    // Variable para saber la página en la que se encuentra
+    private int pagina = 1;
+
     // Lector de código de barras
     private final LectorCodigoBarras lectorCodigoBarras;
+    private boolean lectorActivo = false;
 
     @Autowired
     public ControlInventario(VistaInventario vista, ServicioProducto servicioProducto, @Lazy ControlGestionProducto controlGestionProducto, LectorCodigoBarras lectorCodigoBarras){
@@ -58,12 +62,28 @@ public class ControlInventario {
      * Inicia o reinicia la HU reestableciendo los valores de todo como para una nueva venta
      */
     public void inicia(){
-        vista.inicia(servicioProducto.totalProductos(), 1);
-        mostrarProductos(1);
+        inicia(1);
+        lectorActivo = false;
+    }
+
+    private void inicia(int pagina){
+        vista.inicia(servicioProducto.totalProductos(), pagina);
+        mostrarProductos(pagina);
+        this.pagina = pagina;
+
+        iniciarLector();
+    }
+
+    /**
+     * Variable para conocer el estado del lector sin pasar por toda su función de inicio
+     */
+    private void iniciarLector(){
+        if(lectorActivo) return;
 
         lectorCodigoBarras.iniciar(codigo ->
             Platform.runLater(() -> buscarProducto(codigo))
         );
+        lectorActivo = true;
     }
 
     /**
@@ -83,8 +103,7 @@ public class ControlInventario {
      * @param pag Es la página nueva
      */
     public void cambioPagina(int pag){
-        vista.inicia(servicioProducto.totalProductos(), pag);
-        mostrarProductos(pag);
+        inicia(pag);
     }
 
     /**
@@ -101,7 +120,7 @@ public class ControlInventario {
         }else{
             controlGestionProducto.inicia(producto);
         }
-        inicia();
+        inicia(this.pagina);
         vista.quitarDifuminado();
     }
 
@@ -140,6 +159,7 @@ public class ControlInventario {
     @PreDestroy
     public void cerrarLector(){
         lectorCodigoBarras.detener();
+        lectorActivo = false;
     }
 
     /**
@@ -147,5 +167,6 @@ public class ControlInventario {
      */
     public void detenerLector(){
         lectorCodigoBarras.detener();
+        lectorActivo = false;
     }
 }
